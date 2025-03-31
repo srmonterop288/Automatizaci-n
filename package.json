@@ -1,0 +1,11 @@
+{
+  "devDependencies": {
+    "cypress": "^13.16.0",
+    "cypress-plugin-tab": "^1.0.5"
+  },
+  "dependencies": {
+    "@applitools/testgenai-cypress": "^0.8.20",
+    "cypress-xpath": "^2.0.1",
+    "xlsx": "^0.18.5"
+  }
+}
