@@ -424,8 +424,7 @@ cy.get('#ddl_seleccionar_profesion_list .ant-select-item-option')  // Selecciona
         .should('exist')
         .should('be.visible')
         .type(UNIDADE)
-        .click();
-        cy.wait(10).tab()
+        .type('{enter}');
 
 
 

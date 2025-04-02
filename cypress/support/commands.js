@@ -16,6 +16,25 @@ Cypress.Commands.add('login_ECLI', () => {
       });
 
         //-------------------------------------------------------------------------------------
+
+        Cypress.Commands.add('login_SDA', () => { 
+          cy.visit('https://spa-container-qa.nuevoexpediente.com/login')
+      
+          //Login
+          cy.get('#input_nombre_usuario_login').type("YG-30-4") //Escribir información
+          cy.get('#input_contrasena_login').type("Password01")
+          cy.get('#btn_ingresar_login').click();
+          cy.get('#btn_seleccionar_unidad_ejecutora_hospital_de_almirante').should('be.visible').click();
+          cy.wait(1000); 
+          cy.get('#btn_seleccionar_area_administracion_local').should('be.visible').click();
+          
+          // verify tab url
+          cy.url()
+          .should('include', 'https://spa-container-qa.nuevoexpediente.com/app/medical-records/dashboard')
+  
+        });
+  
+          //-------------------------------------------------------------------------------------
     
         Cypress.Commands.add('logout', () => {
             // Suponiendo que el botón de logout tiene un id de '#btn_logout'
@@ -69,6 +88,18 @@ Cypress.Commands.add('leerExcel', (ruta) => {
     // Retorna los datos en formato JSON
     return json;
   });
+
+  
+
+
+
+
+
+
+
+
+
+
 });
 
 
