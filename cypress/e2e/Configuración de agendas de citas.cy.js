@@ -130,7 +130,7 @@ describe("Configuración de agendas de citas", () => {
   cy.contains('button', 'Finalizar')  // Busca el botón que contiene el texto 'Finalizar'
   .click();
   
-  
+      
     })
   })
  
