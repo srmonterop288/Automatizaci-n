@@ -21,7 +21,7 @@ describe("Configuración de agendas de citas", () => {
         cy.get("#spn_modulo_unidades_ejecutoras_agendas").should('be.visible').click();
         cy.wait(1000); 
         cy.get("#btn_menu_desplegable").should('be.visible').click();
-        cy.wait(1000);
+        cy.wait(2000);
         cy.wait(100).tab()
         cy.wait(100).tab()
 
