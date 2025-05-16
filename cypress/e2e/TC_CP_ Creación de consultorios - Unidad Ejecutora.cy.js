@@ -3,7 +3,7 @@ describe("Crear Consultorio", () => {
   require('cypress-plugin-tab')
   require('cypress-xpath');
 
-  it('debería iniciar sesión con éxito', () => {
+  it('Inicio de sesión exitoso', () => {
     // Llama a la función login 
     cy.login_CORE();
 

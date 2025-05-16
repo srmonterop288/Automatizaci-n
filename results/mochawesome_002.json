@@ -1,0 +1,110 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 1,
+    "passes": 0,
+    "pending": 0,
+    "failures": 1,
+    "start": "2025-05-16T14:17:32.924Z",
+    "end": "2025-05-16T14:18:09.811Z",
+    "duration": 36887,
+    "testsRegistered": 1,
+    "passPercent": 0,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "2a6dc556-d838-4f8a-be4b-2ff072b76b35",
+      "title": "",
+      "fullFile": "cypress\\e2e\\ Generar cita común de tipo Otro.cy.js",
+      "file": "cypress\\e2e\\ Generar cita común de tipo Otro.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "3f6d4aeb-fdc3-49ad-9e7b-299dba6ae373",
+          "title": " Generar cita común de tipo OTRO",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "debería iniciar sesión con éxito",
+              "fullTitle": " Generar cita común de tipo OTRO debería iniciar sesión con éxito",
+              "timedOut": null,
+              "duration": 30257,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": null,
+              "code": "// Llama a la función login \ncy.login_SDA();\n// Verifica que el login haya sido exitoso\ncy.url().should('not.include', '/login');\ncy.wait(1000);\ncy.get('#div_nombre_usuario', {\n  timeout: 10000\n}).should('be.visible').click();\ncy.get('#div_menu_cambiar_cuenta', {\n  timeout: 10000\n}).should('be.visible').click();\ncy.get('#div_seleccionar_rol_supervisor_de_tramites_y_citas', {\n  timeout: 10000\n}).should('be.visible').click();\ncy.wait(1000);\ncy.get(\"#btn_menu_desplegable\").should('be.visible').click();\ncy.wait(1000);\ncy.get(\"#spn_modulo_unidades_ejecutoras_asignaciondecitas\").should('be.visible').click();\ncy.wait(1000);\ncy.get(\"#spn_submodulo_unidades_ejecutoras_asignacion_citas_agenda_comun\").should('be.visible').click();\ncy.wait(1000);\ncy.get(\"#btn_menu_desplegable\").should('be.visible').click();\ncy.wait(1000);\ncy.wait(100).tab();\ncy.wait(100).tab();\n//------------------------------------------------\nlet contador = 0;\nconst rutaArchivoExcel = 'cypress/fixtures/agenda.xlsx';\n// Leer los datos del archivo Excel\ncy.leerExcel(rutaArchivoExcel).then(datosExcel => {\n  // Mostrar los datos leídos\n  console.log(datosExcel);\n  // Recorrer los datos del archivo Excel\n  for (let i = 1; i < datosExcel.length; i++) {\n    // Comenzamos desde 1 para saltarnos la fila de encabezados\n    // Tomar el valor de la primera columna (DNI)\n    // Usar los datos del Excel\n    // Ingresar DNI\n    const DNI = datosExcel[i][0]; // Primer fila, primera columna (usando índices 0 basados)\n    if (DNI && DNI.trim() !== '') {\n      // Si el DNI es válido, proceder con la acción\n      cy.window().then(win => {\n        win.alert('El DNI es correcto');\n      });\n    } else {\n      // Si el DNI está vacío o no es válido, lanzar una alerta\n      cy.window().then(win => {\n        win.alert('Prueba exitosa');\n        cy.log('Prueba Finalizada: correctamente');\n        cy.pause();\n      });\n    }\n    cy.get('#btn_Pantalla_Citas_Comun_Verificar', {\n      timeout: 2000\n    }).should('exist').should('be.visible').type(DNI).type('{enter}');\n    cy.get(\"#btn_Pantalla_Citas_Verificar\", {\n      timeout: 10000\n    }).should('be.visible').click();\n    cy.get('#ddl_Pantalla_Citas_Comun_Servicio_Solicitado', {\n      timeout: 10000\n    }).scrollIntoView().should('be.visible');\n    cy.get('#ddl_Pantalla_Citas_Comun_Servicio_Solicitado').click().type('{enter}');\n    cy.get('input[type=\"radio\"][value=\"No\"]') // Selecciona el radio button con el valor \"No\"\n    .check();\n    cy.get('#ddl_Pantalla_Citas_Comun_Programas', {\n      timeout: 10000\n    }).scrollIntoView().should('be.visible');\n    cy.get('#ddl_Pantalla_Citas_Comun_Programas').click().type('{enter}');\n    cy.get('input[type=\"radio\"][value=\"No\"]') // Selecciona el radio button con el valor \"No\"\n    .check();\n    cy.xpath('//*[@id=\"form_Pantalla_Citas_Comun\"]/div/div[2]/div[1]/div[2]/div[2]/div[1]/div/div[2]/div/div/div/div/div').scrollIntoView().should('be.visible').click();\n    cy.get('.ant-select-dropdown .ant-select-item-option').contains('Médico').click();\n    cy.get('.ant-select-dropdown .ant-select-item-option').contains('Enfermero/a').click();\n    cy.wait(100).tab();\n    cy.xpath('//*[@id=\"dtp_Pantalla_Citas_Comun_Buscar_Fecha\"]').click();\n    cy.contains('a', 'Hoy').click();\n    cy.get('body').tab();\n    cy.wait(100).tab();\n    cy.wait(100).tab();\n    cy.wait(100).tab();\n    cy.wait(100).tab();\n    cy.wait(100).tab();\n    cy.wait(100).tab();\n    cy.wait(100).tab();\n    cy.wait(100).tab();\n    cy.get('input[type=\"radio\"][value=\"OTRO\"]', {\n      timeout: 10000\n    }) // Selecciona el radio button con el valor \"NUEVO\"\n    .check();\n    cy.get('#btn_Pantalla_Citas_Comun_Obtener_Fecha').scrollIntoView().should('be.visible').click();\n    cy.contains('No hay citas disponibles').then(() => {\n      win.alert('No hay citas disponibles');\n      cy.log('Prueba Finalizada: correctamente');\n      cy.pause(); // Esto detiene la ejecución y abre modo interactivo en Cypress UI\n    });\n    contador++;\n    // Mostrar en la consola el contador y el DNI\n    cy.log(`Contador: ${contador}, DNI: ${DNI}`);\n  }\n});",
+              "err": {
+                "message": "Error: AssertionError: Timed out retrying after 4000ms: Expected to find content: 'No hay citas disponibles' but never did.",
+                "estack": "Error: AssertionError: Timed out retrying after 4000ms: Expected to find content: 'No hay citas disponibles' but never did.",
+                "diff": null
+              },
+              "uuid": "250cd492-7ea1-436c-8391-1c3171882f88",
+              "parentUUID": "3f6d4aeb-fdc3-49ad-9e7b-299dba6ae373",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [],
+          "failures": [
+            "250cd492-7ea1-436c-8391-1c3171882f88"
+          ],
+          "pending": [],
+          "skipped": [],
+          "duration": 30257,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.0.1"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": false,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.3"
+    },
+    "marge": {
+      "options": {
+        "id": "default",
+        "reportDir": "results",
+        "overwrite": false,
+        "html": false,
+        "json": true
+      },
+      "version": "6.2.0"
+    }
+  }
+}

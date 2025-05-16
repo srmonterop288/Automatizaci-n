@@ -1,0 +1,1717 @@
+{
+  "stats": {
+    "suites": 25,
+    "tests": 31,
+    "passes": 10,
+    "pending": 0,
+    "failures": 21,
+    "testsRegistered": 31,
+    "passPercent": 32.25806451612903,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false,
+    "start": "2025-05-16T14:16:00.030Z",
+    "end": "2025-05-16T14:37:51.073Z",
+    "duration": 1311043
+  },
+  "results": [
+    {
+      "uuid": "6b4ab8df-99ed-4687-9b92-31f7238be074",
+      "title": "",
+      "fullFile": "cypress\\e2e\\1-getting-started\\todo.cy.js",
+      "file": "cypress\\e2e\\1-getting-started\\todo.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "3fa9b63a-8f5b-4c0e-82e8-7181aa297a47",
+          "title": "example to-do app",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "displays two todo items by default",
+              "fullTitle": "example to-do app displays two todo items by default",
+              "timedOut": null,
+              "duration": 913,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "// We use the `cy.get()` command to get all elements that match the selector.\n// Then, we use `should` to assert that there are two matched items,\n// which are the two default items.\ncy.get('.todo-list li').should('have.length', 2);\n// We can go even further and check that the default todos each contain\n// the correct text. We use the `first` and `last` functions\n// to get just the first and last matched elements individually,\n// and then perform an assertion with `should`.\ncy.get('.todo-list li').first().should('have.text', 'Pay electric bill');\ncy.get('.todo-list li').last().should('have.text', 'Walk the dog');",
+              "err": {},
+              "uuid": "f91e450e-3838-496a-a53d-a0dbf3330a48",
+              "parentUUID": "3fa9b63a-8f5b-4c0e-82e8-7181aa297a47",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "can add new todo items",
+              "fullTitle": "example to-do app can add new todo items",
+              "timedOut": null,
+              "duration": 583,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "// We'll store our item text in a variable so we can reuse it\nconst newItem = 'Feed the cat';\n// Let's get the input element and use the `type` command to\n// input our new list item. After typing the content of our item,\n// we need to type the enter key as well in order to submit the input.\n// This input has a data-test attribute so we'll use that to select the\n// element in accordance with best practices:\n// https://on.cypress.io/selecting-elements\ncy.get('[data-test=new-todo]').type(`${newItem}{enter}`);\n// Now that we've typed our new item, let's check that it actually was added to the list.\n// Since it's the newest item, it should exist as the last element in the list.\n// In addition, with the two default items, we should have a total of 3 elements in the list.\n// Since assertions yield the element that was asserted on,\n// we can chain both of these assertions together into a single statement.\ncy.get('.todo-list li').should('have.length', 3).last().should('have.text', newItem);",
+              "err": {},
+              "uuid": "38784a0a-7cf6-4a75-b326-5dc8221b5cfe",
+              "parentUUID": "3fa9b63a-8f5b-4c0e-82e8-7181aa297a47",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "can check off an item as completed",
+              "fullTitle": "example to-do app can check off an item as completed",
+              "timedOut": null,
+              "duration": 291,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "// In addition to using the `get` command to get an element by selector,\n// we can also use the `contains` command to get an element by its contents.\n// However, this will yield the <label>, which is lowest-level element that contains the text.\n// In order to check the item, we'll find the <input> element for this <label>\n// by traversing up the dom to the parent element. From there, we can `find`\n// the child checkbox <input> element and use the `check` command to check it.\ncy.contains('Pay electric bill').parent().find('input[type=checkbox]').check();\n// Now that we've checked the button, we can go ahead and make sure\n// that the list element is now marked as completed.\n// Again we'll use `contains` to find the <label> element and then use the `parents` command\n// to traverse multiple levels up the dom until we find the corresponding <li> element.\n// Once we get that element, we can assert that it has the completed class.\ncy.contains('Pay electric bill').parents('li').should('have.class', 'completed');",
+              "err": {},
+              "uuid": "dfda4706-e39c-4ea6-ab6a-94116fd59cad",
+              "parentUUID": "3fa9b63a-8f5b-4c0e-82e8-7181aa297a47",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [
+            {
+              "uuid": "e3fa2fd7-30b2-4be2-9b3e-70f5246e64fc",
+              "title": "with a checked task",
+              "fullFile": "",
+              "file": "",
+              "beforeHooks": [],
+              "afterHooks": [],
+              "tests": [
+                {
+                  "title": "can filter for uncompleted tasks",
+                  "fullTitle": "example to-do app with a checked task can filter for uncompleted tasks",
+                  "timedOut": null,
+                  "duration": 398,
+                  "state": "passed",
+                  "speed": "fast",
+                  "pass": true,
+                  "fail": false,
+                  "pending": false,
+                  "context": null,
+                  "code": "// We'll click on the \"active\" button in order to\n// display only incomplete items\ncy.contains('Active').click();\n// After filtering, we can assert that there is only the one\n// incomplete item in the list.\ncy.get('.todo-list li').should('have.length', 1).first().should('have.text', 'Walk the dog');\n// For good measure, let's also assert that the task we checked off\n// does not exist on the page.\ncy.contains('Pay electric bill').should('not.exist');",
+                  "err": {},
+                  "uuid": "d86612ce-f5a6-433c-9bf4-7092f12f73f1",
+                  "parentUUID": "e3fa2fd7-30b2-4be2-9b3e-70f5246e64fc",
+                  "isHook": false,
+                  "skipped": false
+                },
+                {
+                  "title": "can filter for completed tasks",
+                  "fullTitle": "example to-do app with a checked task can filter for completed tasks",
+                  "timedOut": null,
+                  "duration": 419,
+                  "state": "passed",
+                  "speed": "fast",
+                  "pass": true,
+                  "fail": false,
+                  "pending": false,
+                  "context": null,
+                  "code": "// We can perform similar steps as the test above to ensure\n// that only completed tasks are shown\ncy.contains('Completed').click();\ncy.get('.todo-list li').should('have.length', 1).first().should('have.text', 'Pay electric bill');\ncy.contains('Walk the dog').should('not.exist');",
+                  "err": {},
+                  "uuid": "3d8b9c38-22fd-4f83-ab5d-aaa8f5a7e668",
+                  "parentUUID": "e3fa2fd7-30b2-4be2-9b3e-70f5246e64fc",
+                  "isHook": false,
+                  "skipped": false
+                },
+                {
+                  "title": "can delete all completed tasks",
+                  "fullTitle": "example to-do app with a checked task can delete all completed tasks",
+                  "timedOut": null,
+                  "duration": 373,
+                  "state": "passed",
+                  "speed": "fast",
+                  "pass": true,
+                  "fail": false,
+                  "pending": false,
+                  "context": null,
+                  "code": "// First, let's click the \"Clear completed\" button\n// `contains` is actually serving two purposes here.\n// First, it's ensuring that the button exists within the dom.\n// This button only appears when at least one task is checked\n// so this command is implicitly verifying that it does exist.\n// Second, it selects the button so we can click it.\ncy.contains('Clear completed').click();\n// Then we can make sure that there is only one element\n// in the list and our element does not exist\ncy.get('.todo-list li').should('have.length', 1).should('not.have.text', 'Pay electric bill');\n// Finally, make sure that the clear button no longer exists.\ncy.contains('Clear completed').should('not.exist');",
+                  "err": {},
+                  "uuid": "0dc0f043-7dec-4167-b218-a4c646052a46",
+                  "parentUUID": "e3fa2fd7-30b2-4be2-9b3e-70f5246e64fc",
+                  "isHook": false,
+                  "skipped": false
+                }
+              ],
+              "suites": [],
+              "passes": [
+                "d86612ce-f5a6-433c-9bf4-7092f12f73f1",
+                "3d8b9c38-22fd-4f83-ab5d-aaa8f5a7e668",
+                "0dc0f043-7dec-4167-b218-a4c646052a46"
+              ],
+              "failures": [],
+              "pending": [],
+              "skipped": [],
+              "duration": 1190,
+              "root": false,
+              "rootEmpty": false,
+              "_timeout": 2000
+            }
+          ],
+          "passes": [
+            "f91e450e-3838-496a-a53d-a0dbf3330a48",
+            "38784a0a-7cf6-4a75-b326-5dc8221b5cfe",
+            "dfda4706-e39c-4ea6-ab6a-94116fd59cad"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 1787,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    },
+    {
+      "uuid": "9b20480e-764d-49f3-a78d-63604acaebbd",
+      "title": "",
+      "fullFile": "cypress\\e2e\\Verificación de Receta.cy.js",
+      "file": "cypress\\e2e\\Verificación de Receta.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "1bfe332d-9036-4241-a347-fc50cb54b367",
+          "title": "Login",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "Should log in without issues",
+              "fullTitle": "Login Should log in without issues",
+              "timedOut": null,
+              "duration": 10591,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": null,
+              "code": "cy.visit(\"https://spa-container-qa.nuevoexpediente.com/login\");\ncy.wait(1000);\ncy.get(\"#input_nombre_usuario_login\").type(\"20240627001\");\ncy.wait(1000);\ncy.get(\"#input_contrasena_login\").type(\"Password01\", {\n  log: false\n});\ncy.wait(1000);\ncy.get(\"#btn_ingresar_login\").click();\ncy.wait(1000);\ncy.get(\"#btn_seleccionar_unidad_ejecutora_hospital_rafael_estevez\").click();\ncy.wait(1000);\ncy.get(\"#btn_seleccionar_area_consulta_externa\").click();\ncy.wait(1000);\n// verify tab url\ncy.url().should('include', 'https://spa-container-qa.nuevoexpediente.com/app/medical-records/dashboard');\ncy.location().then(location => {\n  cy.get(\"#spn_icono_farmacia_verificacion\").click();\n  cy.wait(5000);\n  // verify tab url\n  cy.url().should('include', 'https://spa-container-qa.nuevoexpediente.com/app/farmacia/verificacion');\n  cy.get(\"#number\").type(\"ma\");\n  cy.wait(2000).tab();\n  cy.get(\"#number\").type(\"{enter}\");\n  cy.wait(1000).tab();\n  cy.get(\"#btn_validar_paciente\").click();\n});",
+              "err": {
+                "message": "Error: AssertionError: Timed out retrying after 4000ms: Expected to find element: `#btn_seleccionar_unidad_ejecutora_hospital_rafael_estevez`, but never found it.",
+                "estack": "Error: AssertionError: Timed out retrying after 4000ms: Expected to find element: `#btn_seleccionar_unidad_ejecutora_hospital_rafael_estevez`, but never found it.",
+                "diff": null
+              },
+              "uuid": "d47014f7-8bc6-404f-9d09-c2a7c6e61bdc",
+              "parentUUID": "1bfe332d-9036-4241-a347-fc50cb54b367",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [],
+          "failures": [
+            "d47014f7-8bc6-404f-9d09-c2a7c6e61bdc"
+          ],
+          "pending": [],
+          "skipped": [],
+          "duration": 10591,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    },
+    {
+      "uuid": "fad646d0-6177-4098-a36f-b4a5b8041861",
+      "title": "",
+      "fullFile": "cypress\\e2e\\TC_CP_Unidades ejecutoras_Crear unidad ejecutora.cy.js",
+      "file": "cypress\\e2e\\TC_CP_Unidades ejecutoras_Crear unidad ejecutora.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "5d0ecb1b-4a10-49c2-9db9-c6abe7f730c6",
+          "title": "Crear unidad ejecutora",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "Inicio de sesión éxitoso",
+              "fullTitle": "Crear unidad ejecutora Inicio de sesión éxitoso",
+              "timedOut": null,
+              "duration": 33802,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "// Llama a la función login \ncy.login_CORE();\n// Verifica que el login haya sido exitoso, por ejemplo, comprobando que la URL cambió\ncy.url().should('not.include', '/login');\ncy.wait(1000);\ncy.get(\"#btn_menu_desplegable\").should('be.visible').click();\ncy.wait(1000);\ncy.get(\"#spn_modulo_medical_records_list_executing_units\").should('be.visible').click();\ncy.wait(1000);\ncy.get(\"#btn_menu_desplegable\").should('be.visible').click();\ncy.wait(1000);\ncy.get(\"#btn_crear_unidad_ejecutora\").should('be.visible').click();\ncy.wait(100).tab();\ncy.wait(100).tab();\ncy.wait(100).tab();\ncy.wait(100).tab();\n// 1. Provincia\ncy.get('#ddl_seleccionar_provincia_unidad_ejecutora') // Selecciona el campo de búsqueda\n.click({\n  force: true\n}); // Forza el clic si es necesario\n// Espera a que la lista de opciones se cargue (si es necesario)\ncy.wait(500); // Ajusta el tiempo de espera según la velocidad de la aplicación\n// Selecciona el primer elemento de la lista\ncy.get('#ddl_seleccionar_provincia_unidad_ejecutora_list .ant-select-item-option') // Selecciona los elementos de la lista\n.eq(1) // Toma el primer elemento\n.click(); // Hace clic en el primer elemento\ncy.wait(100).tab();\n// 2. Distrito\ncy.get('#ddl_seleccionar_distrito_unidad_ejecutora') // Selecciona el campo de búsqueda\n.click({\n  force: true\n}); // Forza el clic si es necesario\n// Espera a que la lista de opciones se cargue (si es necesario)\ncy.wait(500); // Ajusta el tiempo de espera según la velocidad de la aplicación\n// Selecciona el primer elemento de la lista\ncy.get('#ddl_seleccionar_distrito_unidad_ejecutora_list .ant-select-item-option') // Selecciona los elementos de la lista\n.first() // Toma el primer elemento\n.click(); // Hace clic en el primer elemento\ncy.wait(100).tab();\n// 3. Corregimiento\ncy.get('#ddl_seleccionar_corregimiento_unidad_ejecutora') // Selecciona el campo de búsqueda\n.click({\n  force: true\n}); // Forza el clic si es necesario\n// Espera a que la lista de opciones se cargue (si es necesario)\ncy.wait(500); // Ajusta el tiempo de espera según la velocidad de la aplicación\n// Selecciona el primer elemento de la lista\ncy.get('#ddl_seleccionar_corregimiento_unidad_ejecutora_list .ant-select-item-option') // Selecciona los elementos de la lista\n.first() // Toma el primer elemento\n.click(); // Hace clic en el primer elemento\ncy.wait(100).tab();\n// 4. Nivel de atención\ncy.get('#ddl_seleccionar_nivel_atencion') // Selecciona el campo de búsqueda\n.click({\n  force: true\n}); // Forza el clic si es necesario\n// Espera a que la lista de opciones se cargue (si es necesario)\ncy.wait(500); // Ajusta el tiempo de espera según la velocidad de la aplicación\n// Selecciona el primer elemento de la lista\ncy.get('#ddl_seleccionar_nivel_atencion_list .ant-select-item-option') // Selecciona los elementos de la lista\n.first() // Toma el primer elemento\n.click(); // Hace clic en el primer elemento\ncy.wait(100).tab();\n// 5. Código unidad ejecutora\nconst randomNumber = Math.floor(Math.random() * (1000 - 500 + 1)) + 500;\ncy.get('#input_codigo_unidad_ejecutora').type(randomNumber.toString()); //Escribir información\ncy.wait(100).tab();\n// 6. Unidad ejecutora\ncy.get('#input_nombre_unidad_ejecutora').type(\"Prueba\" + randomNumber); //Escribir información\ncy.wait(100).tab();\n// 7. Habilitar unidad ejecutora\ncy.get('#btn_si_habilitar') // Selecciona el radio button usando el ID\n.check();\ncy.wait(100).tab();\n// 8. Selecciona el servicio\ncy.get('#ddl_seleccionar_servicio') // Selecciona el campo de búsqueda\n.click({\n  force: true\n}); // Forza el clic si es necesario\n// Espera a que la lista de opciones se cargue (si es necesario)\ncy.wait(500); // Ajusta el tiempo de espera según la velocidad de la aplicación\n// Selecciona el primer elemento de la lista\ncy.get('#ddl_seleccionar_servicio_list .ant-select-item-option') // Selecciona los elementos de la lista\n.eq(15) // Toma el elemento 10\n.click(); // Hace clic en el primer elemento\ncy.wait(100).tab();\n//Seleccionamos el botón Asignar servicio\"\ncy.get(\"#btn_asignar_servicio\").should('be.visible').click();\ncy.wait(100).tab();\ncy.get('.ant-alert-message') // Selecciona el div con la clase ant-alert-message\n.should('be.visible') // Asegura que el mensaje esté visible\n.and('contain.text', 'Servicio agregado correctamente.');\ncy.wait(2000).tab();\n//Seleccionamos el botón Crear Unidad Ejecutora\"\ncy.get(\"#btn_crear_unidad_ejecutora\").should('be.visible').click();\ncy.wait(100).tab();\ncy.wait(2000).tab();\n//bucar Unidad Ejecutora\ncy.get('#ddl_provincia_lista_unidad_ejecutora') // Selecciona el campo de búsqueda\n.click({\n  force: true\n}); // Forza el clic si es necesario\n// Espera a que la lista de opciones se cargue (si es necesario)\ncy.wait(500); // Ajusta el tiempo de espera según la velocidad de la aplicación\n// Selecciona el primer elemento de la lista\ncy.get('#ddl_provincia_lista_unidad_ejecutora_list .ant-select-item-option') // Selecciona los elementos de la lista\n.eq(1) // Toma el primer elemento\n.click(); // Hace clic en el primer elemento\ncy.wait(100).tab();\n//Unidad ejecutora\ncy.get('#input_unidad_ejecutora').type(\"Prueba\" + randomNumber); //Escribir información\ncy.wait(100).tab();\ncy.wait(100).tab();\ncy.get(\"#btn_buscar\").should('be.visible').click();\ncy.wait(1000);\ncy.get('[id^=\"btn_ver_detalle_unidad_ejecutora_\"]') // Selecciona el botón cuyo ID empieza con \"btn_ver_detalle_unidad_ejecutora_\"\n.click();\ncy.wait(1000);\nconsole.log('¡Prueba exitosa!');\ncy.log('¡Prueba exitosa!');",
+              "err": {},
+              "uuid": "e4c6871c-2052-4286-b2da-0dc4cc0f1997",
+              "parentUUID": "5d0ecb1b-4a10-49c2-9db9-c6abe7f730c6",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Prueba exitosa",
+              "fullTitle": "Crear unidad ejecutora Prueba exitosa",
+              "timedOut": null,
+              "duration": 487,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.screenshot('clicking-on-nav');",
+              "err": {},
+              "uuid": "c2eceb04-b6ba-4408-8a73-fd333b771f2c",
+              "parentUUID": "5d0ecb1b-4a10-49c2-9db9-c6abe7f730c6",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "e4c6871c-2052-4286-b2da-0dc4cc0f1997",
+            "c2eceb04-b6ba-4408-8a73-fd333b771f2c"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 34289,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    },
+    {
+      "uuid": "31f8af27-8340-41a9-9579-697efa834119",
+      "title": "",
+      "fullFile": "cypress\\e2e\\TC_CP_Unidades ejecutoras - Crear Usuario y profesional de la salud.cy.js",
+      "file": "cypress\\e2e\\TC_CP_Unidades ejecutoras - Crear Usuario y profesional de la salud.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "97859fcb-6cd7-494d-9ee0-33b2b0ed570d",
+          "title": "Crear Profesioal de la Salud-Unidades ejecutoras",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "debería iniciar sesión con éxito",
+              "fullTitle": "Crear Profesioal de la Salud-Unidades ejecutoras debería iniciar sesión con éxito",
+              "timedOut": null,
+              "duration": 29419,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": null,
+              "code": "// Llama a la función login \ncy.login_CORE();\n// Verifica que el login haya sido exitoso\ncy.url().should('not.include', '/login');\nlet contador = 0;\nconst rutaArchivoExcel = 'cypress/fixtures/datos2.xlsx';\n// Leer los datos del archivo Excel\ncy.leerExcel(rutaArchivoExcel).then(datosExcel => {\n  // Mostrar los datos leídos\n  console.log(datosExcel);\n  // Recorrer los datos del archivo Excel\n  for (let i = 1; i < datosExcel.length; i++) {\n    // Comenzamos desde 1 para saltarnos la fila de encabezados\n    // Tomar el valor de la primera columna (DNI)\n    cy.wait(1000);\n    cy.get(\"#btn_menu_desplegable\").should('be.visible').click();\n    cy.wait(1000);\n    cy.get(\"#spn_modulo_medical_records_list_executing_units\").should('be.visible').click();\n    cy.wait(1000);\n    cy.get(\"#btn_menu_desplegable\").should('be.visible').click();\n    cy.wait(1000);\n    cy.wait(100).tab();\n    cy.wait(100).tab();\n    //Buscar Unidad Ejecutora------------------\n    // Usar los datos del Excel\n    // Provincia\n    cy.get('#ddl_provincia_lista_unidad_ejecutora').scrollIntoView().should('be.visible');\n    const PROVINCIA = datosExcel[i][6]; // Primer fila, primera columna (usando índices 0 basados)     \n    cy.get('#ddl_provincia_lista_unidad_ejecutora', {\n      timeout: 1000\n    }).should('exist').should('be.visible').type(PROVINCIA).type('{enter}');\n    // Usar los datos del Excel\n    // Unidad Ejecutora\n    cy.get('#input_unidad_ejecutora').scrollIntoView().should('be.visible');\n    const UNIDADE = datosExcel[i][7]; // Primer fila, primera columna (usando índices 0 basados)     \n    cy.get('#input_unidad_ejecutora', {\n      timeout: 1000\n    }).should('exist').should('be.visible').type(UNIDADE).click();\n    cy.wait(10).tab();\n    cy.get(\"#btn_buscar\").should('be.visible').click();\n    cy.get('[id^=\"btn_mas_opciones_unidad_ejecutora_\"]').first().click();\n    cy.get('[id^=\"btn_administrar_unidad\"]').click();\n    cy.wait(10).tab();\n    cy.wait(10).tab();\n    cy.wait(10).tab();\n    cy.wait(10).tab();\n    cy.wait(10).tab();\n    cy.wait(10).tab();\n    cy.wait(10).tab();\n    cy.wait(10).tab();\n    cy.wait(10).tab();\n    cy.wait(10).tab();\n    cy.wait(10).tab();\n    cy.wait(10).tab();\n    cy.wait(10).tab();\n    cy.wait(10).tab();\n    cy.get(\"#btn_crear_profesional_salud\").should('be.visible').click();\n    cy.get('#ddl_tipo_identificacion') // Selecciona el campo de búsqueda\n    .click({\n      force: true\n    }); // Forza el clic si es necesario\n    cy.wait(500);\n    cy.get('#ddl_tipo_identificacion_list .ant-select-item-option') // Selecciona los elementos de la lista\n    .eq(1) // Toma el primer elemento\n    .click(); // Hace clic en el primer elemento\n    cy.wait(100).tab();\n    // Usar los datos del Excel\n    // Ingresar DNI\n    cy.get('#txt_tipo_identificacion').scrollIntoView().should('be.visible');\n    const DNI = datosExcel[i][0]; // Primer fila, primera columna (usando índices 0 basados)     \n    cy.get('#txt_tipo_identificacion', {\n      timeout: 1000\n    }).should('exist').should('be.visible').type(DNI).click();\n    cy.get(\"#btn_validar\").should('be.visible').click();\n    cy.wait(1000);\n    cy.get(\"#btn_crear_usuario\").should('be.visible').click();\n    cy.wait(1000);\n    // Usar los datos del Excel\n    // Ingresar NOMBRE\n    const NOMBRE = datosExcel[i][1]; // Primer fila, segunda columna\n    cy.get('#input_primer_nombre', {\n      timeout: 1000\n    }).should('exist').should('be.visible').type(NOMBRE).click();\n    // Usar los datos del Excel\n    // Ingresar APELLIDO\n    const APELLIDO1 = datosExcel[i][2]; // Primer fila, segunda columna\n    cy.get('#input_primer_apellido', {\n      timeout: 1000\n    }).should('exist').should('be.visible').type(APELLIDO1).click();\n    // Usar los datos del Excel\n    // Ingresar APELLIDO MATERNO\n    const APELLIDO2 = datosExcel[i][3]; // Primer fila, segunda columna\n    cy.get('#input_segundo_apellido', {\n      timeout: 1000\n    }).should('exist').should('be.visible').type(APELLIDO2).click();\n    // Usar los datos del Excel\n    // Ingresar FECHA NACIMIENTO\n    const FECHANAC = datosExcel[i][4]; // Primer fila, segunda columna\n    cy.get('#input_fecha_nacimiento', {\n      timeout: 1000\n    }).should('exist').should('be.visible').type(FECHANAC).click();\n    cy.wait(500).tab();\n    cy.wait(500);\n    // Pais\n    cy.get('#ddl_pais_nacimiento') // Selecciona el campo de búsqueda\n    .click({\n      force: true\n    }); // Forza el clic si es necesario\n    cy.wait(500);\n    cy.get('#ddl_pais_nacimiento_list .ant-select-item-option') // Selecciona los elementos de la lista\n    .eq(163) // Toma el elemento 10\n    .click(); // Hace clic en el primer elemento\n    cy.wait(100).tab();\n    // Nacionalidad\n    cy.get('#ddl_nacionalidad') // Selecciona el campo de búsqueda\n    .click({\n      force: true\n    }); // Forza el clic si es necesario\n    cy.wait(500);\n    cy.get('#ddl_nacionalidad_list .ant-select-item-option') // Selecciona los elementos de la lista\n    .eq(37) // Toma el elemento 10\n    .click(); // Hace clic en el primer elemento\n    cy.wait(100).tab();\n    // Etnia\n    cy.get('#ddl_etnia') // Selecciona el campo de búsqueda\n    .click({\n      force: true\n    }); // Forza el clic si es necesario\n    cy.wait(500);\n    cy.get('#ddl_etnia_list .ant-select-item-option') // Selecciona los elementos de la lista\n    .eq(1) // Toma el elemento 10\n    .click(); // Hace clic en el primer elemento\n    cy.wait(100).tab();\n    // Estado\n    cy.get('#ddl_estado_civil') // Selecciona el campo de búsqueda\n    .click({\n      force: true\n    }); // Forza el clic si es necesario\n    cy.wait(500);\n    cy.get('#ddl_estado_civil_list .ant-select-item-option') // Selecciona los elementos de la lista\n    .eq(0) // Toma el elemento 10\n    .click(); // Hace clic en el primer elemento\n    cy.wait(100).tab();\n    cy.get('#btn_paciente_asegurado_false').click().should('be.checked');\n    cy.wait(100).tab();\n    cy.get('#ddl_tipo_paciente') // Selecciona el campo de búsqueda\n    .click({\n      force: true\n    }); // Forza el clic si es necesario\n    cy.wait(500);\n    cy.get('#ddl_tipo_paciente_list .ant-select-item-option') // Selecciona los elementos de la lista\n    .eq(0) // Toma el elemento 10\n    .click(); // Hace clic en el primer elemento\n    cy.wait(100).tab();\n    cy.get('#ddl_tipo_beneficiario') // Selecciona el campo de búsqueda\n    .click({\n      force: true\n    }); // Forza el clic si es necesario\n    cy.wait(500);\n    cy.get('#ddl_tipo_beneficiario_list .ant-select-item-option') // Selecciona los elementos de la lista\n    .eq(7) // Toma el elemento 10\n    .click(); // Hace clic en el primer elemento\n    cy.wait(100).tab();\n    cy.wait(100).tab();\n    cy.get('#ddl_ocupacion') // Selecciona el campo de búsqueda\n    .click({\n      force: true\n    }); // Forza el clic si es necesario\n    cy.wait(500);\n    cy.get('#ddl_ocupacion_list .ant-select-item-option') // Selecciona los elementos de la lista\n    .eq(8) // Toma el elemento 10\n    .click(); // Hace clic en el primer elemento\n    cy.wait(100).tab();\n    cy.get('#ddl_estudios') // Selecciona el campo de búsqueda\n    .click({\n      force: true\n    }); // Forza el clic si es necesario\n    cy.wait(500);\n    cy.get('#ddl_estudios_list .ant-select-item-option') // Selecciona los elementos de la lista\n    .eq(7) // Toma el elemento 10\n    .click(); // Hace clic en el primer elemento\n    cy.wait(100).tab();\n    cy.get('#ddl_sexo') // Selecciona el campo de búsqueda\n    .click({\n      force: true\n    }); // Forza el clic si es necesario\n    cy.wait(500);\n    cy.get('#ddl_sexo_list .ant-select-item-option') // Selecciona los elementos de la lista\n    .eq(0) // Toma el elemento 10\n    .click(); // Hace clic en el primer elemento\n    cy.wait(100).tab();\n    cy.get('#ddl_idioma') // Selecciona el campo de búsqueda\n    .click({\n      force: true\n    }); // Forza el clic si es necesario\n    cy.wait(500);\n    cy.get('#ddl_idioma_list .ant-select-item-option') // Selecciona los elementos de la lista\n    .eq(0) // Toma el elemento 10\n    .click(); // Hace clic en el primer elemento\n    cy.wait(100).tab();\n    cy.get('#ddl_grupo_sanguineo') // Selecciona el campo de búsqueda\n    .click({\n      force: true\n    }); // Forza el clic si es necesario\n    cy.wait(500);\n    cy.get('#ddl_grupo_sanguineo_list .ant-select-item-option') // Selecciona los elementos de la lista\n    .eq(6) // Toma el elemento 10\n    .click(); // Hace clic en el primer elemento\n    cy.wait(100).tab();\n    cy.wait(100).tab();\n    cy.get(\"#btn_siguiente\").should('be.visible').click();\n    cy.wait(100).tab();\n    cy.get('#input_provincia') // Selecciona el campo de búsqueda\n    .click({\n      force: true\n    }); // Forza el clic si es necesario\n    cy.wait(500);\n    cy.get('#input_provincia_list .ant-select-item-option') // Selecciona los elementos de la lista\n    .eq(1) // Toma el elemento 10\n    .click(); // Hace clic en el primer elemento\n    cy.wait(100).tab();\n    cy.get('#input_distrito') // Selecciona el campo de búsqueda\n    .click({\n      force: true\n    }); // Forza el clic si es necesario\n    cy.wait(500);\n    cy.get('#input_distrito_list .ant-select-item-option') // Selecciona los elementos de la lista\n    .eq(0) // Toma el elemento 10\n    .click(); // Hace clic en el primer elemento\n    cy.wait(100).tab();\n    cy.get('#input_corregimiento') // Selecciona el campo de búsqueda\n    .click({\n      force: true\n    }); // Forza el clic si es necesario\n    cy.wait(500);\n    cy.get('#input_corregimiento_list .ant-select-item-option') // Selecciona los elementos de la lista\n    .eq(0) // Toma el elemento 10\n    .click(); // Hace clic en el primer elemento\n    cy.wait(100).tab();\n    cy.get('#input_barrio') // Selecciona el campo de búsqueda\n    .click({\n      force: true\n    }); // Forza el clic si es necesario\n    cy.wait(500);\n    cy.get('#input_barrio_list .ant-select-item-option') // Selecciona los elementos de la lista\n    .eq(0) // Toma el elemento 10\n    .click(); // Hace clic en el primer elemento\n    cy.wait(100).tab();\n    cy.get(\"#btn_siguiente\").should('be.visible').click();\n    cy.wait(2000).tab();\n    cy.get(\"#btn_siguiente\").should('be.visible').click();\n    cy.wait(1000).tab();\n    cy.wait(100).tab();\n    cy.wait(100).tab();\n    cy.wait(2000).tab();\n    //Crear Profesional de la Salud-------------------------------------------------------------------------------------------------\n    cy.wait(100).tab();\n    cy.get('#input_numero_empleado').scrollIntoView().should('be.visible');\n    cy.get('#input_numero_empleado', {\n      timeout: 1000\n    }).should('exist').should('be.visible').type(DNI).click();\n    cy.get('#input_numero_seguro_social', {\n      timeout: 1000\n    }).should('exist').should('be.visible').type(DNI).click();\n    cy.get('#input_cargo_ocupado', {\n      timeout: 1000\n    }).should('exist').should('be.visible').type(DNI).click();\n    cy.wait(100).tab();\n    //correo\n    const CORREO = datosExcel[i][5]; // Primer fila, segunda columna\n    cy.get('#input_correo_electronico_institucional', {\n      timeout: 1000\n    }).should('exist').should('be.visible').type(CORREO).click();\n    cy.wait(500).tab();\n    cy.wait(500);\n    //turno\n    cy.get('#ddl_turno') // Selecciona el campo de búsqueda\n    .click({\n      force: true\n    }); // Forza el clic si es necesario\n    cy.wait(500);\n    cy.get('#ddl_turno_list .ant-select-item-option') // Selecciona los elementos de la lista\n    .eq(2) // Toma el elemento 10\n    .click(); // Hace clic en el primer elemento\n    cy.wait(100).tab();\n    //Horario\n    cy.get('#input_horario_turno', {\n      timeout: 1000\n    }).should('exist').should('be.visible').type('12:00 AM').click();\n    cy.wait(100).tab();\n    cy.get('#input_horario_turno_fin', {\n      timeout: 1000\n    }).should('exist').should('be.visible').type('12:00 AM').click();\n    cy.wait(100).tab();\n    cy.get(\"#btn_siguiente\").should('be.visible').click();\n    cy.wait(1000);\n    cy.wait(100).tab();\n    cy.get('#ddl_seleccionar_profesion') // Selecciona el campo de búsqueda\n    .click({\n      force: true\n    }); // Forza el clic si es necesario\n    cy.wait(500);\n    cy.get('#ddl_seleccionar_profesion_list .ant-select-item-option') // Selecciona los elementos de la lista\n    .eq(0) // Toma el elemento 10\n    .click(); // Hace clic en el primer elemento\n    cy.wait(100).tab();\n    cy.get('#input_numero_registro', {\n      timeout: 1000\n    }).should('exist').should('be.visible').type(DNI).click();\n    cy.wait(100).tab();\n    cy.get(\"#btn_agregar_profesion\").should('be.visible').click();\n    cy.wait(1000);\n    cy.wait(100).tab();\n    cy.wait(100).tab();\n    cy.wait(100).tab();\n    cy.wait(100).tab();\n    cy.wait(100).tab();\n    cy.wait(100).tab();\n    cy.wait(100).tab();\n    cy.get(\"#btn_siguiente\").should('be.visible').click();\n    cy.wait(1000);\n    cy.wait(100).tab();\n    // Incrementar el contador\n    contador++;\n    // Mostrar en la consola el contador y el DNI\n    cy.log(`Contador: ${contador}, DNI: ${DNI}`);\n  }\n});\ncy.wait(1000);\nconsole.log('¡Prueba exitosa!');\ncy.log('¡Prueba exitosa!');",
+              "err": {
+                "message": "Error: AssertionError: Timed out retrying after 4000ms: Expected to find element: `#btn_crear_usuario`, but never found it.",
+                "estack": "Error: AssertionError: Timed out retrying after 4000ms: Expected to find element: `#btn_crear_usuario`, but never found it.",
+                "diff": null
+              },
+              "uuid": "5493d2c6-16e8-4942-9b07-71ac94433d1d",
+              "parentUUID": "97859fcb-6cd7-494d-9ee0-33b2b0ed570d",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [],
+          "failures": [
+            "5493d2c6-16e8-4942-9b07-71ac94433d1d"
+          ],
+          "pending": [],
+          "skipped": [],
+          "duration": 29419,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    },
+    {
+      "uuid": "ece97c8c-9a06-4627-b3ba-78117a54cc46",
+      "title": "",
+      "fullFile": "cypress\\e2e\\TC_CP_Administrador de usuarios_Asignar roles a unidades ejecutoras.cy.js",
+      "file": "cypress\\e2e\\TC_CP_Administrador de usuarios_Asignar roles a unidades ejecutoras.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "5ac123d8-8be9-4a26-96f6-26c2c97d9070",
+          "title": "TC_CP_Administrador de usuarios_Asignar roles a unidades ejecutoras",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "debería iniciar sesión con éxito",
+              "fullTitle": "TC_CP_Administrador de usuarios_Asignar roles a unidades ejecutoras debería iniciar sesión con éxito",
+              "timedOut": null,
+              "duration": 19302,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": null,
+              "code": "// Llama a la función login \ncy.login_CORE();\n// Verifica que el login haya sido exitoso\ncy.url().should('not.include', '/login');\ncy.wait(1000);\ncy.get(\"#btn_menu_desplegable\").should('be.visible').click();\ncy.wait(1000);\ncy.get(\"#spn_modulo_medical_records_administrar_usuarios\").should('be.visible').click();\ncy.wait(1000);\ncy.get(\"#btn_menu_desplegable\").should('be.visible').click();\ncy.wait(1000);\nlet contador = 0;\nconst rutaArchivoExcel = 'cypress/fixtures/datos2.xlsx';\n// Leer los datos del archivo Excel\ncy.leerExcel(rutaArchivoExcel).then(datosExcel => {\n  // Mostrar los datos leídos\n  console.log(datosExcel);\n  // Recorrer los datos del archivo Excel\n  for (let i = 1; i < datosExcel.length; i++) {\n    // Comenzamos desde 1 para saltarnos la fila de encabezados\n    // Tomar el valor de la primera columna (DNI)\n    // Usar los datos del Excel\n    // Ingresar DNI\n    const DNI = datosExcel[i][0]; // Primer fila, primera columna (usando índices 0 basados)\n    if (DNI && DNI.trim() !== '') {\n      // Si el DNI es válido, proceder con la acción\n      cy.window().then(win => {\n        win.alert('El DNI es correcto');\n      });\n    } else {\n      // Si el DNI está vacío o no es válido, lanzar una alerta\n      cy.window().then(win => {\n        win.alert('Prueba exitosa');\n        cy.log('Prueba Finalizada: correctamente');\n        cy.pause();\n      });\n    }\n    cy.get('#searchNamesOrIdentifications', {\n      timeout: 1000\n    }).should('exist').should('be.visible').type(DNI).click();\n    cy.get(\"#btn_buscar_nuevo_usuario\").should('be.visible').click();\n    cy.wait(1000);\n    cy.get('[id*=\"btn_ver_detalle_\"]').first().scrollIntoView().should('be.visible').click();\n    // Usar los datos del Excel\n    // Ingresar NOMBRE\n    const UNIDADE = datosExcel[i][7]; // Primer fila, segunda columna\n    cy.get('#ddl_unidad_ejecutora', {\n      timeout: 1000\n    }).should('exist').should('be.visible').type(UNIDADE).type('{enter}');\n    cy.wait(100).tab();\n    // Usar los datos del Excel\n    // Ingresar APELLIDO\n    cy.xpath('//*[@id=\"single-spa-application:@thv/core\"]/div/div/main/section/div/div/div/div/div[3]/div[2]/form/div/div[2]/div/div/div[2]/div/div/div/div/div').scrollIntoView().should('be.visible').click();\n    cy.get('.ant-select-dropdown .ant-select-item-option').contains('Urgencia').click();\n    cy.wait(100).tab();\n    const ROL = datosExcel[i][9];\n    cy.xpath('//*[@id=\"single-spa-application:@thv/core\"]/div/div/main/section/div/div/div/div/div[3]/div[2]/form/div/div[3]/div/div/div[2]/div/div/div/div/div').scrollIntoView().should('be.visible').type(ROL).type('{enter}');\n    cy.wait(100).tab();\n    cy.get(\"#btn_asignar_rol\").should('be.visible').click();\n    // Incrementar el contador\n    contador++;\n    // Mostrar en la consola el contador y el DNI\n    cy.log(`Contador: ${contador}, DNI: ${DNI}`);\n  }\n});\ncy.wait(1000);\nconsole.log('¡Prueba exitosa!');\ncy.log('¡Prueba exitosa!');",
+              "err": {
+                "message": "Error: AssertionError: Timed out retrying after 1000ms: Expected to find element: `#searchNamesOrIdentifications`, but never found it.",
+                "estack": "Error: AssertionError: Timed out retrying after 1000ms: Expected to find element: `#searchNamesOrIdentifications`, but never found it.",
+                "diff": null
+              },
+              "uuid": "041767d1-bb38-43ce-9d06-a0b648ac322a",
+              "parentUUID": "5ac123d8-8be9-4a26-96f6-26c2c97d9070",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [],
+          "failures": [
+            "041767d1-bb38-43ce-9d06-a0b648ac322a"
+          ],
+          "pending": [],
+          "skipped": [],
+          "duration": 19302,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    },
+    {
+      "uuid": "dfa76b76-01b0-405a-9e0c-ca61fbfecb25",
+      "title": "",
+      "fullFile": "cypress\\e2e\\TC_CP_ Creación de consultorios - Unidad Ejecutora.cy.js",
+      "file": "cypress\\e2e\\TC_CP_ Creación de consultorios - Unidad Ejecutora.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "ec983029-edff-4579-a79c-2a15a3124454",
+          "title": "Crear Consultorio",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "Inicio de sesión exitoso",
+              "fullTitle": "Crear Consultorio Inicio de sesión exitoso",
+              "timedOut": null,
+              "duration": 34302,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "// Llama a la función login \ncy.login_CORE();\n// Verifica que el login haya sido exitoso\ncy.url().should('not.include', '/login');\ncy.wait(1000);\ncy.get(\"#btn_menu_desplegable\").should('be.visible').click();\ncy.wait(1000);\ncy.get(\"#spn_modulo_medical_records_list_executing_units\").should('be.visible').click();\ncy.wait(1000);\ncy.get(\"#btn_menu_desplegable\").should('be.visible').click();\ncy.wait(1000);\ncy.wait(100).tab();\ncy.wait(100).tab();\n//Buscar Unidad Ejecutora------------------\ncy.get('#ddl_provincia_lista_unidad_ejecutora') // Selecciona el campo de búsqueda\n.click({\n  force: true\n}); // Forza el clic si es necesario\ncy.wait(500);\ncy.get('#ddl_provincia_lista_unidad_ejecutora_list .ant-select-item-option') // Selecciona los elementos de la lista\n.eq(1) // Toma el elemento 10\n.click(); // Hace clic en el primer elemento\ncy.wait(100).tab();\ncy.get('#input_unidad_ejecutora', {\n  timeout: 1000\n}).should('exist').should('be.visible').type('POLICLINICA DE GUABITO').click();\ncy.get(\"#btn_buscar\").should('be.visible').click();\ncy.get('[id^=\"btn_mas_opciones_unidad_ejecutora_\"]').first().click();\ncy.get('[id^=\"btn_administrar_unidad\"]').click();\ncy.get('div#div_tab_consultorios').scrollIntoView() // Scroll the element into view if it's clipped\n.should('be.visible').click();\ncy.get('#btn_crear_consultorio').scrollIntoView().should('be.visible').click();\nconst randomNumber = Math.floor(Math.random() * (1000 - 500 + 1)) + 500;\ncy.get('#input_codigo_consultorio').type(randomNumber.toString()); //Escribir información\ncy.wait(100).tab();\ncy.get('#input_ubicacion_consultorio', {\n  timeout: 1000\n}).should('exist').should('be.visible').type('Prueba').click();\ncy.wait(100).tab();\ncy.get('#input_nombre_consultorio', {\n  timeout: 1000\n}).should('exist').should('be.visible').type('Prueba').click();\ncy.get('#btn_habilitar_consultorio').contains('Sí') // Verifica que el texto 'Sí' esté presente en el botón\n.click();\ncy.wait(100).tab();\ncy.wait(100).tab();\ncy.get('div.ant-modal-content') // Selecciona el div con la clase 'ant-modal-content'\n.find('#btn_crear_consultorio') // Busca el elemento con el id 'btn_crear_consultorio' dentro de ese div\n.should('be.visible') // Verifica que el botón sea visible\n.click();\ncy.get('h4.ant-typography.css-1rqnfsa') // Selecciona el elemento\n.parent() // Obtiene el contenedor padre\n.then($parent => {\n  // Cambia temporalmente el estilo overflow para permitir ver el contenido\n  $parent.css('overflow', 'visible');\n}).scrollIntoView() // Desplaza a la vista\n.should('be.visible');\ncy.contains('Administración de recursos de una unidad ejecutora') // Busca el texto exacto en la página\n.should('be.visible');",
+              "err": {},
+              "uuid": "812d88b5-34b2-4f4b-a15f-a3ead9b0cc6b",
+              "parentUUID": "ec983029-edff-4579-a79c-2a15a3124454",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "812d88b5-34b2-4f4b-a15f-a3ead9b0cc6b"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 34302,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    },
+    {
+      "uuid": "43700a34-1bd1-4143-a585-89b09f70d31d",
+      "title": "",
+      "fullFile": "cypress\\e2e\\Reprogramar cita en turno PM y validar nueva fecha de cita en ECLI.cy.js",
+      "file": "cypress\\e2e\\Reprogramar cita en turno PM y validar nueva fecha de cita en ECLI.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "5b174fea-a63d-47f9-b531-f6328f5de0aa",
+          "title": "Reprogramar cita en turno PM y validar nueva fecha de cita en ECLI",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "debería iniciar sesión con éxito",
+              "fullTitle": "Reprogramar cita en turno PM y validar nueva fecha de cita en ECLI debería iniciar sesión con éxito",
+              "timedOut": null,
+              "duration": 36310,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": null,
+              "code": "// Llama a la función login \ncy.login_SDA();\n// Verifica que el login haya sido exitoso\ncy.url().should('not.include', '/login');\ncy.wait(1000);\ncy.get('#div_nombre_usuario', {\n  timeout: 10000\n}).should('be.visible').click();\ncy.get('#div_menu_cambiar_cuenta', {\n  timeout: 10000\n}).should('be.visible').click();\ncy.get('#div_seleccionar_rol_supervisor_de_tramites_y_citas', {\n  timeout: 10000\n}).should('be.visible').click();\ncy.wait(1000);\ncy.get(\"#btn_menu_desplegable\").should('be.visible').click();\ncy.wait(1000);\ncy.get(\"#spn_modulo_unidades_ejecutoras_lista_citas\").should('be.visible').click();\ncy.wait(1000);\ncy.get(\"#btn_menu_desplegable\").should('be.visible').click();\ncy.wait(1000);\ncy.wait(100).tab();\ncy.wait(100).tab();\n//------------------------------------------------\nlet contador = 0;\nconst rutaArchivoExcel = 'cypress/fixtures/agenda.xlsx';\n// Leer los datos del archivo Excel\ncy.leerExcel(rutaArchivoExcel).then(datosExcel => {\n  // Mostrar los datos leídos\n  console.log(datosExcel);\n  // Recorrer los datos del archivo Excel\n  for (let i = 1; i < datosExcel.length; i++) {\n    // Comenzamos desde 1 para saltarnos la fila de encabezados\n    // Tomar el valor de la primera columna (DNI)\n    // Usar los datos del Excel\n    // Ingresar DNI\n    const DNI = datosExcel[i][0]; // Primer fila, primera columna (usando índices 0 basados)\n    if (DNI && DNI.trim() !== '') {\n      // Si el DNI es válido, proceder con la acción\n      cy.window().then(win => {\n        win.alert('El DNI es correcto');\n      });\n    } else {\n      // Si el DNI está vacío o no es válido, lanzar una alerta\n      cy.window().then(win => {\n        win.alert('Prueba exitosa');\n        cy.log('Prueba Finalizada: correctamente');\n        cy.pause();\n      });\n    }\n    cy.get('#txt_Citas_DNI', {\n      timeout: 1000\n    }).should('exist').should('be.visible').type(DNI).type('{enter}');\n    // Ingresar FECHA\n    const FECHA = datosExcel[i][3]; // Primer fila, segunda columna\n    cy.get('#date_picker_Citas_Fecha', {\n      timeout: 2000\n    }) // Espera hasta 2 segundos\n    .should('exist') // Asegura que el campo esté presente en el DOM\n    .should('be.visible') // Asegura que el campo sea visible\n    .scrollIntoView() // Asegura que el campo esté dentro del viewport\n    .type(FECHA); // Escribe el valor de la variable FECHANAC en el campo\n    cy.wait(500).tab();\n    // Usar los datos del Excel\n    // Unidad Ejecutora\n    cy.get('#ddl_Citas_Unidad_Ejecutora').scrollIntoView().should('be.visible');\n    const UNIDADE = datosExcel[i][2]; // Primer fila, primera columna (usando índices 0 basados)     \n    cy.get('#ddl_Citas_Unidad_Ejecutora', {\n      timeout: 1000\n    }).should('exist').should('be.visible').type(UNIDADE).type('{enter}');\n    cy.get('#ddl_Citas_Servicio') // Selecciona el elemento\n    .scrollIntoView() // Desplázate hacia el elemento para hacerlo visible\n    .should('be.visible') // Asegúrate de que el elemento sea visible\n    .type('Medicina general').type('{enter}');\n    cy.wait(500).tab();\n    cy.get('button.ant-btn.ant-btn-icon-only.ant-dropdown-trigger').first().click();\n    cy.contains('Reprogramar') // Busca un botón o elemento con el texto \"Cancelar\"              // Hace clic\n    .type('{enter}');\n    cy.contains('¿Desea reprogramar la cita de').should('be.visible');\n    cy.get('#turn input[type=\"radio\"][value=\"PM\"]').check({\n      force: true\n    });\n    cy.get('#ddl_Modal_Reagendar_Cita_Motivo').click({\n      force: true\n    });\n    // Selecciona una opción (ajusta el texto visible)\n    cy.get('#ddl_Modal_Reagendar_Cita_Motivo').click({\n      force: true\n    });\n    cy.get('.ant-select-dropdown:not(.ant-select-dropdown-hidden) .ant-select-item-option').should('have.length.at.least', 1).first().click();\n    cy.wait(1000).tab();\n    cy.contains('Confirmar') // Encuentra el botón con texto \"Cancelar\"\n    .should('be.visible') // Asegura que sea visible\n    .focus() // Asegura que tenga el foco (necesario para .type())\n    .click();\n    cy.pause();\n    cy.wait(1000).tab();\n    cy.contains('Confirmar') // Encuentra el botón con texto \"Cancelar\"\n    .should('be.visible') // Asegura que sea visible\n    .focus() // Asegura que tenga el foco (necesario para .type())\n    .click();\n    cy.pause();\n    contador++;\n    // Mostrar en la consola el contador y el DNI\n    cy.log(`Contador: ${contador}, DNI: ${DNI}`);\n  }\n});",
+              "err": {
+                "message": "Error: CypressError: `cy.focus()` can only be called on a valid focusable element. Your subject is a: `<button type=\"button\" class=\"ant-btn css-1uweeqc ant-btn-primary\" disabled=\"\" style=\"border-radius: 4px;\">...</button>`\n\nhttps://on.cypress.io/focus",
+                "estack": "Error: CypressError: `cy.focus()` can only be called on a valid focusable element. Your subject is a: `<button type=\"button\" class=\"ant-btn css-1uweeqc ant-btn-primary\" disabled=\"\" style=\"border-radius: 4px;\">...</button>`\n\nhttps://on.cypress.io/focus",
+                "diff": null
+              },
+              "uuid": "187e6ebd-ee7a-4aee-90bb-bd50a0c15a14",
+              "parentUUID": "5b174fea-a63d-47f9-b531-f6328f5de0aa",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [],
+          "failures": [
+            "187e6ebd-ee7a-4aee-90bb-bd50a0c15a14"
+          ],
+          "pending": [],
+          "skipped": [],
+          "duration": 36310,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    },
+    {
+      "uuid": "56b1c944-6168-488c-bbc0-a4013acf554f",
+      "title": "",
+      "fullFile": "cypress\\e2e\\Reprogramar cita en turno AM y validar nueva fecha de cita en ECLI.cy.js",
+      "file": "cypress\\e2e\\Reprogramar cita en turno AM y validar nueva fecha de cita en ECLI.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "48592c2d-7c03-4791-a4c3-bbd39e959dc0",
+          "title": "Reprogramar cita en turno AM y validar nueva fecha de cita en ECLI",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "debería iniciar sesión con éxito",
+              "fullTitle": "Reprogramar cita en turno AM y validar nueva fecha de cita en ECLI debería iniciar sesión con éxito",
+              "timedOut": null,
+              "duration": 19962,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": null,
+              "code": "// Llama a la función login \ncy.login_SDA();\n// Verifica que el login haya sido exitoso\ncy.url().should('not.include', '/login');\ncy.wait(1000);\ncy.get('#div_nombre_usuario', {\n  timeout: 10000\n}).should('be.visible').click();\ncy.get('#div_menu_cambiar_cuenta', {\n  timeout: 10000\n}).should('be.visible').click();\ncy.get('#div_seleccionar_rol_supervisor_de_tramites_y_citas', {\n  timeout: 10000\n}).should('be.visible').click();\ncy.wait(1000);\ncy.get(\"#btn_menu_desplegable\").should('be.visible').click();\ncy.wait(1000);\ncy.get(\"#spn_modulo_unidades_ejecutoras_lista_citas\").should('be.visible').click();\ncy.wait(1000);\ncy.get(\"#btn_menu_desplegable\").should('be.visible').click();\ncy.wait(1000);\ncy.wait(100).tab();\ncy.wait(100).tab();\n//------------------------------------------------\nlet contador = 0;\nconst rutaArchivoExcel = 'cypress/fixtures/agenda.xlsx';\n// Leer los datos del archivo Excel\ncy.leerExcel(rutaArchivoExcel).then(datosExcel => {\n  // Mostrar los datos leídos\n  console.log(datosExcel);\n  // Recorrer los datos del archivo Excel\n  for (let i = 1; i < datosExcel.length; i++) {\n    // Comenzamos desde 1 para saltarnos la fila de encabezados\n    // Tomar el valor de la primera columna (DNI)\n    // Usar los datos del Excel\n    // Ingresar DNI\n    const DNI = datosExcel[i][0]; // Primer fila, primera columna (usando índices 0 basados)\n    if (DNI && DNI.trim() !== '') {\n      // Si el DNI es válido, proceder con la acción\n      cy.window().then(win => {\n        win.alert('El DNI es correcto');\n      });\n    } else {\n      // Si el DNI está vacío o no es válido, lanzar una alerta\n      cy.window().then(win => {\n        win.alert('Prueba exitosa');\n        cy.log('Prueba Finalizada: correctamente');\n        cy.pause();\n      });\n    }\n    cy.get('#txt_Citas_DNI', {\n      timeout: 1000\n    }).should('exist').should('be.visible').type(DNI).type('{enter}');\n    // Ingresar FECHA\n    const FECHA = datosExcel[i][3]; // Primer fila, segunda columna\n    cy.get('#date_picker_Citas_Fecha', {\n      timeout: 2000\n    }) // Espera hasta 2 segundos\n    .should('exist') // Asegura que el campo esté presente en el DOM\n    .should('be.visible') // Asegura que el campo sea visible\n    .scrollIntoView() // Asegura que el campo esté dentro del viewport\n    .type(FECHA); // Escribe el valor de la variable FECHANAC en el campo\n    cy.wait(500).tab();\n    // Usar los datos del Excel\n    // Unidad Ejecutora\n    cy.get('#ddl_Citas_Unidad_Ejecutora').scrollIntoView().should('be.visible');\n    const UNIDADE = datosExcel[i][2]; // Primer fila, primera columna (usando índices 0 basados)     \n    cy.get('#ddl_Citas_Unidad_Ejecutora', {\n      timeout: 1000\n    }).should('exist').should('be.visible').type(UNIDADE).type('{enter}');\n    cy.get('#ddl_Citas_Servicio') // Selecciona el elemento\n    .scrollIntoView() // Desplázate hacia el elemento para hacerlo visible\n    .should('be.visible') // Asegúrate de que el elemento sea visible\n    .type('Medicina general').type('{enter}');\n    cy.wait(500).tab();\n    cy.get('button.ant-btn.ant-btn-icon-only.ant-dropdown-trigger').first().click();\n    cy.contains('Reprogramar') // Busca un botón o elemento con el texto \"Cancelar\"              // Hace clic\n    .type('{enter}');\n    cy.contains('¿Desea reprogramar la cita de').should('be.visible');\n    cy.get('#turn input[type=\"radio\"][value=\"AM\"]').check({\n      force: true\n    });\n    cy.get('#ddl_Modal_Reagendar_Cita_Motivo').click({\n      force: true\n    });\n    // Selecciona una opción (ajusta el texto visible)\n    cy.get('#ddl_Modal_Reagendar_Cita_Motivo').click({\n      force: true\n    });\n    cy.get('.ant-select-dropdown:not(.ant-select-dropdown-hidden) .ant-select-item-option').should('have.length.at.least', 1).first().click();\n    cy.wait(1000).tab();\n    cy.contains('Confirmar') // Encuentra el botón con texto \"Cancelar\"\n    .should('be.visible') // Asegura que sea visible\n    .focus() // Asegura que tenga el foco (necesario para .type())\n    .click();\n    cy.pause();\n    cy.wait(1000).tab();\n    cy.contains('Confirmar') // Encuentra el botón con texto \"Cancelar\"\n    .should('be.visible') // Asegura que sea visible\n    .focus() // Asegura que tenga el foco (necesario para .type())\n    .click();\n    cy.pause();\n    contador++;\n    // Mostrar en la consola el contador y el DNI\n    cy.log(`Contador: ${contador}, DNI: ${DNI}`);\n  }\n});",
+              "err": {
+                "message": "Error: AssertionError: Timed out retrying after 1000ms: Expected to find element: `#txt_Citas_DNI`, but never found it.",
+                "estack": "Error: AssertionError: Timed out retrying after 1000ms: Expected to find element: `#txt_Citas_DNI`, but never found it.",
+                "diff": null
+              },
+              "uuid": "522916fb-69cd-48f5-9ffd-4123b9dd1f27",
+              "parentUUID": "48592c2d-7c03-4791-a4c3-bbd39e959dc0",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [],
+          "failures": [
+            "522916fb-69cd-48f5-9ffd-4123b9dd1f27"
+          ],
+          "pending": [],
+          "skipped": [],
+          "duration": 19962,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    },
+    {
+      "uuid": "726673c9-ed00-49d4-83f5-cd26e58b63ad",
+      "title": "",
+      "fullFile": "cypress\\e2e\\Realizar cancelación de cita de un paciente.cy.js",
+      "file": "cypress\\e2e\\Realizar cancelación de cita de un paciente.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "0f0e1675-cf1e-4208-8b5b-d0d26c2d1e31",
+          "title": "Realizar cancelación de cita de un paciente",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "debería iniciar sesión con éxito",
+              "fullTitle": "Realizar cancelación de cita de un paciente debería iniciar sesión con éxito",
+              "timedOut": null,
+              "duration": 40176,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": null,
+              "code": "// Llama a la función login \ncy.login_SDA();\n// Verifica que el login haya sido exitoso\ncy.url().should('not.include', '/login');\ncy.wait(1000);\ncy.get('#div_nombre_usuario', {\n  timeout: 10000\n}).should('be.visible').click();\ncy.get('#div_menu_cambiar_cuenta', {\n  timeout: 10000\n}).should('be.visible').click();\ncy.get('#div_seleccionar_rol_supervisor_de_tramites_y_citas', {\n  timeout: 10000\n}).should('be.visible').click();\ncy.wait(1000);\ncy.get(\"#btn_menu_desplegable\").should('be.visible').click();\ncy.wait(1000);\ncy.get(\"#spn_modulo_unidades_ejecutoras_lista_citas\").should('be.visible').click();\ncy.wait(1000);\ncy.get(\"#btn_menu_desplegable\").should('be.visible').click();\ncy.wait(1000);\ncy.wait(100).tab();\ncy.wait(100).tab();\n//------------------------------------------------\nlet contador = 0;\nconst rutaArchivoExcel = 'cypress/fixtures/agenda.xlsx';\n// Leer los datos del archivo Excel\ncy.leerExcel(rutaArchivoExcel).then(datosExcel => {\n  // Mostrar los datos leídos\n  console.log(datosExcel);\n  // Recorrer los datos del archivo Excel\n  for (let i = 1; i < datosExcel.length; i++) {\n    // Comenzamos desde 1 para saltarnos la fila de encabezados\n    // Tomar el valor de la primera columna (DNI)\n    // Usar los datos del Excel\n    // Ingresar DNI\n    const DNI = datosExcel[i][0]; // Primer fila, primera columna (usando índices 0 basados)\n    if (DNI && DNI.trim() !== '') {\n      // Si el DNI es válido, proceder con la acción\n      cy.window().then(win => {\n        win.alert('El DNI es correcto');\n      });\n    } else {\n      // Si el DNI está vacío o no es válido, lanzar una alerta\n      cy.window().then(win => {\n        win.alert('Prueba exitosa');\n        cy.log('Prueba Finalizada: correctamente');\n        cy.pause();\n      });\n    }\n    cy.get('#txt_Citas_DNI', {\n      timeout: 1000\n    }).should('exist').should('be.visible').type(DNI).type('{enter}');\n    // Ingresar FECHA\n    const FECHA = datosExcel[i][3]; // Primer fila, segunda columna\n    cy.get('#date_picker_Citas_Fecha', {\n      timeout: 2000\n    }) // Espera hasta 2 segundos\n    .should('exist') // Asegura que el campo esté presente en el DOM\n    .should('be.visible') // Asegura que el campo sea visible\n    .scrollIntoView() // Asegura que el campo esté dentro del viewport\n    .type(FECHA); // Escribe el valor de la variable FECHANAC en el campo\n    cy.wait(500).tab();\n    // Usar los datos del Excel\n    // Unidad Ejecutora\n    cy.get('#ddl_Citas_Unidad_Ejecutora').scrollIntoView().should('be.visible');\n    const UNIDADE = datosExcel[i][2]; // Primer fila, primera columna (usando índices 0 basados)     \n    cy.get('#ddl_Citas_Unidad_Ejecutora', {\n      timeout: 1000\n    }).should('exist').should('be.visible').type(UNIDADE).type('{enter}');\n    cy.get('#ddl_Citas_Servicio') // Selecciona el elemento\n    .scrollIntoView() // Desplázate hacia el elemento para hacerlo visible\n    .should('be.visible') // Asegúrate de que el elemento sea visible\n    .type('Medicina general').type('{enter}');\n    cy.wait(500).tab();\n    cy.get('button.ant-btn.ant-btn-icon-only.ant-dropdown-trigger').first().click();\n    cy.contains('Cancelar') // Busca un botón o elemento con el texto \"Cancelar\"              // Hace clic\n    .type('{enter}');\n    cy.get('div.ant-flex.css-1uweeqc.ant-flex-align-stretch.ant-flex-gap-large.ant-flex-vertical') // Selecciona el div con las clases proporcionadas\n    .should('be.visible');\n    cy.get('div.ant-flex.css-1uweeqc.ant-flex-align-stretch.ant-flex-gap-middle.ant-flex-vertical') // Selecciona el div que contiene el modal\n    .should('be.visible');\n    cy.get('#ddl_Modal_Cancelar_Cita_Motivo').click({\n      force: true\n    });\n    cy.get('.ant-select-dropdown').last() // toma el último renderizado\n    .should('be.visible').within(() => {\n      cy.get('.ant-select-item-option').first().click();\n    });\n    cy.contains('Confirmar') // Encuentra el botón con texto \"Cancelar\"\n    .should('be.visible') // Asegura que sea visible\n    .focus() // Asegura que tenga el foco (necesario para .type())\n    .click();\n    cy.pause();\n    contador++;\n    // Mostrar en la consola el contador y el DNI\n    cy.log(`Contador: ${contador}, DNI: ${DNI}`);\n  }\n});",
+              "err": {
+                "message": "Error: AssertionError: Timed out retrying after 2000ms: expected '<input#date_picker_Citas_Fecha>' to be 'visible'\n\nThis element `<input#date_picker_Citas_Fecha>` is not visible because its parent `<div#rc-tabs-0-panel-current_appointments.ant-tabs-tabpane.ant-tabs-tabpane-hidden>` has CSS property: `display: none`",
+                "estack": "Error: AssertionError: Timed out retrying after 2000ms: expected '<input#date_picker_Citas_Fecha>' to be 'visible'\n\nThis element `<input#date_picker_Citas_Fecha>` is not visible because its parent `<div#rc-tabs-0-panel-current_appointments.ant-tabs-tabpane.ant-tabs-tabpane-hidden>` has CSS property: `display: none`",
+                "diff": null
+              },
+              "uuid": "c87b3bd3-db73-434f-99c2-f4cdb30d1422",
+              "parentUUID": "0f0e1675-cf1e-4208-8b5b-d0d26c2d1e31",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [],
+          "failures": [
+            "c87b3bd3-db73-434f-99c2-f4cdb30d1422"
+          ],
+          "pending": [],
+          "skipped": [],
+          "duration": 40176,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    },
+    {
+      "uuid": "c3d3cc2c-626b-448d-92d2-88967f2c0bc0",
+      "title": "",
+      "fullFile": "cypress\\e2e\\LoginExitoso.cy.js",
+      "file": "cypress\\e2e\\LoginExitoso.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "816074e0-2c46-45a1-8f45-5297eb84a0f4",
+          "title": "Login",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "Inicio de sesión éxitoso",
+              "fullTitle": "Login Inicio de sesión éxitoso",
+              "timedOut": null,
+              "duration": 8781,
+              "state": "passed",
+              "speed": "medium",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "// Llama a la función login \ncy.login_CORE();",
+              "err": {},
+              "uuid": "13ed00b7-07fd-463d-aef6-b70a7e7fd4f9",
+              "parentUUID": "816074e0-2c46-45a1-8f45-5297eb84a0f4",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "13ed00b7-07fd-463d-aef6-b70a7e7fd4f9"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 8781,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    },
+    {
+      "uuid": "5015f761-f6c4-492e-b9f1-002076d61160",
+      "title": "",
+      "fullFile": "cypress\\e2e\\Login Fallido por Usuario.cy.js",
+      "file": "cypress\\e2e\\Login Fallido por Usuario.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "c883cc2a-b07a-432b-94bb-7af3f196b7c6",
+          "title": "template spec",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "passes",
+              "fullTitle": "template spec passes",
+              "timedOut": null,
+              "duration": 766,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": null,
+              "code": "cy.visit('https://front-core-stg.nuevoexpediente.com/login');\n//Login\ncy.get('#input_nombre_usuario_login').type(\"//@@==nADA de NADA UsUar10 FAIL\"); //Escribir información\ncy.get('#input_contrasena_login').type(\"Password01\");\ncy.get('#btn_ingresar_login').click();\ncy.wait(2000); // Ajusta según lo que necesites\n// Tomar una captura de pantalla mejorada\ncy.screenshot('Login Fallido por Usuario/1 - Login', {\n  capture: 'fullPage' // Captura toda la página\n});",
+              "err": {
+                "message": "Error: CypressError: `cy.visit()` failed trying to load:\n\nhttps://front-core-stg.nuevoexpediente.com/login\n\nThe response we received from your web server was:\n\n  > 404: Not Found\n\nThis was considered a failure because the status code was not `2xx`.\n\nIf you do not want status codes to cause failures pass the option: `failOnStatusCode: false`",
+                "estack": "Error: CypressError: `cy.visit()` failed trying to load:\n\nhttps://front-core-stg.nuevoexpediente.com/login\n\nThe response we received from your web server was:\n\n  > 404: Not Found\n\nThis was considered a failure because the status code was not `2xx`.\n\nIf you do not want status codes to cause failures pass the option: `failOnStatusCode: false`",
+                "diff": null
+              },
+              "uuid": "603f7b74-b036-4b1e-ba67-d6d9ba565e73",
+              "parentUUID": "c883cc2a-b07a-432b-94bb-7af3f196b7c6",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [],
+          "failures": [
+            "603f7b74-b036-4b1e-ba67-d6d9ba565e73"
+          ],
+          "pending": [],
+          "skipped": [],
+          "duration": 766,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    },
+    {
+      "uuid": "53406a6e-24c0-4d9f-a73d-1036b0284e40",
+      "title": "",
+      "fullFile": "cypress\\e2e\\Login Fallido por Contraseña.cy.js",
+      "file": "cypress\\e2e\\Login Fallido por Contraseña.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "ec442d4a-ba61-46b4-8d20-d605c6f8ce2b",
+          "title": "template spec",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "Fallido por Contraseña",
+              "fullTitle": "template spec Fallido por Contraseña",
+              "timedOut": null,
+              "duration": 1419,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": null,
+              "code": "cy.visit('https://front-core-stg.nuevoexpediente.com/login');\n// Login\ncy.get('#input_nombre_usuario_login').type(\"132-546-021\"); // Escribir información\ncy.get('#input_contrasena_login').type(\"Password011@@@@2323===???\");\ncy.get('#btn_ingresar_login').click();\n// Esperar a que la página se cargue completamente\ncy.wait(2000); // Ajusta según lo que necesites\n// Tomar una captura de pantalla mejorada\ncy.screenshot('Login Fallido por Contraseña/1 - Login', {\n  capture: 'fullPage' // Captura toda la página\n});",
+              "err": {
+                "message": "Error: CypressError: `cy.visit()` failed trying to load:\n\nhttps://front-core-stg.nuevoexpediente.com/login\n\nThe response we received from your web server was:\n\n  > 404: Not Found\n\nThis was considered a failure because the status code was not `2xx`.\n\nIf you do not want status codes to cause failures pass the option: `failOnStatusCode: false`",
+                "estack": "Error: CypressError: `cy.visit()` failed trying to load:\n\nhttps://front-core-stg.nuevoexpediente.com/login\n\nThe response we received from your web server was:\n\n  > 404: Not Found\n\nThis was considered a failure because the status code was not `2xx`.\n\nIf you do not want status codes to cause failures pass the option: `failOnStatusCode: false`",
+                "diff": null
+              },
+              "uuid": "89f992c1-90fc-4cb4-9471-350ec00e1abe",
+              "parentUUID": "ec442d4a-ba61-46b4-8d20-d605c6f8ce2b",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [],
+          "failures": [
+            "89f992c1-90fc-4cb4-9471-350ec00e1abe"
+          ],
+          "pending": [],
+          "skipped": [],
+          "duration": 1419,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    },
+    {
+      "uuid": "36491f0a-44df-4693-add9-bb84f342f6a4",
+      "title": "",
+      "fullFile": "cypress\\e2e\\Gestor de modelos de agendas_Creación y configuración de modelo.cy.js",
+      "file": "cypress\\e2e\\Gestor de modelos de agendas_Creación y configuración de modelo.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "41d93f88-afe9-46ae-8238-218f1f6e57fa",
+          "title": "Gestor de modelos de agendas",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "debería iniciar sesión con éxito",
+              "fullTitle": "Gestor de modelos de agendas debería iniciar sesión con éxito",
+              "timedOut": null,
+              "duration": 35289,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": null,
+              "code": "// Llama a la función login \ncy.login_SDA();\n// Verifica que el login haya sido exitoso\ncy.url().should('not.include', '/login');\ncy.wait(1000);\ncy.get('#div_nombre_usuario', {\n  timeout: 10000\n}).should('be.visible').click();\ncy.get('#div_menu_cambiar_cuenta', {\n  timeout: 10000\n}).should('be.visible').click();\ncy.get('#div_seleccionar_rol_coordinador_nacional_de_reges', {\n  timeout: 10000\n}).should('be.visible').click();\ncy.wait(1000);\ncy.get(\"#btn_menu_desplegable\").should('be.visible').click();\ncy.wait(1000);\ncy.get(\"#spn_modulo_unidades_ejecutoras_gestordeagendas\").should('be.visible').click();\ncy.wait(1000);\ncy.get(\"#spn_submodulo_unidades_ejecutoras_modelos_agenda\").should('be.visible').click();\ncy.wait(1000);\ncy.get(\"#btn_menu_desplegable\").should('be.visible').click();\ncy.wait(1000);\ncy.wait(100).tab();\ncy.wait(100).tab();\ncy.get('#btn_Models_Agenda_Abrir_Modal_Crear_Agenda', {\n  timeout: 10000\n}).should('be.visible').click();\ncy.contains('div.ant-modal-title', 'Crear nuevo modelo de agenda').should('be.visible');\ncy.get('#input_Modal_Modelos_Agendas_Modelos_Name', {\n  timeout: 10000\n}).should('be.visible').click();\nconst randomNumber = Math.floor(Math.random() * (1000 - 500 + 1)) + 500;\ncy.get('#input_Modal_Modelos_Agendas_Modelos_Name').type(\"Prueba\" + randomNumber.toString()); //Escribir información\ncy.wait(100).tab();\ncy.document().then(doc => {\n  const activeElement = doc.activeElement;\n  cy.wrap(activeElement).should('exist'); // opcional: asegura que esté presente\n  cy.log('Elemento enfocado:', activeElement);\n  cy.wrap(activeElement).type('BOCAS DEL TORO').type('{enter}'); // por ejemplo\n});\ncy.wait(1000).tab();\n// 6. Unidad ejecutora\ncy.document().then(document => {\n  const focusedElement = document.activeElement;\n  // Asegurarse de que el elemento enfocado existe\n  cy.wrap(focusedElement).should('exist');\n  // Log informativo (opcional)\n  cy.log('Elemento actualmente enfocado:', focusedElement);\n  // Escribir texto y presionar Enter\n  cy.wrap(focusedElement).type('POLICLINICA DE GUABITO').type('{enter}');\n});\ncy.wait(1000).tab();\ncy.get('#form_Modal_Modelos_Agendas') // Encuentra el modal\n.find('[id=\"ddl_Modelos_Agendas_Estatus_id\"]') // Encuentra todos los elementos con ese id (aunque esté mal usado)\n.eq(1) // Selecciona el segundo\n.click({\n  force: true\n});\ncy.get('.ant-select-dropdown .ant-select-item-option:visible').first() // o .contains('Activo') si prefieres por texto\n.click({\n  force: true\n});\n//------------------------------------------------\nlet contador = 0;\nconst rutaArchivoExcel = 'cypress/fixtures/agenda.xlsx';\n// Leer los datos del archivo Excel\ncy.leerExcel(rutaArchivoExcel).then(datosExcel => {\n  // Mostrar los datos leídos\n  console.log(datosExcel);\n  // Recorrer los datos del archivo Excel\n  for (let i = 1; i < datosExcel.length; i++) {\n    // Comenzamos desde 1 para saltarnos la fila de encabezados\n    // Tomar el valor de la primera columna (DNI)\n    // Usar los datos del Excel\n    // Ingresar DNI\n    const DNI = datosExcel[i][0]; // Primer fila, primera columna (usando índices 0 basados)\n    if (DNI && DNI.trim() !== '') {\n      // Si el DNI es válido, proceder con la acción\n      cy.window().then(win => {\n        win.alert('El DNI es correcto');\n      });\n    } else {\n      // Si el DNI está vacío o no es válido, lanzar una alerta\n      cy.window().then(win => {\n        win.alert('Prueba exitosa');\n        cy.log('Prueba Finalizada: correctamente');\n        cy.pause();\n      });\n    }\n    cy.get('#validateDNI_dni', {\n      timeout: 1000\n    }).should('exist').should('be.visible').type(DNI).type('{enter}');\n    cy.get('#province').scrollIntoView().should('be.visible');\n    const PROVINCIA = datosExcel[i][1]; // Primer fila, primera columna (usando índices 0 basados)     \n    cy.get('#province', {\n      timeout: 1000\n    }).should('exist').should('be.visible').type(PROVINCIA).type('{enter}');\n    cy.get('input[type=\"radio\"][value=\"No\"]') // Selecciona el radio button con el valor \"No\"\n    .check();\n    // Usar los datos del Excel\n    // Unidad Ejecutora\n    cy.get('#executingUnit').scrollIntoView().should('be.visible');\n    const UNIDADE = datosExcel[i][2]; // Primer fila, primera columna (usando índices 0 basados)     \n    cy.get('#executingUnit', {\n      timeout: 1000\n    }).should('exist').should('be.visible').type(UNIDADE).type('{enter}');\n    cy.get('#requiredService') // Selecciona el elemento\n    .scrollIntoView() // Desplázate hacia el elemento para hacerlo visible\n    .should('be.visible') // Asegúrate de que el elemento sea visible\n    .type('Medicina general').type('{enter}');\n    cy.get('#select_Crear_Cita_Formulario_Modelo_Agenda') // Selecciona el elemento\n    .scrollIntoView() // Desplázate hacia el elemento para hacerlo visible\n    .should('be.visible') // Asegúrate de que el elemento sea visible\n    .type('Personalizado').type('{enter}');\n    cy.get('input[type=\"radio\"][value=\"NUEVO\"]') // Selecciona el radio button con el valor \"NUEVO\"\n    .check();\n    cy.get('input[type=\"radio\"][value=\"AM\"]') // Selecciona el radio button con el valor \"NUEVO\"\n    .check();\n    cy.pause();\n    cy.get('div.ant-card.ant-card-bordered.overrideCardBody').should('be.visible');\n    cy.contains('span.ant-typography', 'Fecha de la cita', {\n      timeout: 10000\n    }) // 10 segundos\n    .should('be.visible');\n    cy.contains('button', 'Asignar cita', {\n      timeout: 10000\n    }).should('not.be.disabled').click();\n    cy.pause();\n    contador++;\n    // Mostrar en la consola el contador y el DNI\n    cy.log(`Contador: ${contador}, DNI: ${DNI}`);\n  }\n});",
+              "err": {
+                "message": "Error: AssertionError: Timed out retrying after 4000ms: Expected to find element: `1`, but never found it. Queried from:\n\n              > cy.get(#form_Modal_Modelos_Agendas).find([id=\"ddl_Modelos_Agendas_Estatus_id\"])",
+                "estack": "Error: AssertionError: Timed out retrying after 4000ms: Expected to find element: `1`, but never found it. Queried from:\n\n              > cy.get(#form_Modal_Modelos_Agendas).find([id=\"ddl_Modelos_Agendas_Estatus_id\"])",
+                "diff": null
+              },
+              "uuid": "335626d3-3ca7-4f16-8f4a-2b59c6c49853",
+              "parentUUID": "41d93f88-afe9-46ae-8238-218f1f6e57fa",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [],
+          "failures": [
+            "335626d3-3ca7-4f16-8f4a-2b59c6c49853"
+          ],
+          "pending": [],
+          "skipped": [],
+          "duration": 35289,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    },
+    {
+      "uuid": "19b310e9-45df-4879-ad0a-915984db5b08",
+      "title": "",
+      "fullFile": "cypress\\e2e\\Crear_pacientes.cy.js",
+      "file": "cypress\\e2e\\Crear_pacientes.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "2432a5eb-69aa-461c-b486-723b229956f3",
+          "title": "Crear Pacientes",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "debería iniciar sesión con éxito",
+              "fullTitle": "Crear Pacientes debería iniciar sesión con éxito",
+              "timedOut": null,
+              "duration": 37905,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": null,
+              "code": "// Llama a la función login \ncy.login_CORE();\n// Verifica que el login haya sido exitoso\ncy.url().should('not.include', '/login');\ncy.wait(1000);\ncy.get(\"#btn_menu_desplegable\").should('be.visible').click();\ncy.wait(1000);\ncy.get(\"#spn_modulo_medical_records_list_user\").should('be.visible').click();\ncy.wait(1000);\ncy.get(\"#btn_menu_desplegable\").should('be.visible').click();\ncy.wait(1000);\ncy.get(\"#btn_crear_usuario\", {\n  timeout: 10000\n}) // Espera hasta 10 segundos\n.should('be.visible') // Espera a que el botón sea visible\n.click();\ncy.get('#ddl_tipo_identificacion') // Selecciona el campo de búsqueda\n.click({\n  force: true\n}); // Forza el clic si es necesario\ncy.wait(500);\ncy.get('#ddl_tipo_identificacion_list .ant-select-item-option') // Selecciona los elementos de la lista\n.first() // Toma el primer elemento\n.click(); // Hace clic en el primer elemento\ncy.wait(100).tab();\nlet contador = 0;\nconst rutaArchivoExcel = 'cypress/fixtures/datos.xlsx';\n// Leer los datos del archivo Excel\ncy.leerExcel(rutaArchivoExcel).then(datosExcel => {\n  // Mostrar los datos leídos\n  console.log(datosExcel);\n  // Recorrer los datos del archivo Excel\n  for (let i = 1; i < datosExcel.length; i++) {\n    // Comenzamos desde 1 para saltarnos la fila de encabezados\n    // Tomar el valor de la primera columna (DNI)\n    // Usar los datos del Excel\n    // Ingresar DNI\n    const DNI = datosExcel[i][0]; // Primer fila, primera columna (usando índices 0 basados)\n    if (DNI && DNI.trim() !== '') {\n      // Si el DNI es válido, proceder con la acción\n      cy.window().then(win => {\n        win.alert('El DNI es correcto');\n      });\n    } else {\n      // Si el DNI está vacío o no es válido, lanzar una alerta\n      cy.window().then(win => {\n        win.alert('Prueba exitosa');\n        cy.log('Prueba Finalizada: correctamente');\n        cy.pause();\n      });\n    }\n    cy.get('#input_numero_cedula', {\n      timeout: 1000\n    }) // Espera hasta 1 segundo\n    .should('exist') // Asegura que el campo exista en el DOM\n    .scrollIntoView().should('be.visible').type(DNI); // Escribe el valor de la variable DNI en el campo\n    cy.contains('span.ant-breadcrumb-link', 'Listado y búsqueda de usuarios').scrollIntoView() // Lleva el elemento al viewport\n    .should('be.visible');\n    cy.get(\"#btn_validar_identificacion\", {\n      timeout: 10000\n    }) // espera hasta 10 segundos a que aparezca en el DOM\n    .should('be.visible') // espera hasta que sea visible\n    .scrollIntoView() // asegura que esté en el viewport\n    .click(); // hace clic\n    // Usar los datos del Excel\n    // Ingresar NOMBRE\n    const NOMBRE = datosExcel[i][1]; // Primer fila, segunda columna\n    cy.get('#input_primer_nombre', {\n      timeout: 2000\n    }) // Espera hasta 2 segundos\n    .should('exist') // Asegura que el campo esté presente en el DOM\n    .should('be.visible') // Asegura que el campo sea visible\n    .scrollIntoView() // Asegura que esté dentro del viewport\n    .type(NOMBRE); // Escribe el valor de la variable NOMBRE en el campo\n    // Usar los datos del Excel\n    // Ingresar APELLIDO\n    const APELLIDO1 = datosExcel[i][2]; // Primer fila, segunda columna\n    cy.get('#input_primer_apellido', {\n      timeout: 1000\n    }) // Espera hasta 1 segundo\n    .should('exist') // Asegura que el campo esté presente en el DOM\n    .should('be.visible') // Asegura que el campo sea visible\n    .scrollIntoView() // Asegura que esté dentro del viewport\n    .type(APELLIDO1); // Escribe el valor de la variable APELLIDO1 en el campo\n    // Usar los datos del Excel\n    // Ingresar APELLIDO Materno\n    const APELLIDO2 = datosExcel[i][3]; // Primer fila, segunda columna\n    cy.get('#input_segundo_apellido', {\n      timeout: 1000\n    }) // Espera hasta 1 segundo\n    .should('exist') // Asegura que el campo esté presente en el DOM\n    .should('be.visible') // Asegura que el campo sea visible\n    .scrollIntoView() // Asegura que el campo esté en el viewport\n    .type(APELLIDO2); // Escribe el valor de la variable APELLIDO2 en el campo\n    // Usar los datos del Excel\n    // Ingresar FECHANAC\n    const FECHANAC = datosExcel[i][4]; // Primer fila, segunda columna\n    cy.get('#input_fecha_nacimiento', {\n      timeout: 2000\n    }) // Espera hasta 2 segundos\n    .should('exist') // Asegura que el campo esté presente en el DOM\n    .should('be.visible') // Asegura que el campo sea visible\n    .scrollIntoView() // Asegura que el campo esté dentro del viewport\n    .type(FECHANAC); // Escribe el valor de la variable FECHANAC en el campo\n    cy.wait(500).tab();\n    // Pais\n    cy.get('#ddl_pais_nacimiento', {\n      timeout: 2000\n    }) // Espera hasta 2 segundos\n    .should('exist') // Asegura que el campo esté presente en el DOM\n    .should('be.visible') // Asegura que el campo sea visible\n    .click({\n      force: true\n    }); // Forza el clic si el campo no es interactuable\n    cy.get('#ddl_pais_nacimiento_list .ant-select-item-option', {\n      timeout: 2000\n    }) // Asegura que los elementos de la lista existan\n    .should('be.visible') // Asegura que los elementos sean visibles\n    .eq(163) // Selecciona el elemento en la posición 163\n    .scrollIntoView() // Asegura que esté en el viewport\n    .click(); // Hace clic en el elemento\n    cy.wait(100).tab();\n    // Nacionalidad\n    cy.get('#ddl_nacionalidad', {\n      timeout: 2000\n    }) // Espera hasta 2 segundos\n    .should('exist') // Asegura que el campo esté presente en el DOM\n    .should('be.visible') // Asegura que el campo sea visible\n    .click(); // Realiza el clic si el campo es visible e interactuable\n    cy.get('#ddl_nacionalidad_list .ant-select-item-option', {\n      timeout: 2000\n    }) // Espera hasta que los elementos de la lista estén presentes\n    .should('be.visible') // Asegura que los elementos sean visibles\n    .eq(37) // Selecciona el elemento en la posición 37\n    .scrollIntoView() // Asegura que el elemento esté en el viewport\n    .click(); // Hace clic en el elemento seleccionado\n    cy.wait(100).tab();\n    // Etnia\n    cy.get('#ddl_etnia', {\n      timeout: 2000\n    }) // Espera hasta 2 segundos\n    .should('exist') // Asegura que el campo esté presente en el DOM\n    .should('be.visible') // Asegura que el campo sea visible\n    .click(); // Realiza el clic si el campo es visible e interactuable\n    cy.get('#ddl_etnia_list .ant-select-item-option', {\n      timeout: 2000\n    }) // Espera hasta que los elementos de la lista estén disponibles\n    .should('be.visible') // Asegura que los elementos sean visibles\n    .eq(1) // Selecciona el elemento en la posición 1\n    .scrollIntoView() // Asegura que el elemento esté dentro del viewport\n    .click(); // Hace clic en el elemento seleccionado\n    cy.wait(100).tab();\n    //Religion\n    cy.get('#ddl_religion', {\n      timeout: 2000\n    }).should('exist').should('be.visible') // Selecciona el campo de búsqueda\n    .click({\n      force: true\n    }); // Forza el clic si es necesario\n    cy.wait(500);\n    cy.get('#ddl_religion_list .ant-select-item-option') // Selecciona los elementos de la lista\n    .eq(0) // Toma el elemento 10\n    .scrollIntoView() // asegura que esté en el viewport\n    .click(); // Hace clic en el primer elemento\n    cy.wait(100).tab();\n    // Estado\n    cy.get('#ddl_estado_civil', {\n      timeout: 2000\n    }) // Espera hasta 2 segundos\n    .should('exist') // Asegura que el campo esté presente en el DOM\n    .should('be.visible') // Asegura que el campo sea visible\n    .click(); // Realiza el clic si el campo es visible e interactuable\n    cy.get('#ddl_estado_civil_list .ant-select-item-option', {\n      timeout: 2000\n    }) // Espera hasta que los elementos de la lista estén disponibles\n    .should('be.visible') // Asegura que los elementos sean visibles\n    .eq(0) // Selecciona el primer elemento (índice 0)\n    .scrollIntoView() // Asegura que el elemento esté en el viewport\n    .click(); // Hace clic en el primer elemento\n    cy.wait(100).tab();\n    // Tipo beneficiario\n    cy.get('#ddl_tipo_beneficiario', {\n      timeout: 2000\n    }) // Espera hasta 2 segundos\n    .should('exist') // Asegura que el campo esté presente en el DOM\n    .should('be.visible') // Asegura que el campo sea visible\n    .click(); // Realiza el clic si el campo es visible e interactuable\n    cy.get('#ddl_tipo_beneficiario_list .ant-select-item-option', {\n      timeout: 2000\n    }) // Espera hasta que los elementos de la lista estén disponibles\n    .should('be.visible') // Asegura que los elementos sean visibles\n    .eq(7) // Selecciona el elemento en la posición 7 (índice 7 es el octavo elemento)\n    .scrollIntoView() // Asegura que el elemento esté dentro del viewport\n    .click(); // Hace clic en el elemento seleccionado\n    cy.wait(100).tab();\n    cy.wait(100).tab();\n    // Ocupacion\n    cy.get('#ddl_ocupacion', {\n      timeout: 2000\n    }) // Espera hasta 2 segundos\n    .should('exist') // Asegura que el campo esté presente en el DOM\n    .should('be.visible') // Asegura que el campo sea visible\n    .click(); // Realiza el clic si el campo es visible e interactuable\n    cy.get('#ddl_ocupacion_list .ant-select-item-option', {\n      timeout: 2000\n    }) // Espera hasta que los elementos de la lista estén disponibles\n    .should('be.visible') // Asegura que los elementos sean visibles\n    .eq(8) // Selecciona el noveno elemento (índice 8)\n    .scrollIntoView() // Asegura que el elemento esté dentro del viewport\n    .click(); // Hace clic en el elemento seleccionado\n    cy.wait(100).tab(); // Espera 100ms antes de pasar a la siguiente acción (tabulación)\n    // Estudios\n    cy.get('#ddl_estudios', {\n      timeout: 2000\n    }) // Espera hasta 2 segundos\n    .should('exist') // Asegura que el campo esté presente en el DOM\n    .should('be.visible') // Asegura que el campo sea visible\n    .click(); // Realiza el clic si el campo es visible e interactuable\n    cy.get('#ddl_estudios_list .ant-select-item-option', {\n      timeout: 2000\n    }) // Espera hasta que los elementos de la lista estén disponibles\n    .should('be.visible') // Asegura que los elementos sean visibles\n    .eq(7) // Selecciona el octavo elemento (índice 7)\n    .scrollIntoView() // Asegura que el elemento esté dentro del viewport\n    .click(); // Hace clic en el elemento seleccionado\n    cy.wait(100).tab(); // Espera 100ms antes de pasar a la siguiente acción (tabulación)\n    // Sexo\n    cy.get('#ddl_sexo', {\n      timeout: 2000\n    }) // Espera hasta 2 segundos para que el campo esté disponible\n    .should('exist') // Asegura que el campo esté presente en el DOM\n    .should('be.visible') // Asegura que el campo sea visible\n    .click(); // Realiza el clic si el campo es visible e interactuable\n    cy.get('#ddl_sexo_list .ant-select-item-option', {\n      timeout: 2000\n    }) // Espera hasta que los elementos de la lista estén disponibles\n    .should('be.visible') // Asegura que los elementos sean visibles\n    .eq(0) // Selecciona el primer elemento (índice 0)\n    .scrollIntoView() // Asegura que el elemento esté en el viewport\n    .click(); // Hace clic en el elemento seleccionado\n    cy.wait(100).tab(); // Espera 100ms antes de pasar a la siguiente acción (tabulación)\n    // Idioma                      \n    cy.get('#ddl_idioma', {\n      timeout: 2000\n    }) // Espera hasta 2 segundos para que el campo esté disponible\n    .should('exist') // Asegura que el campo esté presente en el DOM\n    .should('be.visible') // Asegura que el campo sea visible\n    .click(); // Realiza el clic si el campo es visible e interactuable\n    cy.get('#ddl_idioma_list .ant-select-item-option', {\n      timeout: 2000\n    }) // Espera hasta que los elementos de la lista estén disponibles\n    .should('be.visible') // Asegura que los elementos sean visibles\n    .eq(0) // Selecciona el primer elemento (índice 0)\n    .scrollIntoView() // Asegura que el elemento esté dentro del viewport\n    .click(); // Hace clic en el primer elemento\n    cy.wait(100).tab();\n    // Sangre\n    cy.get('#ddl_grupo_sanguineo', {\n      timeout: 2000\n    }) // Espera hasta 2 segundos para que el campo esté disponible\n    .should('exist') // Asegura que el campo esté presente en el DOM\n    .should('be.visible') // Asegura que el campo sea visible\n    .click(); // Realiza el clic si el campo es visible e interactuable\n    cy.get('#ddl_grupo_sanguineo_list .ant-select-item-option', {\n      timeout: 2000\n    }) // Espera hasta que los elementos de la lista estén disponibles\n    .should('be.visible') // Asegura que los elementos sean visibles\n    .eq(6) // Selecciona el séptimo elemento (índice 6)\n    .scrollIntoView() // Asegura que el elemento esté dentro del viewport\n    .click(); // Hace clic en el elemento seleccionado\n    cy.wait(100).tab();\n    cy.wait(100).tab();\n    cy.contains('span.ant-breadcrumb-link', 'Listado y búsqueda de usuarios').scrollIntoView() // Lleva el elemento al viewport\n    .should('be.visible');\n    cy.get('#ddl_tipo_paciente', {\n      timeout: 2000\n    }) // Selecciona el campo de búsqueda\n    .click({\n      force: true\n    }); // Forza el clic si es necesario\n    cy.wait(500);\n    cy.get('#ddl_tipo_paciente_list .ant-select-item-option') // Selecciona los elementos de la lista\n    .eq(0) // Toma el elemento 10\n    .click(); // Hace clic en el primer elemento\n    cy.wait(100).tab();\n    cy.get('#btn_paciente_asegurado_false', {\n      timeout: 2000\n    }).click().should('be.checked');\n    cy.wait(100).tab();\n    cy.get('#btn_siguiente', {\n      timeout: 2000\n    }) // Espera hasta 2 segundos para que el botón esté disponible\n    .should('exist') // Asegura que el botón esté presente en el DOM\n    .scrollIntoView() // Asegura que el botón esté visible en el viewport\n    .should('be.visible') // Asegura que el botón sea visible\n    .click();\n    cy.get('#input_provincia') // Selecciona el campo de búsqueda\n    .click({\n      force: true\n    }); // Forza el clic si es necesario\n    cy.wait(500);\n    cy.get('#input_provincia_list .ant-select-item-option') // Selecciona los elementos de la lista\n    .eq(1) // Toma el elemento 10\n    .click(); // Hace clic en el primer elemento\n    cy.wait(100).tab();\n    cy.get('#input_distrito') // Selecciona el campo de búsqueda\n    .click({\n      force: true\n    }); // Forza el clic si es necesario\n    cy.wait(500);\n    cy.get('#input_distrito_list .ant-select-item-option') // Selecciona los elementos de la lista\n    .eq(0) // Toma el elemento 10\n    .click(); // Hace clic en el primer elemento\n    cy.wait(100).tab();\n    cy.get('#input_corregimiento') // Selecciona el campo de búsqueda\n    .click({\n      force: true\n    }); // Forza el clic si es necesario\n    cy.wait(500);\n    cy.get('#input_corregimiento_list .ant-select-item-option') // Selecciona los elementos de la lista\n    .eq(0) // Toma el elemento 10\n    .click(); // Hace clic en el primer elemento\n    cy.wait(100).tab();\n    cy.get('#input_barrio') // Selecciona el campo de búsqueda\n    .click({\n      force: true\n    }); // Forza el clic si es necesario\n    cy.wait(500);\n    cy.get('#input_barrio_list .ant-select-item-option') // Selecciona los elementos de la lista\n    .eq(0) // Toma el elemento 10\n    .click(); // Hace clic en el primer elemento\n    cy.wait(100).tab();\n    cy.get(\"#btn_siguiente\").should('be.visible').click();\n    cy.wait(2000).tab();\n    cy.get(\"#btn_siguiente\").should('be.visible').click();\n    cy.wait(1000).tab();\n    cy.wait(100).tab();\n    cy.wait(100).tab();\n    cy.get('#input_numero_documento').type(DNI);\n    cy.get(\"#btn_buscar\").should('be.visible').click();\n    cy.wait(2000).tab();\n    cy.get(\"#btn_crear_usuario\").should('be.visible').click();\n    cy.wait(100).tab();\n    cy.wait(100).tab();\n    cy.wait(100).tab();\n    cy.wait(100).tab();\n    cy.get('#ddl_tipo_identificacion') // Selecciona el campo de búsqueda\n    .click({\n      force: true\n    }); // Forza el clic si es necesario\n    cy.wait(500);\n    cy.get('#ddl_tipo_identificacion_list .ant-select-item-option') // Selecciona los elementos de la lista\n    .first() // Toma el primer elemento\n    .click(); // Hace clic en el primer elemento\n    cy.wait(100).tab();\n    // Incrementar el contador\n    contador++;\n    // Mostrar en la consola el contador y el DNI\n    cy.log(`Contador: ${contador}, DNI: ${DNI}`);\n  }\n});\ncy.wait(1000);\nconsole.log('¡Prueba exitosa!');\ncy.log('¡Prueba exitosa!');",
+              "err": {
+                "message": "Error: CypressError: Timed out retrying after 4000ms: `cy.type()` failed because this element is `disabled`:\n\n`<input autocomplete=\"off\" type=\"\" name=\"primerNombre\" id=\"input_primer_nombre\" disabled=\"\" class=\"ant-input ant-input-disabled ant-input-lg css-1rqnfsa ant-input-outlined ant-input-compact-item ant-input-compact-first-item ant-input-compact-last-item\" value=\"\" style=\"border-radius: 6px;\">`\n\nFix this problem, or use `{force: true}` to disable error checking.\n\nhttps://on.cypress.io/element-cannot-be-interacted-with",
+                "estack": "Error: CypressError: Timed out retrying after 4000ms: `cy.type()` failed because this element is `disabled`:\n\n`<input autocomplete=\"off\" type=\"\" name=\"primerNombre\" id=\"input_primer_nombre\" disabled=\"\" class=\"ant-input ant-input-disabled ant-input-lg css-1rqnfsa ant-input-outlined ant-input-compact-item ant-input-compact-first-item ant-input-compact-last-item\" value=\"\" style=\"border-radius: 6px;\">`\n\nFix this problem, or use `{force: true}` to disable error checking.\n\nhttps://on.cypress.io/element-cannot-be-interacted-with",
+                "diff": null
+              },
+              "uuid": "b95ddbee-dd1a-4290-b1ab-b04ca6669f0b",
+              "parentUUID": "2432a5eb-69aa-461c-b486-723b229956f3",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [],
+          "failures": [
+            "b95ddbee-dd1a-4290-b1ab-b04ca6669f0b"
+          ],
+          "pending": [],
+          "skipped": [],
+          "duration": 37905,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    },
+    {
+      "uuid": "13a24746-987d-462b-a6ef-89d8a1d99682",
+      "title": "",
+      "fullFile": "cypress\\e2e\\Crear Usuario y Profesional de la salud.cy.js",
+      "file": "cypress\\e2e\\Crear Usuario y Profesional de la salud.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "16460a77-6323-451d-89ba-ea8ebf5ea89c",
+          "title": "Crear Profesioal de la Salud",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "debería iniciar sesión con éxito",
+              "fullTitle": "Crear Profesioal de la Salud debería iniciar sesión con éxito",
+              "timedOut": null,
+              "duration": 33903,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": null,
+              "code": "// Llama a la función login \ncy.login_CORE();\n// Verifica que el login haya sido exitoso\ncy.url().should('not.include', '/login');\nlet contador = 0;\nconst rutaArchivoExcel = 'cypress/fixtures/datos2.xlsx';\n// Leer los datos del archivo Excel\ncy.leerExcel(rutaArchivoExcel).then(datosExcel => {\n  // Mostrar los datos leídos\n  console.log(datosExcel);\n  // Recorrer los datos del archivo Excel\n  for (let i = 1; i < datosExcel.length; i++) {\n    // Comenzamos desde 1 para saltarnos la fila de encabezados\n    // Tomar el valor de la primera columna (DNI)\n    cy.wait(1000);\n    cy.get(\"#btn_menu_desplegable\").should('be.visible').click();\n    cy.wait(1000);\n    cy.get(\"#spn_modulo_medical_records_list_user\").should('be.visible').click();\n    cy.wait(1000);\n    cy.get(\"#btn_menu_desplegable\").should('be.visible').click();\n    cy.wait(1000);\n    cy.get(\"#btn_crear_usuario\", {\n      timeout: 10000\n    }) // Espera hasta 10 segundos\n    .should('be.visible') // Espera a que el botón sea visible\n    .click();\n    cy.get('#ddl_tipo_identificacion') // Selecciona el campo de búsqueda\n    .click({\n      force: true\n    }); // Forza el clic si es necesario\n    cy.wait(500);\n    cy.get('#ddl_tipo_identificacion_list .ant-select-item-option') // Selecciona los elementos de la lista\n    .first() // Toma el primer elemento\n    .click(); // Hace clic en el primer elemento\n    cy.wait(100).tab();\n    // Usar los datos del Excel\n    // Ingresar DNI\n    const DNI = datosExcel[i][0]; // Primer fila, primera columna (usando índices 0 basados)\n    if (DNI && DNI.trim() !== '') {\n      // Si el DNI es válido, proceder con la acción\n      cy.window().then(win => {\n        win.alert('El DNI es correcto');\n      });\n    } else {\n      // Si el DNI está vacío o no es válido, lanzar una alerta\n      cy.window().then(win => {\n        win.alert('Prueba exitosa');\n        cy.log('Prueba Finalizada: correctamente');\n        cy.pause();\n      });\n    }\n    cy.get('#input_numero_cedula', {\n      timeout: 1000\n    }) // Espera hasta 1 segundo\n    .should('exist') // Asegura que el campo exista en el DOM\n    .scrollIntoView().should('be.visible') // Asegura que el campo sea visible\n    .type(DNI); // Escribe el valor de la variable DNI en el campo\n    cy.contains('span.ant-breadcrumb-link', 'Listado y búsqueda de usuarios').scrollIntoView() // Lleva el elemento al viewport\n    .should('be.visible');\n    cy.get(\"#btn_validar_identificacion\", {\n      timeout: 10000\n    }) // espera hasta 10 segundos a que aparezca en el DOM\n    .should('be.visible') // espera hasta que sea visible\n    .scrollIntoView() // asegura que esté en el viewport\n    .click(); // hace clic\n    // Usar los datos del Excel\n    // Ingresar NOMBRE\n    const NOMBRE = datosExcel[i][1]; // Primer fila, segunda columna\n    cy.get('#input_primer_nombre', {\n      timeout: 2000\n    }) // Espera hasta 2 segundos\n    .should('exist') // Asegura que el campo esté presente en el DOM\n    .should('be.visible') // Asegura que el campo sea visible\n    .scrollIntoView() // Asegura que esté dentro del viewport\n    .type(NOMBRE); // Escribe el valor de la variable NOMBRE en el campo\n    // Usar los datos del Excel\n    // Ingresar APELLIDO\n    const APELLIDO1 = datosExcel[i][2]; // Primer fila, segunda columna\n    cy.get('#input_primer_apellido', {\n      timeout: 1000\n    }) // Espera hasta 1 segundo\n    .should('exist') // Asegura que el campo esté presente en el DOM\n    .should('be.visible') // Asegura que el campo sea visible\n    .scrollIntoView() // Asegura que esté dentro del viewport\n    .type(APELLIDO1); // Escribe el valor de la variable APELLIDO1 en el campo\n    // Usar los datos del Excel\n    // Ingresar APELLIDO Materno\n    const APELLIDO2 = datosExcel[i][3]; // Primer fila, segunda columna\n    cy.get('#input_segundo_apellido', {\n      timeout: 1000\n    }) // Espera hasta 1 segundo\n    .should('exist') // Asegura que el campo esté presente en el DOM\n    .should('be.visible') // Asegura que el campo sea visible\n    .scrollIntoView() // Asegura que el campo esté en el viewport\n    .type(APELLIDO2); // Escribe el valor de la variable APELLIDO2 en el campo\n    // Usar los datos del Excel\n    // Ingresar FECHANAC\n    const FECHANAC = datosExcel[i][4]; // Primer fila, segunda columna\n    cy.get('#input_fecha_nacimiento', {\n      timeout: 2000\n    }) // Espera hasta 2 segundos\n    .should('exist') // Asegura que el campo esté presente en el DOM\n    .should('be.visible') // Asegura que el campo sea visible\n    .scrollIntoView() // Asegura que el campo esté dentro del viewport\n    .type(FECHANAC); // Escribe el valor de la variable FECHANAC en el campo\n    cy.wait(500).tab();\n    // Pais\n    cy.get('#ddl_pais_nacimiento', {\n      timeout: 2000\n    }) // Espera hasta 2 segundos\n    .should('exist') // Asegura que el campo esté presente en el DOM\n    .should('be.visible') // Asegura que el campo sea visible\n    .click({\n      force: true\n    }); // Forza el clic si el campo no es interactuable\n    cy.get('#ddl_pais_nacimiento_list .ant-select-item-option', {\n      timeout: 2000\n    }) // Asegura que los elementos de la lista existan\n    .should('be.visible') // Asegura que los elementos sean visibles\n    .eq(163) // Selecciona el elemento en la posición 163\n    .scrollIntoView() // Asegura que esté en el viewport\n    .click(); // Hace clic en el elemento\n    cy.wait(100).tab();\n    // Nacionalidad\n    cy.get('#ddl_nacionalidad', {\n      timeout: 2000\n    }) // Espera hasta 2 segundos\n    .should('exist') // Asegura que el campo esté presente en el DOM\n    .should('be.visible') // Asegura que el campo sea visible\n    .click(); // Realiza el clic si el campo es visible e interactuable\n    cy.get('#ddl_nacionalidad_list .ant-select-item-option', {\n      timeout: 2000\n    }) // Espera hasta que los elementos de la lista estén presentes\n    .should('be.visible') // Asegura que los elementos sean visibles\n    .eq(37) // Selecciona el elemento en la posición 37\n    .scrollIntoView() // Asegura que el elemento esté en el viewport\n    .click(); // Hace clic en el elemento seleccionado\n    cy.wait(100).tab();\n    // Etnia\n    cy.get('#ddl_etnia', {\n      timeout: 2000\n    }) // Espera hasta 2 segundos\n    .should('exist') // Asegura que el campo esté presente en el DOM\n    .should('be.visible') // Asegura que el campo sea visible\n    .click(); // Realiza el clic si el campo es visible e interactuable\n    cy.get('#ddl_etnia_list .ant-select-item-option', {\n      timeout: 2000\n    }) // Espera hasta que los elementos de la lista estén disponibles\n    .should('be.visible') // Asegura que los elementos sean visibles\n    .eq(1) // Selecciona el elemento en la posición 1\n    .scrollIntoView() // Asegura que el elemento esté dentro del viewport\n    .click(); // Hace clic en el elemento seleccionado\n    cy.wait(100).tab();\n    //Religion\n    cy.get('#ddl_religion', {\n      timeout: 2000\n    }).should('exist').should('be.visible') // Selecciona el campo de búsqueda\n    .click({\n      force: true\n    }); // Forza el clic si es necesario\n    cy.wait(500);\n    cy.get('#ddl_religion_list .ant-select-item-option') // Selecciona los elementos de la lista\n    .eq(0) // Toma el elemento 10\n    .scrollIntoView() // asegura que esté en el viewport\n    .click(); // Hace clic en el primer elemento\n    cy.wait(100).tab();\n    // Estado\n    cy.get('#ddl_estado_civil', {\n      timeout: 2000\n    }) // Espera hasta 2 segundos\n    .should('exist') // Asegura que el campo esté presente en el DOM\n    .should('be.visible') // Asegura que el campo sea visible\n    .click(); // Realiza el clic si el campo es visible e interactuable\n    cy.get('#ddl_estado_civil_list .ant-select-item-option', {\n      timeout: 2000\n    }) // Espera hasta que los elementos de la lista estén disponibles\n    .should('be.visible') // Asegura que los elementos sean visibles\n    .eq(0) // Selecciona el primer elemento (índice 0)\n    .scrollIntoView() // Asegura que el elemento esté en el viewport\n    .click(); // Hace clic en el primer elemento\n    cy.wait(100).tab();\n    // Tipo beneficiario\n    cy.get('#ddl_tipo_beneficiario', {\n      timeout: 2000\n    }) // Espera hasta 2 segundos\n    .should('exist') // Asegura que el campo esté presente en el DOM\n    .should('be.visible') // Asegura que el campo sea visible\n    .click(); // Realiza el clic si el campo es visible e interactuable\n    cy.get('#ddl_tipo_beneficiario_list .ant-select-item-option', {\n      timeout: 2000\n    }) // Espera hasta que los elementos de la lista estén disponibles\n    .should('be.visible') // Asegura que los elementos sean visibles\n    .eq(7) // Selecciona el elemento en la posición 7 (índice 7 es el octavo elemento)\n    .scrollIntoView() // Asegura que el elemento esté dentro del viewport\n    .click(); // Hace clic en el elemento seleccionado\n    cy.wait(100).tab();\n    cy.wait(100).tab();\n    // Ocupacion\n    cy.get('#ddl_ocupacion', {\n      timeout: 2000\n    }) // Espera hasta 2 segundos\n    .should('exist') // Asegura que el campo esté presente en el DOM\n    .should('be.visible') // Asegura que el campo sea visible\n    .click(); // Realiza el clic si el campo es visible e interactuable\n    cy.get('#ddl_ocupacion_list .ant-select-item-option', {\n      timeout: 2000\n    }) // Espera hasta que los elementos de la lista estén disponibles\n    .should('be.visible') // Asegura que los elementos sean visibles\n    .eq(8) // Selecciona el noveno elemento (índice 8)\n    .scrollIntoView() // Asegura que el elemento esté dentro del viewport\n    .click(); // Hace clic en el elemento seleccionado\n    cy.wait(100).tab(); // Espera 100ms antes de pasar a la siguiente acción (tabulación)\n    // Estudios\n    cy.get('#ddl_estudios', {\n      timeout: 2000\n    }) // Espera hasta 2 segundos\n    .should('exist') // Asegura que el campo esté presente en el DOM\n    .should('be.visible') // Asegura que el campo sea visible\n    .click(); // Realiza el clic si el campo es visible e interactuable\n    cy.get('#ddl_estudios_list .ant-select-item-option', {\n      timeout: 2000\n    }) // Espera hasta que los elementos de la lista estén disponibles\n    .should('be.visible') // Asegura que los elementos sean visibles\n    .eq(7) // Selecciona el octavo elemento (índice 7)\n    .scrollIntoView() // Asegura que el elemento esté dentro del viewport\n    .click(); // Hace clic en el elemento seleccionado\n    cy.wait(100).tab(); // Espera 100ms antes de pasar a la siguiente acción (tabulación)\n    // Sexo\n    cy.get('#ddl_sexo', {\n      timeout: 2000\n    }) // Espera hasta 2 segundos para que el campo esté disponible\n    .should('exist') // Asegura que el campo esté presente en el DOM\n    .should('be.visible') // Asegura que el campo sea visible\n    .click(); // Realiza el clic si el campo es visible e interactuable\n    cy.get('#ddl_sexo_list .ant-select-item-option', {\n      timeout: 2000\n    }) // Espera hasta que los elementos de la lista estén disponibles\n    .should('be.visible') // Asegura que los elementos sean visibles\n    .eq(0) // Selecciona el primer elemento (índice 0)\n    .scrollIntoView() // Asegura que el elemento esté en el viewport\n    .click(); // Hace clic en el elemento seleccionado\n    cy.wait(100).tab(); // Espera 100ms antes de pasar a la siguiente acción (tabulación)\n    // Idioma                      \n    cy.get('#ddl_idioma', {\n      timeout: 2000\n    }) // Espera hasta 2 segundos para que el campo esté disponible\n    .should('exist') // Asegura que el campo esté presente en el DOM\n    .should('be.visible') // Asegura que el campo sea visible\n    .click(); // Realiza el clic si el campo es visible e interactuable\n    cy.get('#ddl_idioma_list .ant-select-item-option', {\n      timeout: 2000\n    }) // Espera hasta que los elementos de la lista estén disponibles\n    .should('be.visible') // Asegura que los elementos sean visibles\n    .eq(0) // Selecciona el primer elemento (índice 0)\n    .scrollIntoView() // Asegura que el elemento esté dentro del viewport\n    .click(); // Hace clic en el primer elemento\n    cy.wait(100).tab();\n    // Sangre\n    cy.get('#ddl_grupo_sanguineo', {\n      timeout: 2000\n    }) // Espera hasta 2 segundos para que el campo esté disponible\n    .should('exist') // Asegura que el campo esté presente en el DOM\n    .should('be.visible') // Asegura que el campo sea visible\n    .click(); // Realiza el clic si el campo es visible e interactuable\n    cy.get('#ddl_grupo_sanguineo_list .ant-select-item-option', {\n      timeout: 2000\n    }) // Espera hasta que los elementos de la lista estén disponibles\n    .should('be.visible') // Asegura que los elementos sean visibles\n    .eq(6) // Selecciona el séptimo elemento (índice 6)\n    .scrollIntoView() // Asegura que el elemento esté dentro del viewport\n    .click(); // Hace clic en el elemento seleccionado\n    cy.wait(100).tab();\n    cy.wait(100).tab();\n    cy.contains('span.ant-breadcrumb-link', 'Listado y búsqueda de usuarios').scrollIntoView() // Lleva el elemento al viewport\n    .should('be.visible');\n    cy.get('#ddl_tipo_paciente', {\n      timeout: 2000\n    }) // Selecciona el campo de búsqueda\n    .click({\n      force: true\n    }); // Forza el clic si es necesario\n    cy.wait(500);\n    cy.get('#ddl_tipo_paciente_list .ant-select-item-option') // Selecciona los elementos de la lista\n    .eq(0) // Toma el elemento 10\n    .click(); // Hace clic en el primer elemento\n    cy.wait(100).tab();\n    cy.get('#btn_paciente_asegurado_false', {\n      timeout: 2000\n    }).click().should('be.checked');\n    cy.wait(100).tab();\n    cy.get('#btn_siguiente', {\n      timeout: 2000\n    }) // Espera hasta 2 segundos para que el botón esté disponible\n    .should('exist') // Asegura que el botón esté presente en el DOM\n    .scrollIntoView() // Asegura que el botón esté visible en el viewport\n    .should('be.visible') // Asegura que el botón sea visible\n    .click();\n    cy.get('#input_provincia') // Selecciona el campo de búsqueda\n    .click({\n      force: true\n    }); // Forza el clic si es necesario\n    cy.wait(500);\n    cy.get('#input_provincia_list .ant-select-item-option') // Selecciona los elementos de la lista\n    .eq(1) // Toma el elemento 10\n    .click(); // Hace clic en el primer elemento\n    cy.wait(100).tab();\n    cy.get('#input_distrito') // Selecciona el campo de búsqueda\n    .click({\n      force: true\n    }); // Forza el clic si es necesario\n    cy.wait(500);\n    cy.get('#input_distrito_list .ant-select-item-option') // Selecciona los elementos de la lista\n    .eq(0) // Toma el elemento 10\n    .click(); // Hace clic en el primer elemento\n    cy.wait(100).tab();\n    cy.get('#input_corregimiento') // Selecciona el campo de búsqueda\n    .click({\n      force: true\n    }); // Forza el clic si es necesario\n    cy.wait(500);\n    cy.get('#input_corregimiento_list .ant-select-item-option') // Selecciona los elementos de la lista\n    .eq(0) // Toma el elemento 10\n    .click(); // Hace clic en el primer elemento\n    cy.wait(100).tab();\n    cy.get('#input_barrio') // Selecciona el campo de búsqueda\n    .click({\n      force: true\n    }); // Forza el clic si es necesario\n    cy.wait(500);\n    cy.get('#input_barrio_list .ant-select-item-option') // Selecciona los elementos de la lista\n    .eq(0) // Toma el elemento 10\n    .click(); // Hace clic en el primer elemento\n    cy.wait(100).tab();\n    cy.get(\"#btn_siguiente\").should('be.visible').click();\n    cy.wait(2000).tab();\n    cy.get(\"#btn_siguiente\").should('be.visible').click();\n    cy.wait(1000).tab();\n    cy.wait(100).tab();\n    cy.wait(100).tab();\n    cy.wait(2000).tab();\n    //Crear Profesional de la Salud-------------------------------------------------------------------------------------------------\n    cy.wait(100).tab();\n    cy.get(\"#btn_menu_desplegable\").should('be.visible').click();\n    cy.wait(1000);\n    cy.get(\"#spn_modulo_medical_records_listar_profesional_salud\").should('be.visible').click();\n    cy.wait(1000);\n    cy.get(\"#btn_menu_desplegable\").should('be.visible').click();\n    cy.wait(1000);\n    cy.wait(100).tab();\n    cy.wait(100).tab();\n    cy.get(\"#btn_crear_profesional_de_la_salud\").should('be.visible').click();\n    cy.wait(100).tab();\n    cy.wait(100).tab();\n    cy.wait(100).tab();\n    cy.wait(100).tab();\n    cy.get('#ddl_tipo_identificacion') // Selecciona el campo de búsqueda\n    .click({\n      force: true\n    }); // Forza el clic si es necesario\n    cy.wait(500);\n    cy.get('#ddl_tipo_identificacion_list .ant-select-item-option') // Selecciona los elementos de la lista\n    .first() // Toma el primer elemento\n    .click(); // Hace clic en el primer elemento\n    cy.wait(100).tab();\n    // Ingresar DNI\n    cy.get('#txt_tipo_identificacion', {\n      timeout: 1000\n    }).should('exist').should('be.visible').type(DNI).click();\n    cy.get(\"#btn_validar\").should('be.visible').click();\n    cy.wait(1000);\n    cy.get('#input_numero_empleado', {\n      timeout: 1000\n    }).should('exist').should('be.visible').type(DNI).click();\n    cy.get('#input_numero_seguro_social', {\n      timeout: 1000\n    }).should('exist').should('be.visible').type(DNI).click();\n    cy.get('#input_cargo_ocupado', {\n      timeout: 1000\n    }).should('exist').should('be.visible').type(DNI).click();\n    cy.wait(100).tab();\n    //correo\n    const CORREO = datosExcel[i][5]; // Primer fila, segunda columna\n    cy.get('#input_correo_electronico_institucional', {\n      timeout: 1000\n    }).should('exist').should('be.visible').type(CORREO).click();\n    cy.wait(500).tab();\n    cy.wait(500);\n    //turno\n    cy.get('#ddl_turno') // Selecciona el campo de búsqueda\n    .click({\n      force: true\n    }); // Forza el clic si es necesario\n    cy.wait(500);\n    cy.get('#ddl_turno_list .ant-select-item-option') // Selecciona los elementos de la lista\n    .eq(2) // Toma el elemento 10\n    .click(); // Hace clic en el primer elemento\n    cy.wait(100).tab();\n    //Horario\n    cy.get('#input_horario_turno', {\n      timeout: 1000\n    }).should('exist').should('be.visible').type('12:00 AM').click();\n    cy.wait(100).tab();\n    cy.get('#input_horario_turno_fin', {\n      timeout: 1000\n    }).should('exist').should('be.visible').type('12:00 AM').click();\n    cy.wait(100).tab();\n    cy.get(\"#btn_siguiente\").should('be.visible').click();\n    cy.wait(1000);\n    cy.wait(100).tab();\n    cy.get('#ddl_seleccionar_profesion') // Selecciona el campo de búsqueda\n    .click({\n      force: true\n    }); // Forza el clic si es necesario\n    cy.wait(500);\n    cy.get('#ddl_seleccionar_profesion_list .ant-select-item-option') // Selecciona los elementos de la lista\n    .eq(0) // Toma el elemento 10\n    .click(); // Hace clic en el primer elemento\n    cy.wait(100).tab();\n    cy.get('#input_numero_registro', {\n      timeout: 1000\n    }).should('exist').should('be.visible').type(DNI).click();\n    cy.wait(100).tab();\n    cy.get(\"#btn_agregar_profesion\").should('be.visible').click();\n    cy.wait(1000);\n    cy.wait(100).tab();\n    cy.wait(100).tab();\n    cy.wait(100).tab();\n    cy.wait(100).tab();\n    cy.wait(100).tab();\n    cy.wait(100).tab();\n    cy.wait(100).tab();\n    cy.get(\"#btn_siguiente\").should('be.visible').click();\n    cy.wait(2000);\n    //Unidad Ejecutora////////////////////\n    // Usar los datos del Excel\n    // Provincia\n    cy.get('#ddl_provincia').scrollIntoView().should('be.visible');\n    const PROVINCIA = datosExcel[i][6]; // Primer fila, primera columna (usando índices 0 basados)     \n    cy.get('#ddl_provincia', {\n      timeout: 1000\n    }).should('exist').should('be.visible').type(PROVINCIA).type('{enter}');\n    // Usar los datos del Excel\n    // Unidad Ejecutora\n    cy.get('#ddl_unidad_ejecutora').scrollIntoView().should('be.visible');\n    const UNIDADE = datosExcel[i][7]; // Primer fila, primera columna (usando índices 0 basados)     \n    cy.get('#ddl_unidad_ejecutora', {\n      timeout: 1000\n    }).should('exist').should('be.visible').type(UNIDADE).type('{enter}');\n    cy.get(\"#btn_agregar_unidad_ejecutora\").should('be.visible').click();\n    cy.wait(1000);\n    cy.wait(100).tab();\n    cy.wait(100).tab();\n    cy.wait(100).tab();\n    cy.wait(100).tab();\n    cy.wait(100).tab();\n    cy.get('#btn_siguiente', {\n      timeout: 5000\n    }) // Espera hasta 5 segundos\n    .should('exist') // Asegura que el botón esté en el DOM\n    .scrollIntoView() // Asegura que el botón esté dentro del área visible\n    .should('be.visible') // Asegura que el botón sea visible\n    .click();\n    cy.wait(1000);\n    cy.wait(100).tab();\n    // Incrementar el contador\n    contador++;\n    // Mostrar en la consola el contador y el DNI\n    cy.log(`Contador: ${contador}, DNI: ${DNI}`);\n  }\n});\ncy.wait(1000);\nconsole.log('¡Prueba exitosa!');\ncy.log('¡Prueba exitosa!');",
+              "err": {
+                "message": "Error: CypressError: Timed out retrying after 4000ms: `cy.type()` failed because this element is `disabled`:\n\n`<input autocomplete=\"off\" type=\"\" name=\"primerNombre\" id=\"input_primer_nombre\" disabled=\"\" class=\"ant-input ant-input-disabled ant-input-lg css-1rqnfsa ant-input-outlined ant-input-compact-item ant-input-compact-first-item ant-input-compact-last-item\" value=\"\" style=\"border-radius: 6px;\">`\n\nFix this problem, or use `{force: true}` to disable error checking.\n\nhttps://on.cypress.io/element-cannot-be-interacted-with",
+                "estack": "Error: CypressError: Timed out retrying after 4000ms: `cy.type()` failed because this element is `disabled`:\n\n`<input autocomplete=\"off\" type=\"\" name=\"primerNombre\" id=\"input_primer_nombre\" disabled=\"\" class=\"ant-input ant-input-disabled ant-input-lg css-1rqnfsa ant-input-outlined ant-input-compact-item ant-input-compact-first-item ant-input-compact-last-item\" value=\"\" style=\"border-radius: 6px;\">`\n\nFix this problem, or use `{force: true}` to disable error checking.\n\nhttps://on.cypress.io/element-cannot-be-interacted-with",
+                "diff": null
+              },
+              "uuid": "0b7433fe-82b1-4f7d-820a-ff4f1287d6ea",
+              "parentUUID": "16460a77-6323-451d-89ba-ea8ebf5ea89c",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [],
+          "failures": [
+            "0b7433fe-82b1-4f7d-820a-ff4f1287d6ea"
+          ],
+          "pending": [],
+          "skipped": [],
+          "duration": 33903,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    },
+    {
+      "uuid": "1128229e-d666-49e8-bcda-d1fc05fa29bc",
+      "title": "",
+      "fullFile": "cypress\\e2e\\Configuración de agendas de citas.cy.js",
+      "file": "cypress\\e2e\\Configuración de agendas de citas.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "420c7708-6e3a-4be7-87f1-84764557e58b",
+          "title": "Configuración de agendas de citas",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "debería iniciar sesión con éxito",
+              "fullTitle": "Configuración de agendas de citas debería iniciar sesión con éxito",
+              "timedOut": null,
+              "duration": 34205,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": null,
+              "code": "// Llama a la función login \ncy.login_SDA();\n// Verifica que el login haya sido exitoso\ncy.url().should('not.include', '/login');\ncy.wait(1000);\ncy.get('#div_nombre_usuario', {\n  timeout: 10000\n}).should('be.visible').click();\ncy.get('#div_menu_cambiar_cuenta', {\n  timeout: 10000\n}).should('be.visible').click();\ncy.get('#div_seleccionar_rol_supervisor_de_tramites_y_citas', {\n  timeout: 10000\n}).should('be.visible').click();\ncy.wait(1000);\ncy.get(\"#btn_menu_desplegable\").should('be.visible').click();\ncy.wait(1000);\ncy.get(\"#spn_modulo_unidades_ejecutoras_agendas\").should('be.visible').click();\ncy.wait(1000);\ncy.get(\"#btn_menu_desplegable\").should('be.visible').click();\ncy.wait(2000);\ncy.wait(100).tab();\ncy.wait(100).tab();\ncy.get('#select_Agendas_Servicio', {\n  timeout: 1000\n}).should('exist').should('be.visible').type('Medicina general').type('{enter}');\ncy.get('#select_Agendas_Especialidad', {\n  timeout: 1000\n}).should('exist').should('be.visible').type('Medicina general').type('{enter}');\ncy.get('#select_Agendas_Personal_Salud') // Selecciona el campo de búsqueda\n.click({\n  force: true\n}); // Forza el clic si es necesario\ncy.wait(500);\ncy.xpath('//*[@id=\"select_Agendas_Personal_Salud_list_0\"]').should('be.visible');\n// Si quieres interactuar con el elemento, puedes agregarlo así:\ncy.xpath('//*[@id=\"select_Agendas_Personal_Salud_list_0\"]').click();\ncy.get(\"#btn_Agendas_Crear_Agenda\").should('be.visible').click();\ncy.wait(1000);\ncy.xpath('//*[@id=\"date_picker_Creando_Agenda_Fecha_Inicio\"]').click();\ncy.contains('a', 'Hoy').click();\ncy.get('body').tab();\ncy.wait(100).tab();\ncy.wait(100).tab();\ncy.wait(100).tab();\ncy.wait(100).tab();\ncy.get('#ddl_Creando_Agenda_Atencion_Semanal', {\n  timeout: 1000\n}).should('exist').should('be.visible').type('Lunes').type('{enter}');\ncy.wait(100).tab();\ncy.get('#ddl_Creando_Agenda_Consultorio_Lunes') // Selecciona el campo de búsqueda\n.click({\n  force: true\n}); // Forza el clic si es necesario\ncy.wait(500);\ncy.get('#ddl_Creando_Agenda_Consultorio_Lunes_list .ant-select-item-option') // Selecciona los elementos de la lista\n.eq(0) // Toma el elemento 10\n.click(); // Hace clic en el primer elemento\ncy.wait(100).tab();\ncy.get('#time_picker_Creando_Agenda_Horario_Lunes', {\n  timeout: 1000\n}).should('exist').should('be.visible').type('12:00 PM');\ncy.wait(100).tab().type('1:00 PM').type('{enter}');\ncy.wait(100).tab();\ncy.get(\"#btn_Creando_Agenda_Agregar_Cita\").should('be.visible').click();\ncy.wait(1000);\ncy.get('#ddl_Creando_Agenda_Tipo_Cita_0', {\n  timeout: 1000\n}).should('exist').should('be.visible').type('Nuevo').type('{enter}');\ncy.wait(100).tab();\ncy.get('#ddl_Creando_Agenda_Equivalencia_0', {\n  timeout: 1000\n}).should('exist').should('be.visible').type('60 min').type('{enter}');\ncy.wait(100).tab();\ncy.get('#ddl_Creando_Agenda_Numero_Citas_0', {\n  timeout: 1000\n}).should('exist').should('be.visible').type('1 citas').type('{enter}');\ncy.wait(100).tab();\ncy.get('#btn_Creando_Agenda_Crear').scrollIntoView().should('be.visible').click();\ncy.wait(1000);\ncy.contains('button', 'Siguiente') // Busca el botón que contiene el texto 'Siguiente'\n.click();\ncy.wait(1000);\ncy.contains('button', 'Finalizar') // Busca el botón que contiene el texto 'Finalizar'\n.click();",
+              "err": {
+                "message": "Error: AssertionError: Timed out retrying after 4000ms: Expected to find element: `#btn_Creando_Agenda_Agregar_Cita`, but never found it.",
+                "estack": "Error: AssertionError: Timed out retrying after 4000ms: Expected to find element: `#btn_Creando_Agenda_Agregar_Cita`, but never found it.",
+                "diff": null
+              },
+              "uuid": "bac15717-304c-4caf-bd68-8620e8ac8cce",
+              "parentUUID": "420c7708-6e3a-4be7-87f1-84764557e58b",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [],
+          "failures": [
+            "bac15717-304c-4caf-bd68-8620e8ac8cce"
+          ],
+          "pending": [],
+          "skipped": [],
+          "duration": 34205,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    },
+    {
+      "uuid": "55c8b6ac-c4df-42c3-98d5-d1a87b4e3535",
+      "title": "",
+      "fullFile": "cypress\\e2e\\Asignación de citas-Generar cita NUEVO diaria horario PM.cy.js",
+      "file": "cypress\\e2e\\Asignación de citas-Generar cita NUEVO diaria horario PM.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "3cc583ac-b340-4932-9ca4-50e3b1d2983b",
+          "title": "Generar cita diaria de tipo Nuevo en horario PM",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "debería iniciar sesión con éxito",
+              "fullTitle": "Generar cita diaria de tipo Nuevo en horario PM debería iniciar sesión con éxito",
+              "timedOut": null,
+              "duration": 48442,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": null,
+              "code": "// Llama a la función login \ncy.login_SDA();\n// Verifica que el login haya sido exitoso\ncy.url().should('not.include', '/login');\ncy.wait(1000);\ncy.get('#div_nombre_usuario', {\n  timeout: 10000\n}).should('be.visible').click();\ncy.get('#div_menu_cambiar_cuenta', {\n  timeout: 10000\n}).should('be.visible').click();\ncy.get('#div_seleccionar_rol_supervisor_de_tramites_y_citas', {\n  timeout: 10000\n}).should('be.visible').click();\ncy.wait(1000);\ncy.get(\"#btn_menu_desplegable\").should('be.visible').click();\ncy.wait(1000);\ncy.get(\"#spn_modulo_unidades_ejecutoras_asignaciondecitas\").should('be.visible').click();\ncy.wait(1000);\ncy.get(\"#spn_submodulo_unidades_ejecutoras_citas\").should('be.visible').click();\ncy.wait(1000);\ncy.get(\"#btn_menu_desplegable\").should('be.visible').click();\ncy.wait(1000);\ncy.wait(100).tab();\ncy.wait(100).tab();\n//------------------------------------------------\nlet contador = 0;\nconst rutaArchivoExcel = 'cypress/fixtures/agenda.xlsx';\n// Leer los datos del archivo Excel\ncy.leerExcel(rutaArchivoExcel).then(datosExcel => {\n  // Mostrar los datos leídos\n  console.log(datosExcel);\n  // Recorrer los datos del archivo Excel\n  for (let i = 1; i < datosExcel.length; i++) {\n    // Comenzamos desde 1 para saltarnos la fila de encabezados\n    // Tomar el valor de la primera columna (DNI)\n    // Usar los datos del Excel\n    // Ingresar DNI\n    const DNI = datosExcel[i][0]; // Primer fila, primera columna (usando índices 0 basados)\n    if (DNI && DNI.trim() !== '') {\n      // Si el DNI es válido, proceder con la acción\n      cy.window().then(win => {\n        win.alert('El DNI es correcto');\n      });\n    } else {\n      // Si el DNI está vacío o no es válido, lanzar una alerta\n      cy.window().then(win => {\n        win.alert('Prueba exitosa');\n        cy.log('Prueba Finalizada: correctamente');\n        cy.pause();\n      });\n    }\n    cy.get('#validateDNI_dni', {\n      timeout: 2000\n    }).should('exist').should('be.visible').type(DNI).type('{enter}');\n    cy.get('#province').scrollIntoView().should('be.visible');\n    const PROVINCIA = datosExcel[i][1]; // Primer fila, primera columna (usando índices 0 basados)     \n    cy.get('#province', {\n      timeout: 2000\n    }).should('exist').should('be.visible').type(PROVINCIA).type('{enter}');\n    cy.get('input[type=\"radio\"][value=\"No\"]') // Selecciona el radio button con el valor \"No\"\n    .check();\n    // Usar los datos del Excel\n    // Unidad Ejecutora\n    cy.get('#executingUnit').scrollIntoView().should('be.visible');\n    const UNIDADE = datosExcel[i][2]; // Primer fila, primera columna (usando índices 0 basados)     \n    cy.get('#executingUnit', {\n      timeout: 2000\n    }).should('exist').should('be.visible').type(UNIDADE).type('{enter}');\n    cy.get('#requiredService') // Selecciona el elemento\n    .scrollIntoView() // Desplázate hacia el elemento para hacerlo visible\n    .should('be.visible') // Asegúrate de que el elemento sea visible\n    .type('Medicina general').type('{enter}');\n    cy.get('#select_Crear_Cita_Formulario_Modelo_Agenda') // Selecciona el elemento\n    .scrollIntoView() // Desplázate hacia el elemento para hacerlo visible\n    .should('be.visible') // Asegúrate de que el elemento sea visible\n    .type('Personalizado').type('{enter}');\n    cy.get('input[type=\"radio\"][value=\"NUEVO\"]') // Selecciona el radio button con el valor \"NUEVO\"\n    .check();\n    cy.get('input[type=\"radio\"][value=\"PM\"]') // Selecciona el radio button con el valor \"PM\"\n    .check();\n    cy.get('div.ant-card.ant-card-bordered.overrideCardBody').should('be.visible');\n    cy.contains('span.ant-typography', 'Fecha de la cita', {\n      timeout: 10000\n    }) // 10 segundos\n    .should('be.visible');\n    cy.contains('button', 'Asignar cita', {\n      timeout: 10000\n    }).should('not.be.disabled').click();\n    contador++;\n    // Mostrar en la consola el contador y el DNI\n    cy.log(`Contador: ${contador}, DNI: ${DNI}`);\n  }\n});",
+              "err": {
+                "message": "Error: AssertionError: Timed out retrying after 10000ms: Expected to find content: 'Fecha de la cita' within the selector: 'span.ant-typography' but never did.",
+                "estack": "Error: AssertionError: Timed out retrying after 10000ms: Expected to find content: 'Fecha de la cita' within the selector: 'span.ant-typography' but never did.",
+                "diff": null
+              },
+              "uuid": "f91f9480-0fb5-417e-a9b9-fd49ff18545a",
+              "parentUUID": "3cc583ac-b340-4932-9ca4-50e3b1d2983b",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [],
+          "failures": [
+            "f91f9480-0fb5-417e-a9b9-fd49ff18545a"
+          ],
+          "pending": [],
+          "skipped": [],
+          "duration": 48442,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    },
+    {
+      "uuid": "e0077b9e-472b-47c5-a977-6da0fe746e7b",
+      "title": "",
+      "fullFile": "cypress\\e2e\\Asignación de citas-Generar cita NUEVO diaria horario AM.cy.js",
+      "file": "cypress\\e2e\\Asignación de citas-Generar cita NUEVO diaria horario AM.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "4656e1e1-d64f-4fc7-a622-d70b605e9737",
+          "title": "Generar cita diaria de tipo Nuevo en horario AM",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "debería iniciar sesión con éxito",
+              "fullTitle": "Generar cita diaria de tipo Nuevo en horario AM debería iniciar sesión con éxito",
+              "timedOut": null,
+              "duration": 46075,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": null,
+              "code": "// Llama a la función login \ncy.login_SDA();\n// Verifica que el login haya sido exitoso\ncy.url().should('not.include', '/login');\ncy.wait(1000);\ncy.get('#div_nombre_usuario', {\n  timeout: 10000\n}).should('be.visible').click();\ncy.get('#div_menu_cambiar_cuenta', {\n  timeout: 10000\n}).should('be.visible').click();\ncy.get('#div_seleccionar_rol_supervisor_de_tramites_y_citas', {\n  timeout: 10000\n}).should('be.visible').click();\ncy.wait(1000);\ncy.get(\"#btn_menu_desplegable\").should('be.visible').click();\ncy.wait(1000);\ncy.get(\"#spn_modulo_unidades_ejecutoras_asignaciondecitas\").should('be.visible').click();\ncy.wait(1000);\ncy.get(\"#spn_submodulo_unidades_ejecutoras_citas\").should('be.visible').click();\ncy.wait(1000);\ncy.get(\"#btn_menu_desplegable\").should('be.visible').click();\ncy.wait(1000);\ncy.wait(100).tab();\ncy.wait(100).tab();\n//------------------------------------------------\nlet contador = 0;\nconst rutaArchivoExcel = 'cypress/fixtures/agenda.xlsx';\n// Leer los datos del archivo Excel\ncy.leerExcel(rutaArchivoExcel).then(datosExcel => {\n  // Mostrar los datos leídos\n  console.log(datosExcel);\n  // Recorrer los datos del archivo Excel\n  for (let i = 1; i < datosExcel.length; i++) {\n    // Comenzamos desde 1 para saltarnos la fila de encabezados\n    // Tomar el valor de la primera columna (DNI)\n    // Usar los datos del Excel\n    // Ingresar DNI\n    const DNI = datosExcel[i][0]; // Primer fila, primera columna (usando índices 0 basados)\n    if (DNI && DNI.trim() !== '') {\n      // Si el DNI es válido, proceder con la acción\n      cy.window().then(win => {\n        win.alert('El DNI es correcto');\n      });\n    } else {\n      // Si el DNI está vacío o no es válido, lanzar una alerta\n      cy.window().then(win => {\n        win.alert('Prueba exitosa');\n        cy.log('Prueba Finalizada: correctamente');\n        cy.pause();\n      });\n    }\n    cy.get('#validateDNI_dni', {\n      timeout: 1000\n    }).should('exist').should('be.visible').type(DNI).type('{enter}');\n    cy.get('#province').scrollIntoView().should('be.visible');\n    const PROVINCIA = datosExcel[i][1]; // Primer fila, primera columna (usando índices 0 basados)     \n    cy.get('#province', {\n      timeout: 1000\n    }).should('exist').should('be.visible').type(PROVINCIA).type('{enter}');\n    cy.get('input[type=\"radio\"][value=\"No\"]') // Selecciona el radio button con el valor \"No\"\n    .check();\n    // Usar los datos del Excel\n    // Unidad Ejecutora\n    cy.get('#executingUnit').scrollIntoView().should('be.visible');\n    const UNIDADE = datosExcel[i][2]; // Primer fila, primera columna (usando índices 0 basados)     \n    cy.get('#executingUnit', {\n      timeout: 1000\n    }).should('exist').should('be.visible').type(UNIDADE).type('{enter}');\n    cy.get('#requiredService') // Selecciona el elemento\n    .scrollIntoView() // Desplázate hacia el elemento para hacerlo visible\n    .should('be.visible') // Asegúrate de que el elemento sea visible\n    .type('Medicina general').type('{enter}');\n    cy.get('#select_Crear_Cita_Formulario_Modelo_Agenda') // Selecciona el elemento\n    .scrollIntoView() // Desplázate hacia el elemento para hacerlo visible\n    .should('be.visible') // Asegúrate de que el elemento sea visible\n    .type('Personalizado').type('{enter}');\n    cy.get('input[type=\"radio\"][value=\"NUEVO\"]') // Selecciona el radio button con el valor \"NUEVO\"\n    .check();\n    cy.get('input[type=\"radio\"][value=\"AM\"]') // Selecciona el radio button con el valor \"NUEVO\"\n    .check();\n    cy.pause();\n    cy.get('div.ant-card.ant-card-bordered.overrideCardBody').should('be.visible');\n    cy.contains('span.ant-typography', 'Fecha de la cita', {\n      timeout: 10000\n    }) // 10 segundos\n    .should('be.visible');\n    cy.contains('button', 'Asignar cita', {\n      timeout: 10000\n    }).should('not.be.disabled').click();\n    cy.pause();\n    contador++;\n    // Mostrar en la consola el contador y el DNI\n    cy.log(`Contador: ${contador}, DNI: ${DNI}`);\n  }\n});",
+              "err": {
+                "message": "Error: AssertionError: Timed out retrying after 10000ms: Expected to find content: 'Fecha de la cita' within the selector: 'span.ant-typography' but never did.",
+                "estack": "Error: AssertionError: Timed out retrying after 10000ms: Expected to find content: 'Fecha de la cita' within the selector: 'span.ant-typography' but never did.",
+                "diff": null
+              },
+              "uuid": "fc40ce3c-27d9-4d01-9718-1d1c4645e741",
+              "parentUUID": "4656e1e1-d64f-4fc7-a622-d70b605e9737",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [],
+          "failures": [
+            "fc40ce3c-27d9-4d01-9718-1d1c4645e741"
+          ],
+          "pending": [],
+          "skipped": [],
+          "duration": 46075,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    },
+    {
+      "uuid": "45ef5916-e08b-4759-9f12-cb5c51a974d2",
+      "title": "",
+      "fullFile": "cypress\\e2e\\Asignación de citas-Generar cita CONTROL diaria horario PM.cy.js",
+      "file": "cypress\\e2e\\Asignación de citas-Generar cita CONTROL diaria horario PM.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "980683fc-df88-43a5-ab32-e4555f66ab9d",
+          "title": "Generar cita diaria de tipo Nuevo en horario PM",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "debería iniciar sesión con éxito",
+              "fullTitle": "Generar cita diaria de tipo Nuevo en horario PM debería iniciar sesión con éxito",
+              "timedOut": null,
+              "duration": 44549,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": null,
+              "code": "// Llama a la función login \ncy.login_SDA();\n// Verifica que el login haya sido exitoso\ncy.url().should('not.include', '/login');\ncy.wait(1000);\ncy.get('#div_nombre_usuario', {\n  timeout: 10000\n}).should('be.visible').click();\ncy.get('#div_menu_cambiar_cuenta', {\n  timeout: 10000\n}).should('be.visible').click();\ncy.get('#div_seleccionar_rol_supervisor_de_tramites_y_citas', {\n  timeout: 10000\n}).should('be.visible').click();\ncy.wait(1000);\ncy.get(\"#btn_menu_desplegable\").should('be.visible').click();\ncy.wait(1000);\ncy.get(\"#spn_modulo_unidades_ejecutoras_asignaciondecitas\").should('be.visible').click();\ncy.wait(1000);\ncy.get(\"#spn_submodulo_unidades_ejecutoras_citas\").should('be.visible').click();\ncy.wait(1000);\ncy.get(\"#btn_menu_desplegable\").should('be.visible').click();\ncy.wait(1000);\ncy.wait(100).tab();\ncy.wait(100).tab();\n//------------------------------------------------\nlet contador = 0;\nconst rutaArchivoExcel = 'cypress/fixtures/agenda.xlsx';\n// Leer los datos del archivo Excel\ncy.leerExcel(rutaArchivoExcel).then(datosExcel => {\n  // Mostrar los datos leídos\n  console.log(datosExcel);\n  // Recorrer los datos del archivo Excel\n  for (let i = 1; i < datosExcel.length; i++) {\n    // Comenzamos desde 1 para saltarnos la fila de encabezados\n    // Tomar el valor de la primera columna (DNI)\n    // Usar los datos del Excel\n    // Ingresar DNI\n    const DNI = datosExcel[i][0]; // Primer fila, primera columna (usando índices 0 basados)\n    if (DNI && DNI.trim() !== '') {\n      // Si el DNI es válido, proceder con la acción\n      cy.window().then(win => {\n        win.alert('El DNI es correcto');\n      });\n    } else {\n      // Si el DNI está vacío o no es válido, lanzar una alerta\n      cy.window().then(win => {\n        win.alert('Prueba exitosa');\n        cy.log('Prueba Finalizada: correctamente');\n        cy.pause();\n      });\n    }\n    cy.get('#validateDNI_dni', {\n      timeout: 2000\n    }).should('exist').should('be.visible').type(DNI).type('{enter}');\n    cy.get('#province').scrollIntoView().should('be.visible');\n    const PROVINCIA = datosExcel[i][1]; // Primer fila, primera columna (usando índices 0 basados)     \n    cy.get('#province', {\n      timeout: 2000\n    }).should('exist').should('be.visible').type(PROVINCIA).type('{enter}');\n    cy.get('input[type=\"radio\"][value=\"No\"]') // Selecciona el radio button con el valor \"No\"\n    .check();\n    // Usar los datos del Excel\n    // Unidad Ejecutora\n    cy.get('#executingUnit').scrollIntoView().should('be.visible');\n    const UNIDADE = datosExcel[i][2]; // Primer fila, primera columna (usando índices 0 basados)     \n    cy.get('#executingUnit', {\n      timeout: 2000\n    }).should('exist').should('be.visible').type(UNIDADE).type('{enter}');\n    cy.get('#requiredService') // Selecciona el elemento\n    .scrollIntoView() // Desplázate hacia el elemento para hacerlo visible\n    .should('be.visible') // Asegúrate de que el elemento sea visible\n    .type('Medicina general').type('{enter}');\n    cy.get('#select_Crear_Cita_Formulario_Modelo_Agenda') // Selecciona el elemento\n    .scrollIntoView() // Desplázate hacia el elemento para hacerlo visible\n    .should('be.visible') // Asegúrate de que el elemento sea visible\n    .type('Personalizado').type('{enter}');\n    cy.get('input[type=\"radio\"][value=\"CONTROL\"]') // Selecciona el radio button con el valor \"NUEVO\"\n    .check();\n    cy.xpath('//*[@id=\"dtp_Crear_Cita_Formulario_Fecha_Control\"]').click();\n    cy.contains('a', 'Hoy').click();\n    cy.get('body').tab();\n    cy.wait(100).tab();\n    cy.wait(100).tab();\n    cy.wait(100).tab();\n    cy.wait(100).tab();\n    cy.wait(100).tab();\n    cy.wait(100).tab();\n    cy.wait(100).tab();\n    cy.get('#select_Crear_Cita_Formulario_Personal_Salud').scrollIntoView().should('be.visible').click();\n    cy.get('#select_Crear_Cita_Formulario_Personal_Salud') // Selecciona el campo de búsqueda\n    .click({\n      force: true\n    }); // Forza el clic si es necesario\n    cy.wait(500);\n    cy.get('#select_Crear_Cita_Formulario_Personal_Salud_list .ant-select-item-option') // Selecciona los elementos de la lista\n    .eq(0) // Toma el elemento 10\n    .click(); // Hace clic en el primer elemento\n    cy.get('input[type=\"radio\"][value=\"PM\"]') // Selecciona el radio button con el valor \"PM\"\n    .check();\n    contador++;\n    // Mostrar en la consola el contador y el DNI\n    cy.log(`Contador: ${contador}, DNI: ${DNI}`);\n  }\n});",
+              "err": {
+                "message": "Error: AssertionError: Timed out retrying after 2000ms: expected '<input#validateDNI_dni.ant-input.css-1uweeqc.ant-input-outlined.ant-input-status-success>' to be 'visible'\n\nThis element `<input#validateDNI_dni.ant-input.css-1uweeqc.ant-input-outlined.ant-input-status-success>` is not visible because its content is being clipped by one of its parent elements, which has a CSS property of overflow: `hidden`, `scroll` or `auto`",
+                "estack": "Error: AssertionError: Timed out retrying after 2000ms: expected '<input#validateDNI_dni.ant-input.css-1uweeqc.ant-input-outlined.ant-input-status-success>' to be 'visible'\n\nThis element `<input#validateDNI_dni.ant-input.css-1uweeqc.ant-input-outlined.ant-input-status-success>` is not visible because its content is being clipped by one of its parent elements, which has a CSS property of overflow: `hidden`, `scroll` or `auto`",
+                "diff": null
+              },
+              "uuid": "c3aea387-971a-4353-95fb-82a91d98b55a",
+              "parentUUID": "980683fc-df88-43a5-ab32-e4555f66ab9d",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [],
+          "failures": [
+            "c3aea387-971a-4353-95fb-82a91d98b55a"
+          ],
+          "pending": [],
+          "skipped": [],
+          "duration": 44549,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    },
+    {
+      "uuid": "5ff1ebf1-acf9-4589-9c68-ce2c5d27ddb1",
+      "title": "",
+      "fullFile": "cypress\\e2e\\Asignación de citas-Generar cita CONTROL diaria horario AM.cy.js",
+      "file": "cypress\\e2e\\Asignación de citas-Generar cita CONTROL diaria horario AM.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "c44d6fd9-9ebf-4e26-89de-b11548bc6530",
+          "title": "Generar cita diaria de tipo Nuevo en horario AM",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "debería iniciar sesión con éxito",
+              "fullTitle": "Generar cita diaria de tipo Nuevo en horario AM debería iniciar sesión con éxito",
+              "timedOut": null,
+              "duration": 45315,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": null,
+              "code": "// Llama a la función login \ncy.login_SDA();\n// Verifica que el login haya sido exitoso\ncy.url().should('not.include', '/login');\ncy.wait(1000);\ncy.get('#div_nombre_usuario', {\n  timeout: 10000\n}).should('be.visible').click();\ncy.get('#div_menu_cambiar_cuenta', {\n  timeout: 10000\n}).should('be.visible').click();\ncy.get('#div_seleccionar_rol_supervisor_de_tramites_y_citas', {\n  timeout: 10000\n}).should('be.visible').click();\ncy.wait(1000);\ncy.get(\"#btn_menu_desplegable\").should('be.visible').click();\ncy.wait(1000);\ncy.get(\"#spn_modulo_unidades_ejecutoras_asignaciondecitas\").should('be.visible').click();\ncy.wait(1000);\ncy.get(\"#spn_submodulo_unidades_ejecutoras_citas\").should('be.visible').click();\ncy.wait(1000);\ncy.get(\"#btn_menu_desplegable\").should('be.visible').click();\ncy.wait(1000);\ncy.wait(100).tab();\ncy.wait(100).tab();\n//------------------------------------------------\nlet contador = 0;\nconst rutaArchivoExcel = 'cypress/fixtures/agenda.xlsx';\n// Leer los datos del archivo Excel\ncy.leerExcel(rutaArchivoExcel).then(datosExcel => {\n  // Mostrar los datos leídos\n  console.log(datosExcel);\n  // Recorrer los datos del archivo Excel\n  for (let i = 1; i < datosExcel.length; i++) {\n    // Comenzamos desde 1 para saltarnos la fila de encabezados\n    // Tomar el valor de la primera columna (DNI)\n    // Usar los datos del Excel\n    // Ingresar DNI\n    const DNI = datosExcel[i][0]; // Primer fila, primera columna (usando índices 0 basados)\n    if (DNI && DNI.trim() !== '') {\n      // Si el DNI es válido, proceder con la acción\n      cy.window().then(win => {\n        win.alert('El DNI es correcto');\n      });\n    } else {\n      // Si el DNI está vacío o no es válido, lanzar una alerta\n      cy.window().then(win => {\n        win.alert('Prueba exitosa');\n        cy.log('Prueba Finalizada: correctamente');\n        cy.pause();\n      });\n    }\n    cy.get('#validateDNI_dni', {\n      timeout: 2000\n    }).should('exist').should('be.visible').type(DNI).type('{enter}');\n    cy.get('#province').scrollIntoView().should('be.visible');\n    const PROVINCIA = datosExcel[i][1]; // Primer fila, primera columna (usando índices 0 basados)     \n    cy.get('#province', {\n      timeout: 2000\n    }).should('exist').should('be.visible').type(PROVINCIA).type('{enter}');\n    cy.get('input[type=\"radio\"][value=\"No\"]') // Selecciona el radio button con el valor \"No\"\n    .check();\n    // Usar los datos del Excel\n    // Unidad Ejecutora\n    cy.get('#executingUnit').scrollIntoView().should('be.visible');\n    const UNIDADE = datosExcel[i][2]; // Primer fila, primera columna (usando índices 0 basados)     \n    cy.get('#executingUnit', {\n      timeout: 2000\n    }).should('exist').should('be.visible').type(UNIDADE).type('{enter}');\n    cy.get('#requiredService') // Selecciona el elemento\n    .scrollIntoView() // Desplázate hacia el elemento para hacerlo visible\n    .should('be.visible') // Asegúrate de que el elemento sea visible\n    .type('Medicina general').type('{enter}');\n    cy.get('#select_Crear_Cita_Formulario_Modelo_Agenda') // Selecciona el elemento\n    .scrollIntoView() // Desplázate hacia el elemento para hacerlo visible\n    .should('be.visible') // Asegúrate de que el elemento sea visible\n    .type('Personalizado').type('{enter}');\n    cy.get('input[type=\"radio\"][value=\"CONTROL\"]') // Selecciona el radio button con el valor \"NUEVO\"\n    .check();\n    cy.xpath('//*[@id=\"dtp_Crear_Cita_Formulario_Fecha_Control\"]').click();\n    cy.contains('a', 'Hoy').click();\n    cy.get('body').tab();\n    cy.wait(100).tab();\n    cy.wait(100).tab();\n    cy.wait(100).tab();\n    cy.wait(100).tab();\n    cy.wait(100).tab();\n    cy.wait(100).tab();\n    cy.wait(100).tab();\n    cy.get('#select_Crear_Cita_Formulario_Personal_Salud').scrollIntoView().should('be.visible').click();\n    cy.get('#select_Crear_Cita_Formulario_Personal_Salud') // Selecciona el campo de búsqueda\n    .click({\n      force: true\n    }); // Forza el clic si es necesario\n    cy.wait(500);\n    cy.get('#select_Crear_Cita_Formulario_Personal_Salud_list .ant-select-item-option') // Selecciona los elementos de la lista\n    .eq(0) // Toma el elemento 10\n    .click(); // Hace clic en el primer elemento\n    cy.get('input[type=\"radio\"][value=\"AM\"]') // Selecciona el radio button con el valor \"PM\"\n    .check();\n    contador++;\n    // Mostrar en la consola el contador y el DNI\n    cy.log(`Contador: ${contador}, DNI: ${DNI}`);\n  }\n});",
+              "err": {
+                "message": "Error: AssertionError: Timed out retrying after 2000ms: expected '<input#validateDNI_dni.ant-input.css-1uweeqc.ant-input-outlined.ant-input-status-success>' to be 'visible'\n\nThis element `<input#validateDNI_dni.ant-input.css-1uweeqc.ant-input-outlined.ant-input-status-success>` is not visible because its content is being clipped by one of its parent elements, which has a CSS property of overflow: `hidden`, `scroll` or `auto`",
+                "estack": "Error: AssertionError: Timed out retrying after 2000ms: expected '<input#validateDNI_dni.ant-input.css-1uweeqc.ant-input-outlined.ant-input-status-success>' to be 'visible'\n\nThis element `<input#validateDNI_dni.ant-input.css-1uweeqc.ant-input-outlined.ant-input-status-success>` is not visible because its content is being clipped by one of its parent elements, which has a CSS property of overflow: `hidden`, `scroll` or `auto`",
+                "diff": null
+              },
+              "uuid": "63216ca8-20ec-46d5-a269-4662fbb23681",
+              "parentUUID": "c44d6fd9-9ebf-4e26-89de-b11548bc6530",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [],
+          "failures": [
+            "63216ca8-20ec-46d5-a269-4662fbb23681"
+          ],
+          "pending": [],
+          "skipped": [],
+          "duration": 45315,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    },
+    {
+      "uuid": "c70a916b-ad9e-4757-adcb-5d9a4f31019d",
+      "title": "",
+      "fullFile": "cypress\\e2e\\Antecedentes.cy.js",
+      "file": "cypress\\e2e\\Antecedentes.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "f77acc64-5cb3-4876-9843-857294badeb1",
+          "title": "Antecedentes",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "debería iniciar sesión con éxito",
+              "fullTitle": "Antecedentes debería iniciar sesión con éxito",
+              "timedOut": null,
+              "duration": 10536,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": null,
+              "code": "// Llama a la función login \ncy.login_ECLI();\n// Verifica que el login haya sido exitoso, por ejemplo, comprobando que la URL cambió\ncy.url().should('not.include', '/login');\ncy.wait(1000);\ncy.get(\"#spn_icono_estaciones_clinicas_agenda\").should('be.visible').click();\ncy.wait(2000);\ncy.get(\"#spn_submodulo_estaciones_clinicas_agenda\").should('be.visible').click();\ncy.wait(4000);\n// Seleccionamos el radio input con la clase ant-radio-input y el valor \"Servicio\"\ncy.get('input.ant-radio-input[value=\"Servicio\"]').check();\n// Verificamos que el radio input con valor \"Servicio\" esté seleccionado\ncy.get('input.ant-radio-input[value=\"Servicio\"]').should('be.checked');\ncy.wait(2000);\n//Seleccionamos el botón cuyo id contiene \"btn_Enfermero/a_agenda_iniciar\"\n//cy.get('button[id*=\"btn_Enfermero/a_agenda_iniciar_0\"]').click();\n//Seleccionamos el botón continuar\"\ncy.get('button[id=\"btn_Enfermero/a_agenda_continuar_0\"]').then($button => {\n  if ($button.length > 0) {\n    // Si el botón con id=\"btn_Enfermero/a_agenda_iniciar_0\" existe, hacer clic en él\n    cy.wrap($button).click();\n    cy.wait(1000);\n  } else {\n    // Si no existe, buscar el siguiente botón con otro id, por ejemplo \"btn_Enfermero/a_agenda_iniciar_1\"\n    cy.get('button[id=\"btn_Enfermero/a_agenda_continuar_1\"]').should('exist').click(); // Haz clic en el segundo botón\n  }\n});\ncy.wait(2000).tab();\n// motivo de consulta----------------------------------------------------\ncy.get('#btn_Enfermero\\\\/a_enfermedad_actual_agregar') // Selecciona el selector\n.eq(0) // Selecciona el primer elemento de los que coinciden\n.scrollIntoView() // Desplaza el elemento hasta que sea visible\n.should('be.visible') // Verifica que el elemento sea visible\n.click(); // Haz clic en el elemento\ncy.get('.ant-select-selection-overflow').should('be.visible') // Opcional: Verificar que el elemento sea visible\n.click();\ncy.get('#ddl_Enfermero\\\\/a_enfermedad_actual_motivo_consulta_list_0') // Escapa el '/' con '\\\\'\n.should('be.visible') // Verifica que el elemento sea visible\n.click(); // Haz clic en el elemento\ncy.wait(1000).tab();\ncy.get('#txt_Enfermero\\\\/a_enfermedad_actual_historia_enfermedad') // Escapa el '/' con '\\\\'\n.should('be.visible') // Verifica que el elemento esté visible\n.click();\ncy.get('#txt_Enfermero\\\\/a_enfermedad_actual_historia_enfermedad').type(\"prueba\");\ncy.get('#btn_Enfermero\\\\/a_enfermedad_actual_guardar') // Escapa el '/' con '\\\\'\n.should('be.visible') // Verifica que el elemento sea visible\n.click(); // Haz clic en el elemento\ncy.wait(2000);\ncy.screenshot('clicking-on-nav');\n// Signos vitales------------------------------------\ncy.get(\"#tab_Doctor_evaluacion_medica_signos_vitales\").should('be.visible').click();\ncy.screenshot('clicking-on-nav');\ncy.wait(3000);\ncy.get(\"#btn_Doctor_signos_vitales_agregar_exploracion_fisica\").should('be.visible').click();\ncy.wait(3000);\ncy.get(\"#txt_Doctor_signos_vitales_presion_arterial\").should('be.visible').click();\ncy.get(\"#txt_Doctor_signos_vitales_presion_arterial\").type(\"125/80\");\ncy.get(\"#txt_Doctor_signos_vitales_frecuencia_cardiaca\").should('be.visible').click();\ncy.get(\"#txt_Doctor_signos_vitales_frecuencia_cardiaca\").type(\"55\");\ncy.get(\"#txt_Doctor_signos_vitales_frecuencia_respiratoria\").should('be.visible').click();\ncy.get(\"#txt_Doctor_signos_vitales_frecuencia_respiratoria\").type(\"55\");\ncy.get(\"#txt_Doctor_signos_vitales_saturacion_oxigeno\").should('be.visible').click();\ncy.get(\"#txt_Doctor_signos_vitales_saturacion_oxigeno\").type(\"80\");\ncy.get(\"#txt_Doctor_signos_vitales_temperatura\").should('be.visible').click();\ncy.get(\"#txt_Doctor_signos_vitales_temperatura\").type(\"37.0\");\ncy.get(\"#txt_Doctor_signos_vitales_peso\").should('be.visible').click();\ncy.get(\"#txt_Doctor_signos_vitales_peso\").type(\"80\");\ncy.get(\"#txt_Doctor_signos_vitales_talla\").should('be.visible').click();\ncy.get(\"#txt_Doctor_signos_vitales_talla\").type(\"1.80\");\ncy.get(\"#txt_Doctor_signos_vitales_perimetro_abdominal\").should('be.visible').click();\ncy.get(\"#txt_Doctor_signos_vitales_perimetro_abdominal\").type(\"90\");\ncy.get(\"#txt_Doctor_signos_vitales_perimetro_cefalico\").should('be.visible').click();\ncy.get(\"#txt_Doctor_signos_vitales_perimetro_cefalico\").type(\"90.9\");\ncy.get(\"#btn_Doctor_signos_vitales_guardar\").should('be.visible').click();\ncy.wait(2000);\ncy.screenshot('clicking-on-nav');\n// Exploración Física\ncy.get(\"#tab_Doctor_evaluacion_medica_exploracion_fisica\").click();\ncy.get(\"#btn_Doctor_exploracion_fisica_agregar_exploracion_fisica\").should('be.visible').click();\ncy.wait(2000);\ncy.get(\"#btn_Doctor_exploracion_fisica_guardar\").click();\ncy.wait(5000);\ncy.screenshot('clicking-on-nav');\n// Nota Médica\ncy.get(\"#tab_Doctor_evaluacion_medica_notas_medicas\").click();\ncy.get(\"#btn_Doctor_notas_medicas_agregar_nota\").should('be.visible').click();\ncy.wait(2000);\ncy.get(\"#btn_Doctor_notas_medicas_nota_medica\").click();\ncy.get(\"#btn_Doctor_notas_medicas_nota_medica\").type(\"prueba\");\ncy.wait(2000);\ncy.get(\"#btn_Doctor_notas_medicas_guardar\").click();\ncy.wait(3000);\ncy.screenshot('clicking-on-nav');\n// Diagnóstico de Salida\ncy.get(\"#tab_Doctor_evaluacion_medica_diagnostico_salida\").should('be.visible').click();\ncy.get(\"#btn_Doctor_diagnostico_salida_agregar_diagnostico\").should('be.visible').click();\ncy.wait(2000);\ncy.get(\"#rb_Doctor_diagnostico_salida_nuevo\").click();\ncy.get(\"#ddl_Doctor_diagnostico_salida_enfermedad\").click();\ncy.wait(2000).tab();\ncy.get(\"#ddl_Doctor_diagnostico_salida_enfermedad\").type(\"{enter}\");\ncy.wait(2000);\ncy.get(\"#input_Doctor_diagnostico_salida_observacion\").click();\ncy.get(\"#input_Doctor_diagnostico_salida_observacion\").type(\"prueba\");\ncy.get(\"#rb_Doctor_diagnostico_salida_estatus_diagnostico\").click();\ncy.get(\"#btn_Doctor_diagnostico_salida_guardar\").click();\ncy.wait(3000);\ncy.screenshot('clicking-on-nav');",
+              "err": {
+                "message": "Error: AssertionError: Timed out retrying after 4000ms: Expected to find element: `#btn_seleccionar_unidad_ejecutora_hospital_de_almirante`, but never found it.",
+                "estack": "Error: AssertionError: Timed out retrying after 4000ms: Expected to find element: `#btn_seleccionar_unidad_ejecutora_hospital_de_almirante`, but never found it.",
+                "diff": null
+              },
+              "uuid": "fd7a5d3e-2404-43c0-9fc7-b995710defba",
+              "parentUUID": "f77acc64-5cb3-4876-9843-857294badeb1",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [],
+          "failures": [
+            "fd7a5d3e-2404-43c0-9fc7-b995710defba"
+          ],
+          "pending": [],
+          "skipped": [],
+          "duration": 10536,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    },
+    {
+      "uuid": "bf11bfd3-f466-457c-882d-6673ae43c5a8",
+      "title": "",
+      "fullFile": "cypress\\e2e\\Agenda diaria flujo completo.cy.js",
+      "file": "cypress\\e2e\\Agenda diaria flujo completo.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "9198ab50-57ef-45e5-ae86-b0092f549d31",
+          "title": "Agenda diaria flujo completo",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "debería iniciar sesión con éxito",
+              "fullTitle": "Agenda diaria flujo completo debería iniciar sesión con éxito",
+              "timedOut": null,
+              "duration": 50420,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": null,
+              "code": "// Llama a la función login \ncy.login_SDA();\n// Verifica que el login haya sido exitoso\ncy.url().should('not.include', '/login');\ncy.wait(1000);\ncy.get('#div_nombre_usuario', {\n  timeout: 10000\n}).should('be.visible').click();\ncy.get('#div_menu_cambiar_cuenta', {\n  timeout: 10000\n}).should('be.visible').click();\ncy.get('#div_seleccionar_rol_supervisor_de_tramites_y_citas', {\n  timeout: 10000\n}).should('be.visible').click();\ncy.wait(1000);\ncy.get(\"#btn_menu_desplegable\").should('be.visible').click();\ncy.wait(1000);\ncy.get(\"#spn_modulo_unidades_ejecutoras_agendas\").should('be.visible').click();\ncy.wait(1000);\ncy.get(\"#btn_menu_desplegable\").should('be.visible').click();\ncy.wait(2000);\ncy.wait(100).tab();\ncy.wait(100).tab();\ncy.get('#select_Agendas_Servicio', {\n  timeout: 1000\n}).should('exist').should('be.visible').type('Medicina general').type('{enter}');\ncy.get('#select_Agendas_Especialidad', {\n  timeout: 1000\n}).should('exist').should('be.visible').type('Medicina general').type('{enter}');\ncy.get('#select_Agendas_Personal_Salud') // Selecciona el campo de búsqueda\n.click({\n  force: true\n}); // Forza el clic si es necesario\ncy.wait(500);\ncy.xpath('//*[@id=\"select_Agendas_Personal_Salud_list_0\"]').should('be.visible');\n// Si quieres interactuar con el elemento, puedes agregarlo así:\ncy.xpath('//*[@id=\"select_Agendas_Personal_Salud_list_0\"]').click();\ncy.get('#select_Agendas_Personal_Salud').parents('.ant-select') // sube al contenedor del select\n.find('.ant-select-selection-item') // busca el valor mostrado\n.invoke('text').then(doctor => {\n  cy.log('Valor del select: ' + doctor);\n  cy.get(\"#btn_Agendas_Crear_Agenda\").should('be.visible').click();\n  cy.wait(1000);\n  cy.xpath('//*[@id=\"date_picker_Creando_Agenda_Fecha_Inicio\"]').click();\n  cy.contains('a', 'Hoy').click();\n  cy.get('body').tab();\n  cy.wait(100).tab();\n  cy.wait(100).tab();\n  cy.wait(100).tab();\n  cy.wait(100).tab();\n  cy.get('#ddl_Creando_Agenda_Atencion_Semanal', {\n    timeout: 1000\n  }).should('exist').should('be.visible').type('Martes').type('{enter}');\n  cy.wait(100).tab();\n  cy.get('#ddl_Creando_Agenda_Consultorio_Martes') // Selecciona el campo de búsqueda\n  .click({\n    force: true\n  }); // Forza el clic si es necesario\n  cy.wait(500);\n  cy.get('#ddl_Creando_Agenda_Consultorio_Martes_list .ant-select-item-option') // Selecciona los elementos de la lista\n  .eq(2) // Toma el elemento 10\n  .click(); // Hace clic en el primer elemento\n  cy.wait(100).tab();\n  cy.get('#time_picker_Creando_Agenda_Horario_Martes', {\n    timeout: 1000\n  }).should('exist').should('be.visible').type('12:00 PM');\n  cy.wait(100).tab().type('1:00 PM').type('{enter}');\n  cy.wait(100).tab();\n  //---------------\n  cy.get('#btn_Creando_Agenda_Agregar_Cita_Martes', {\n    timeout: 10000\n  }) // espera hasta 10s\n  .should('be.visible').click();\n  cy.get('#ddl_Creando_Agenda_Tipo_Cita_0_Martes').click(); // este es el botón/select\n  cy.get('#ddl_Creando_Agenda_Tipo_Cita_0_Martes_list', {\n    timeout: 10000\n  }).should('be.visible').contains('Nuevo') // O el texto de la opción que querés\n  .click();\n  cy.wait(100).tab();\n  cy.get('#ddl_Creando_Agenda_Equivalencia_0_Martes', {\n    timeout: 1000\n  }).should('exist').should('be.visible').type('60 min').type('{enter}');\n  cy.wait(100).tab();\n  cy.get('#ddl_Creando_Agenda_Numero_Citas_0_Martes', {\n    timeout: 1000\n  }).should('exist').should('be.visible').type('1 citas').type('{enter}');\n  cy.wait(100).tab();\n  cy.get('#btn_Creando_Agenda_Crear').scrollIntoView().should('be.visible').click();\n  cy.wait(1000);\n  cy.contains('button', 'Siguiente') // Busca el botón que contiene el texto 'Siguiente'\n  .click();\n  cy.wait(1000);\n  cy.contains('button', 'Finalizar') // Busca el botón que contiene el texto 'Finalizar'\n  .click();\n  //validar agenda _...............................\n  cy.wait(1000);\n  cy.get(\"#btn_menu_desplegable\").should('be.visible').click();\n  cy.wait(1000);\n  cy.get(\"#spn_modulo_unidades_ejecutoras_asignaciondecitas\").should('be.visible').click();\n  cy.wait(1000);\n  cy.get(\"#spn_submodulo_unidades_ejecutoras_citas\").should('be.visible').click();\n  cy.wait(1000);\n  cy.get(\"#btn_menu_desplegable\").should('be.visible').click();\n  cy.wait(1000);\n  cy.wait(100).tab();\n  cy.wait(100).tab();\n  //------------------------------------------------\n  let contador = 0;\n  const rutaArchivoExcel = 'cypress/fixtures/agenda.xlsx';\n  // Leer los datos del archivo Excel\n  cy.leerExcel(rutaArchivoExcel).then(datosExcel => {\n    // Mostrar los datos leídos\n    console.log(datosExcel);\n    // Recorrer los datos del archivo Excel\n    for (let i = 1; i < datosExcel.length; i++) {\n      // Comenzamos desde 1 para saltarnos la fila de encabezados\n      // Tomar el valor de la primera columna (DNI)\n      // Usar los datos del Excel\n      // Ingresar DNI\n      const DNI = datosExcel[i][0]; // Primer fila, primera columna (usando índices 0 basados)\n      if (DNI && DNI.trim() !== '') {\n        // Si el DNI es válido, proceder con la acción\n        cy.window().then(win => {\n          win.alert('El DNI es correcto');\n        });\n      } else {\n        // Si el DNI está vacío o no es válido, lanzar una alerta\n        cy.window().then(win => {\n          win.alert('Prueba exitosa');\n          cy.log('Prueba Finalizada: correctamente');\n          cy.pause();\n        });\n      }\n      cy.get('#validateDNI_dni', {\n        timeout: 1000\n      }).should('exist').should('be.visible').type(DNI).type('{enter}');\n      cy.get('#province').scrollIntoView().should('be.visible');\n      const PROVINCIA = datosExcel[i][1]; // Primer fila, primera columna (usando índices 0 basados)     \n      cy.get('#province', {\n        timeout: 1000\n      }).should('exist').should('be.visible').type(PROVINCIA).type('{enter}');\n      cy.get('input[type=\"radio\"][value=\"No\"]') // Selecciona el radio button con el valor \"No\"\n      .check();\n      // Usar los datos del Excel\n      // Unidad Ejecutora\n      cy.get('#executingUnit').scrollIntoView().should('be.visible');\n      const UNIDADE = datosExcel[i][2]; // Primer fila, primera columna (usando índices 0 basados)     \n      cy.get('#executingUnit', {\n        timeout: 1000\n      }).should('exist').should('be.visible').type(UNIDADE).type('{enter}');\n      cy.get('#requiredService') // Selecciona el elemento\n      .scrollIntoView() // Desplázate hacia el elemento para hacerlo visible\n      .should('be.visible') // Asegúrate de que el elemento sea visible\n      .type('Medicina general').type('{enter}');\n      cy.get('#select_Crear_Cita_Formulario_Modelo_Agenda') // Selecciona el elemento\n      .scrollIntoView() // Desplázate hacia el elemento para hacerlo visible\n      .should('be.visible') // Asegúrate de que el elemento sea visible\n      .type('Personalizado').type('{enter}');\n      cy.get('input[type=\"radio\"][value=\"NUEVO\"]') // Selecciona el radio button con el valor \"NUEVO\"\n      .check();\n      cy.get('#select_Crear_Cita_Formulario_Personal_Salud', {\n        timeout: 1000\n      }).should('exist').should('be.visible').type(doctor).type('{enter}');\n      cy.get('input[type=\"radio\"][value=\"PM\"]') // Selecciona el radio button con el valor \"NUEVO\"\n      .check();\n      contador++;\n      // Mostrar en la consola el contador y el DNI\n      cy.log(`Contador: ${contador}, DNI: ${DNI}`);\n    }\n  });\n});",
+              "err": {
+                "message": "Error: AssertionError: Timed out retrying after 4000ms: Expected to find content: 'Siguiente' within the selector: 'button' but never did.",
+                "estack": "Error: AssertionError: Timed out retrying after 4000ms: Expected to find content: 'Siguiente' within the selector: 'button' but never did.",
+                "diff": null
+              },
+              "uuid": "1d49974f-7dac-486e-8e90-b23547287a56",
+              "parentUUID": "9198ab50-57ef-45e5-ae86-b0092f549d31",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [],
+          "failures": [
+            "1d49974f-7dac-486e-8e90-b23547287a56"
+          ],
+          "pending": [],
+          "skipped": [],
+          "duration": 50420,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    },
+    {
+      "uuid": "2a6dc556-d838-4f8a-be4b-2ff072b76b35",
+      "title": "",
+      "fullFile": "cypress\\e2e\\ Generar cita común de tipo Otro.cy.js",
+      "file": "cypress\\e2e\\ Generar cita común de tipo Otro.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "3f6d4aeb-fdc3-49ad-9e7b-299dba6ae373",
+          "title": " Generar cita común de tipo OTRO",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "debería iniciar sesión con éxito",
+              "fullTitle": " Generar cita común de tipo OTRO debería iniciar sesión con éxito",
+              "timedOut": null,
+              "duration": 30257,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": null,
+              "code": "// Llama a la función login \ncy.login_SDA();\n// Verifica que el login haya sido exitoso\ncy.url().should('not.include', '/login');\ncy.wait(1000);\ncy.get('#div_nombre_usuario', {\n  timeout: 10000\n}).should('be.visible').click();\ncy.get('#div_menu_cambiar_cuenta', {\n  timeout: 10000\n}).should('be.visible').click();\ncy.get('#div_seleccionar_rol_supervisor_de_tramites_y_citas', {\n  timeout: 10000\n}).should('be.visible').click();\ncy.wait(1000);\ncy.get(\"#btn_menu_desplegable\").should('be.visible').click();\ncy.wait(1000);\ncy.get(\"#spn_modulo_unidades_ejecutoras_asignaciondecitas\").should('be.visible').click();\ncy.wait(1000);\ncy.get(\"#spn_submodulo_unidades_ejecutoras_asignacion_citas_agenda_comun\").should('be.visible').click();\ncy.wait(1000);\ncy.get(\"#btn_menu_desplegable\").should('be.visible').click();\ncy.wait(1000);\ncy.wait(100).tab();\ncy.wait(100).tab();\n//------------------------------------------------\nlet contador = 0;\nconst rutaArchivoExcel = 'cypress/fixtures/agenda.xlsx';\n// Leer los datos del archivo Excel\ncy.leerExcel(rutaArchivoExcel).then(datosExcel => {\n  // Mostrar los datos leídos\n  console.log(datosExcel);\n  // Recorrer los datos del archivo Excel\n  for (let i = 1; i < datosExcel.length; i++) {\n    // Comenzamos desde 1 para saltarnos la fila de encabezados\n    // Tomar el valor de la primera columna (DNI)\n    // Usar los datos del Excel\n    // Ingresar DNI\n    const DNI = datosExcel[i][0]; // Primer fila, primera columna (usando índices 0 basados)\n    if (DNI && DNI.trim() !== '') {\n      // Si el DNI es válido, proceder con la acción\n      cy.window().then(win => {\n        win.alert('El DNI es correcto');\n      });\n    } else {\n      // Si el DNI está vacío o no es válido, lanzar una alerta\n      cy.window().then(win => {\n        win.alert('Prueba exitosa');\n        cy.log('Prueba Finalizada: correctamente');\n        cy.pause();\n      });\n    }\n    cy.get('#btn_Pantalla_Citas_Comun_Verificar', {\n      timeout: 2000\n    }).should('exist').should('be.visible').type(DNI).type('{enter}');\n    cy.get(\"#btn_Pantalla_Citas_Verificar\", {\n      timeout: 10000\n    }).should('be.visible').click();\n    cy.get('#ddl_Pantalla_Citas_Comun_Servicio_Solicitado', {\n      timeout: 10000\n    }).scrollIntoView().should('be.visible');\n    cy.get('#ddl_Pantalla_Citas_Comun_Servicio_Solicitado').click().type('{enter}');\n    cy.get('input[type=\"radio\"][value=\"No\"]') // Selecciona el radio button con el valor \"No\"\n    .check();\n    cy.get('#ddl_Pantalla_Citas_Comun_Programas', {\n      timeout: 10000\n    }).scrollIntoView().should('be.visible');\n    cy.get('#ddl_Pantalla_Citas_Comun_Programas').click().type('{enter}');\n    cy.get('input[type=\"radio\"][value=\"No\"]') // Selecciona el radio button con el valor \"No\"\n    .check();\n    cy.xpath('//*[@id=\"form_Pantalla_Citas_Comun\"]/div/div[2]/div[1]/div[2]/div[2]/div[1]/div/div[2]/div/div/div/div/div').scrollIntoView().should('be.visible').click();\n    cy.get('.ant-select-dropdown .ant-select-item-option').contains('Médico').click();\n    cy.get('.ant-select-dropdown .ant-select-item-option').contains('Enfermero/a').click();\n    cy.wait(100).tab();\n    cy.xpath('//*[@id=\"dtp_Pantalla_Citas_Comun_Buscar_Fecha\"]').click();\n    cy.contains('a', 'Hoy').click();\n    cy.get('body').tab();\n    cy.wait(100).tab();\n    cy.wait(100).tab();\n    cy.wait(100).tab();\n    cy.wait(100).tab();\n    cy.wait(100).tab();\n    cy.wait(100).tab();\n    cy.wait(100).tab();\n    cy.wait(100).tab();\n    cy.get('input[type=\"radio\"][value=\"OTRO\"]', {\n      timeout: 10000\n    }) // Selecciona el radio button con el valor \"NUEVO\"\n    .check();\n    cy.get('#btn_Pantalla_Citas_Comun_Obtener_Fecha').scrollIntoView().should('be.visible').click();\n    cy.contains('No hay citas disponibles').then(() => {\n      win.alert('No hay citas disponibles');\n      cy.log('Prueba Finalizada: correctamente');\n      cy.pause(); // Esto detiene la ejecución y abre modo interactivo en Cypress UI\n    });\n    contador++;\n    // Mostrar en la consola el contador y el DNI\n    cy.log(`Contador: ${contador}, DNI: ${DNI}`);\n  }\n});",
+              "err": {
+                "message": "Error: AssertionError: Timed out retrying after 4000ms: Expected to find content: 'No hay citas disponibles' but never did.",
+                "estack": "Error: AssertionError: Timed out retrying after 4000ms: Expected to find content: 'No hay citas disponibles' but never did.",
+                "diff": null
+              },
+              "uuid": "250cd492-7ea1-436c-8391-1c3171882f88",
+              "parentUUID": "3f6d4aeb-fdc3-49ad-9e7b-299dba6ae373",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [],
+          "failures": [
+            "250cd492-7ea1-436c-8391-1c3171882f88"
+          ],
+          "pending": [],
+          "skipped": [],
+          "duration": 30257,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    },
+    {
+      "uuid": "7d1a79dc-22b6-4e4f-859a-8983e9341d40",
+      "title": "",
+      "fullFile": "cypress\\e2e\\ Generar cita común de tipo Nuevo.cy.js",
+      "file": "cypress\\e2e\\ Generar cita común de tipo Nuevo.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "058d9175-9071-4536-98e7-e97072781a7d",
+          "title": " Generar cita común de tipo Nuevo",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "debería iniciar sesión con éxito",
+              "fullTitle": " Generar cita común de tipo Nuevo debería iniciar sesión con éxito",
+              "timedOut": null,
+              "duration": 29037,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": null,
+              "code": "// Llama a la función login \ncy.login_SDA();\n// Verifica que el login haya sido exitoso\ncy.url().should('not.include', '/login');\ncy.wait(1000);\ncy.get('#div_nombre_usuario', {\n  timeout: 10000\n}).should('be.visible').click();\ncy.get('#div_menu_cambiar_cuenta', {\n  timeout: 10000\n}).should('be.visible').click();\ncy.get('#div_seleccionar_rol_supervisor_de_tramites_y_citas', {\n  timeout: 10000\n}).should('be.visible').click();\ncy.wait(1000);\ncy.get(\"#btn_menu_desplegable\").should('be.visible').click();\ncy.wait(1000);\ncy.get(\"#spn_modulo_unidades_ejecutoras_asignaciondecitas\").should('be.visible').click();\ncy.wait(1000);\ncy.get(\"#spn_submodulo_unidades_ejecutoras_asignacion_citas_agenda_comun\").should('be.visible').click();\ncy.wait(1000);\ncy.get(\"#btn_menu_desplegable\").should('be.visible').click();\ncy.wait(1000);\ncy.wait(100).tab();\ncy.wait(100).tab();\n//------------------------------------------------\nlet contador = 0;\nconst rutaArchivoExcel = 'cypress/fixtures/agenda.xlsx';\n// Leer los datos del archivo Excel\ncy.leerExcel(rutaArchivoExcel).then(datosExcel => {\n  // Mostrar los datos leídos\n  console.log(datosExcel);\n  // Recorrer los datos del archivo Excel\n  for (let i = 1; i < datosExcel.length; i++) {\n    // Comenzamos desde 1 para saltarnos la fila de encabezados\n    // Tomar el valor de la primera columna (DNI)\n    // Usar los datos del Excel\n    // Ingresar DNI\n    const DNI = datosExcel[i][0]; // Primer fila, primera columna (usando índices 0 basados)\n    if (DNI && DNI.trim() !== '') {\n      // Si el DNI es válido, proceder con la acción\n      cy.window().then(win => {\n        win.alert('El DNI es correcto');\n      });\n    } else {\n      // Si el DNI está vacío o no es válido, lanzar una alerta\n      cy.window().then(win => {\n        win.alert('Prueba exitosa');\n        cy.log('Prueba Finalizada: correctamente');\n        cy.pause();\n      });\n    }\n    cy.get('#btn_Pantalla_Citas_Comun_Verificar', {\n      timeout: 2000\n    }).should('exist').should('be.visible').type(DNI).type('{enter}');\n    cy.get(\"#btn_Pantalla_Citas_Verificar\", {\n      timeout: 10000\n    }).should('be.visible').click();\n    cy.get('#ddl_Pantalla_Citas_Comun_Servicio_Solicitado', {\n      timeout: 10000\n    }).scrollIntoView().should('be.visible');\n    cy.get('#ddl_Pantalla_Citas_Comun_Servicio_Solicitado').click().type('{enter}');\n    cy.get('input[type=\"radio\"][value=\"No\"]') // Selecciona el radio button con el valor \"No\"\n    .check();\n    cy.get('#ddl_Pantalla_Citas_Comun_Programas', {\n      timeout: 10000\n    }).scrollIntoView().should('be.visible');\n    cy.get('#ddl_Pantalla_Citas_Comun_Programas').click().type('{enter}');\n    cy.get('input[type=\"radio\"][value=\"No\"]') // Selecciona el radio button con el valor \"No\"\n    .check();\n    cy.xpath('//*[@id=\"form_Pantalla_Citas_Comun\"]/div/div[2]/div[1]/div[2]/div[2]/div[1]/div/div[2]/div/div/div/div/div').scrollIntoView().should('be.visible').click();\n    cy.get('.ant-select-dropdown .ant-select-item-option').contains('Médico').click();\n    cy.get('.ant-select-dropdown .ant-select-item-option').contains('Enfermero/a').click();\n    cy.wait(100).tab();\n    cy.xpath('//*[@id=\"dtp_Pantalla_Citas_Comun_Buscar_Fecha\"]').click();\n    cy.contains('a', 'Hoy').click();\n    cy.get('body').tab();\n    cy.wait(100).tab();\n    cy.wait(100).tab();\n    cy.wait(100).tab();\n    cy.wait(100).tab();\n    cy.wait(100).tab();\n    cy.wait(100).tab();\n    cy.wait(100).tab();\n    cy.wait(100).tab();\n    cy.get('input[type=\"radio\"][value=\"NUEVO\"]', {\n      timeout: 10000\n    }) // Selecciona el radio button con el valor \"NUEVO\"\n    .check();\n    cy.get('#btn_Pantalla_Citas_Comun_Obtener_Fecha').scrollIntoView().should('be.visible').click();\n    cy.contains('No hay citas disponibles').then(() => {\n      win.alert('No hay citas disponibles');\n      cy.log('Prueba Finalizada: correctamente');\n      cy.pause(); // Esto detiene la ejecución y abre modo interactivo en Cypress UI\n    });\n    contador++;\n    // Mostrar en la consola el contador y el DNI\n    cy.log(`Contador: ${contador}, DNI: ${DNI}`);\n  }\n});",
+              "err": {
+                "message": "Error: AssertionError: Timed out retrying after 4000ms: Expected to find content: 'No hay citas disponibles' but never did.",
+                "estack": "Error: AssertionError: Timed out retrying after 4000ms: Expected to find content: 'No hay citas disponibles' but never did.",
+                "diff": null
+              },
+              "uuid": "e4c77988-1c3c-4ee7-ab32-284495eaca64",
+              "parentUUID": "058d9175-9071-4536-98e7-e97072781a7d",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [],
+          "failures": [
+            "e4c77988-1c3c-4ee7-ab32-284495eaca64"
+          ],
+          "pending": [],
+          "skipped": [],
+          "duration": 29037,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    },
+    {
+      "uuid": "a40d433d-88e6-49ad-bd9e-9054d0d181fe",
+      "title": "",
+      "fullFile": "cypress\\e2e\\ Generar cita común de tipo Control.cy.js",
+      "file": "cypress\\e2e\\ Generar cita común de tipo Control.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "ac0db136-30b3-4be5-b96f-cee2d3b7fbc3",
+          "title": " Generar cita común de tipo CONTROL",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "debería iniciar sesión con éxito",
+              "fullTitle": " Generar cita común de tipo CONTROL debería iniciar sesión con éxito",
+              "timedOut": null,
+              "duration": 30959,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": null,
+              "code": "// Llama a la función login \ncy.login_SDA();\n// Verifica que el login haya sido exitoso\ncy.url().should('not.include', '/login');\ncy.wait(1000);\ncy.get('#div_nombre_usuario', {\n  timeout: 10000\n}).should('be.visible').click();\ncy.get('#div_menu_cambiar_cuenta', {\n  timeout: 10000\n}).should('be.visible').click();\ncy.get('#div_seleccionar_rol_supervisor_de_tramites_y_citas', {\n  timeout: 10000\n}).should('be.visible').click();\ncy.wait(1000);\ncy.get(\"#btn_menu_desplegable\").should('be.visible').click();\ncy.wait(1000);\ncy.get(\"#spn_modulo_unidades_ejecutoras_asignaciondecitas\").should('be.visible').click();\ncy.wait(1000);\ncy.get(\"#spn_submodulo_unidades_ejecutoras_asignacion_citas_agenda_comun\").should('be.visible').click();\ncy.wait(1000);\ncy.get(\"#btn_menu_desplegable\").should('be.visible').click();\ncy.wait(1000);\ncy.wait(100).tab();\ncy.wait(100).tab();\n//------------------------------------------------\nlet contador = 0;\nconst rutaArchivoExcel = 'cypress/fixtures/agenda.xlsx';\n// Leer los datos del archivo Excel\ncy.leerExcel(rutaArchivoExcel).then(datosExcel => {\n  // Mostrar los datos leídos\n  console.log(datosExcel);\n  // Recorrer los datos del archivo Excel\n  for (let i = 1; i < datosExcel.length; i++) {\n    // Comenzamos desde 1 para saltarnos la fila de encabezados\n    // Tomar el valor de la primera columna (DNI)\n    // Usar los datos del Excel\n    // Ingresar DNI\n    const DNI = datosExcel[i][0]; // Primer fila, primera columna (usando índices 0 basados)\n    if (DNI && DNI.trim() !== '') {\n      // Si el DNI es válido, proceder con la acción\n      cy.window().then(win => {\n        win.alert('El DNI es correcto');\n      });\n    } else {\n      // Si el DNI está vacío o no es válido, lanzar una alerta\n      cy.window().then(win => {\n        win.alert('Prueba exitosa');\n        cy.log('Prueba Finalizada: correctamente');\n        cy.pause();\n      });\n    }\n    cy.get('#btn_Pantalla_Citas_Comun_Verificar', {\n      timeout: 2000\n    }).should('exist').should('be.visible').type(DNI).type('{enter}');\n    cy.get(\"#btn_Pantalla_Citas_Verificar\", {\n      timeout: 10000\n    }).should('be.visible').click();\n    cy.get('#ddl_Pantalla_Citas_Comun_Servicio_Solicitado', {\n      timeout: 10000\n    }).scrollIntoView().should('be.visible');\n    cy.get('#ddl_Pantalla_Citas_Comun_Servicio_Solicitado').click().type('{enter}');\n    cy.get('input[type=\"radio\"][value=\"No\"]') // Selecciona el radio button con el valor \"No\"\n    .check();\n    cy.get('#ddl_Pantalla_Citas_Comun_Programas', {\n      timeout: 10000\n    }).scrollIntoView().should('be.visible');\n    cy.get('#ddl_Pantalla_Citas_Comun_Programas').click().type('{enter}');\n    cy.get('input[type=\"radio\"][value=\"No\"]') // Selecciona el radio button con el valor \"No\"\n    .check();\n    cy.xpath('//*[@id=\"form_Pantalla_Citas_Comun\"]/div/div[2]/div[1]/div[2]/div[2]/div[1]/div/div[2]/div/div/div/div/div').scrollIntoView().should('be.visible').click();\n    cy.get('.ant-select-dropdown .ant-select-item-option').contains('Médico').click();\n    cy.get('.ant-select-dropdown .ant-select-item-option').contains('Enfermero/a').click();\n    cy.wait(100).tab();\n    cy.xpath('//*[@id=\"dtp_Pantalla_Citas_Comun_Buscar_Fecha\"]').click();\n    cy.contains('a', 'Hoy').click();\n    cy.get('body').tab();\n    cy.wait(100).tab();\n    cy.wait(100).tab();\n    cy.wait(100).tab();\n    cy.wait(100).tab();\n    cy.wait(100).tab();\n    cy.wait(100).tab();\n    cy.wait(100).tab();\n    cy.wait(100).tab();\n    cy.get('input[type=\"radio\"][value=\"CONTROL\"]', {\n      timeout: 10000\n    }) // Selecciona el radio button con el valor \"NUEVO\"\n    .check();\n    cy.get('#btn_Pantalla_Citas_Comun_Obtener_Fecha').scrollIntoView().should('be.visible').click();\n    cy.contains('No hay citas disponibles').then(() => {\n      win.alert('No hay citas disponibles');\n      cy.log('Prueba Finalizada: correctamente');\n      cy.pause(); // Esto detiene la ejecución y abre modo interactivo en Cypress UI\n    });\n    contador++;\n    // Mostrar en la consola el contador y el DNI\n    cy.log(`Contador: ${contador}, DNI: ${DNI}`);\n  }\n});",
+              "err": {
+                "message": "Error: AssertionError: Timed out retrying after 4000ms: Expected to find content: 'No hay citas disponibles' but never did.",
+                "estack": "Error: AssertionError: Timed out retrying after 4000ms: Expected to find content: 'No hay citas disponibles' but never did.",
+                "diff": null
+              },
+              "uuid": "897bd75a-4074-402d-958f-bea60c28b055",
+              "parentUUID": "ac0db136-30b3-4be5-b96f-cee2d3b7fbc3",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [],
+          "failures": [
+            "897bd75a-4074-402d-958f-bea60c28b055"
+          ],
+          "pending": [],
+          "skipped": [],
+          "duration": 30959,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.0.1"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": false,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.3"
+    },
+    "marge": {
+      "options": {
+        "id": "default",
+        "reportDir": "results",
+        "overwrite": false,
+        "html": false,
+        "json": true
+      },
+      "version": "6.2.0"
+    }
+  }
+}

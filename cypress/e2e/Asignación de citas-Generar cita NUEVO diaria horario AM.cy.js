@@ -116,9 +116,16 @@ let contador = 0;
   
   cy.get('input[type="radio"][value="AM"]')  // Selecciona el radio button con el valor "NUEVO"
   .check();  
+  cy.pause();
 
-    
-  
+  cy.get('div.ant-card.ant-card-bordered.overrideCardBody')
+  .should('be.visible');
+  cy.contains('span.ant-typography', 'Fecha de la cita', { timeout: 10000 }) // 10 segundos
+  .should('be.visible');
+  cy.contains('button', 'Asignar cita', { timeout: 10000 })
+  .should('not.be.disabled')
+  .click();
+  cy.pause();
   contador++;
 
   // Mostrar en la consola el contador y el DNI

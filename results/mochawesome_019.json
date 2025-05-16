@@ -1,0 +1,106 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 1,
+    "passes": 1,
+    "pending": 0,
+    "failures": 0,
+    "start": "2025-05-16T14:34:14.686Z",
+    "end": "2025-05-16T14:35:02.285Z",
+    "duration": 47599,
+    "testsRegistered": 1,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "dfa76b76-01b0-405a-9e0c-ca61fbfecb25",
+      "title": "",
+      "fullFile": "cypress\\e2e\\TC_CP_ Creación de consultorios - Unidad Ejecutora.cy.js",
+      "file": "cypress\\e2e\\TC_CP_ Creación de consultorios - Unidad Ejecutora.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "ec983029-edff-4579-a79c-2a15a3124454",
+          "title": "Crear Consultorio",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "Inicio de sesión exitoso",
+              "fullTitle": "Crear Consultorio Inicio de sesión exitoso",
+              "timedOut": null,
+              "duration": 34302,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "// Llama a la función login \ncy.login_CORE();\n// Verifica que el login haya sido exitoso\ncy.url().should('not.include', '/login');\ncy.wait(1000);\ncy.get(\"#btn_menu_desplegable\").should('be.visible').click();\ncy.wait(1000);\ncy.get(\"#spn_modulo_medical_records_list_executing_units\").should('be.visible').click();\ncy.wait(1000);\ncy.get(\"#btn_menu_desplegable\").should('be.visible').click();\ncy.wait(1000);\ncy.wait(100).tab();\ncy.wait(100).tab();\n//Buscar Unidad Ejecutora------------------\ncy.get('#ddl_provincia_lista_unidad_ejecutora') // Selecciona el campo de búsqueda\n.click({\n  force: true\n}); // Forza el clic si es necesario\ncy.wait(500);\ncy.get('#ddl_provincia_lista_unidad_ejecutora_list .ant-select-item-option') // Selecciona los elementos de la lista\n.eq(1) // Toma el elemento 10\n.click(); // Hace clic en el primer elemento\ncy.wait(100).tab();\ncy.get('#input_unidad_ejecutora', {\n  timeout: 1000\n}).should('exist').should('be.visible').type('POLICLINICA DE GUABITO').click();\ncy.get(\"#btn_buscar\").should('be.visible').click();\ncy.get('[id^=\"btn_mas_opciones_unidad_ejecutora_\"]').first().click();\ncy.get('[id^=\"btn_administrar_unidad\"]').click();\ncy.get('div#div_tab_consultorios').scrollIntoView() // Scroll the element into view if it's clipped\n.should('be.visible').click();\ncy.get('#btn_crear_consultorio').scrollIntoView().should('be.visible').click();\nconst randomNumber = Math.floor(Math.random() * (1000 - 500 + 1)) + 500;\ncy.get('#input_codigo_consultorio').type(randomNumber.toString()); //Escribir información\ncy.wait(100).tab();\ncy.get('#input_ubicacion_consultorio', {\n  timeout: 1000\n}).should('exist').should('be.visible').type('Prueba').click();\ncy.wait(100).tab();\ncy.get('#input_nombre_consultorio', {\n  timeout: 1000\n}).should('exist').should('be.visible').type('Prueba').click();\ncy.get('#btn_habilitar_consultorio').contains('Sí') // Verifica que el texto 'Sí' esté presente en el botón\n.click();\ncy.wait(100).tab();\ncy.wait(100).tab();\ncy.get('div.ant-modal-content') // Selecciona el div con la clase 'ant-modal-content'\n.find('#btn_crear_consultorio') // Busca el elemento con el id 'btn_crear_consultorio' dentro de ese div\n.should('be.visible') // Verifica que el botón sea visible\n.click();\ncy.get('h4.ant-typography.css-1rqnfsa') // Selecciona el elemento\n.parent() // Obtiene el contenedor padre\n.then($parent => {\n  // Cambia temporalmente el estilo overflow para permitir ver el contenido\n  $parent.css('overflow', 'visible');\n}).scrollIntoView() // Desplaza a la vista\n.should('be.visible');\ncy.contains('Administración de recursos de una unidad ejecutora') // Busca el texto exacto en la página\n.should('be.visible');",
+              "err": {},
+              "uuid": "812d88b5-34b2-4f4b-a15f-a3ead9b0cc6b",
+              "parentUUID": "ec983029-edff-4579-a79c-2a15a3124454",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "812d88b5-34b2-4f4b-a15f-a3ead9b0cc6b"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 34302,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.0.1"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": false,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.3"
+    },
+    "marge": {
+      "options": {
+        "id": "default",
+        "reportDir": "results",
+        "overwrite": false,
+        "html": false,
+        "json": true
+      },
+      "version": "6.2.0"
+    }
+  }
+}

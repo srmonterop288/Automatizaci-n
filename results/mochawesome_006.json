@@ -1,0 +1,110 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 1,
+    "passes": 0,
+    "pending": 0,
+    "failures": 1,
+    "start": "2025-05-16T14:21:39.307Z",
+    "end": "2025-05-16T14:22:36.860Z",
+    "duration": 57553,
+    "testsRegistered": 1,
+    "passPercent": 0,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "45ef5916-e08b-4759-9f12-cb5c51a974d2",
+      "title": "",
+      "fullFile": "cypress\\e2e\\Asignación de citas-Generar cita CONTROL diaria horario PM.cy.js",
+      "file": "cypress\\e2e\\Asignación de citas-Generar cita CONTROL diaria horario PM.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "980683fc-df88-43a5-ab32-e4555f66ab9d",
+          "title": "Generar cita diaria de tipo Nuevo en horario PM",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "debería iniciar sesión con éxito",
+              "fullTitle": "Generar cita diaria de tipo Nuevo en horario PM debería iniciar sesión con éxito",
+              "timedOut": null,
+              "duration": 44549,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": null,
+              "code": "// Llama a la función login \ncy.login_SDA();\n// Verifica que el login haya sido exitoso\ncy.url().should('not.include', '/login');\ncy.wait(1000);\ncy.get('#div_nombre_usuario', {\n  timeout: 10000\n}).should('be.visible').click();\ncy.get('#div_menu_cambiar_cuenta', {\n  timeout: 10000\n}).should('be.visible').click();\ncy.get('#div_seleccionar_rol_supervisor_de_tramites_y_citas', {\n  timeout: 10000\n}).should('be.visible').click();\ncy.wait(1000);\ncy.get(\"#btn_menu_desplegable\").should('be.visible').click();\ncy.wait(1000);\ncy.get(\"#spn_modulo_unidades_ejecutoras_asignaciondecitas\").should('be.visible').click();\ncy.wait(1000);\ncy.get(\"#spn_submodulo_unidades_ejecutoras_citas\").should('be.visible').click();\ncy.wait(1000);\ncy.get(\"#btn_menu_desplegable\").should('be.visible').click();\ncy.wait(1000);\ncy.wait(100).tab();\ncy.wait(100).tab();\n//------------------------------------------------\nlet contador = 0;\nconst rutaArchivoExcel = 'cypress/fixtures/agenda.xlsx';\n// Leer los datos del archivo Excel\ncy.leerExcel(rutaArchivoExcel).then(datosExcel => {\n  // Mostrar los datos leídos\n  console.log(datosExcel);\n  // Recorrer los datos del archivo Excel\n  for (let i = 1; i < datosExcel.length; i++) {\n    // Comenzamos desde 1 para saltarnos la fila de encabezados\n    // Tomar el valor de la primera columna (DNI)\n    // Usar los datos del Excel\n    // Ingresar DNI\n    const DNI = datosExcel[i][0]; // Primer fila, primera columna (usando índices 0 basados)\n    if (DNI && DNI.trim() !== '') {\n      // Si el DNI es válido, proceder con la acción\n      cy.window().then(win => {\n        win.alert('El DNI es correcto');\n      });\n    } else {\n      // Si el DNI está vacío o no es válido, lanzar una alerta\n      cy.window().then(win => {\n        win.alert('Prueba exitosa');\n        cy.log('Prueba Finalizada: correctamente');\n        cy.pause();\n      });\n    }\n    cy.get('#validateDNI_dni', {\n      timeout: 2000\n    }).should('exist').should('be.visible').type(DNI).type('{enter}');\n    cy.get('#province').scrollIntoView().should('be.visible');\n    const PROVINCIA = datosExcel[i][1]; // Primer fila, primera columna (usando índices 0 basados)     \n    cy.get('#province', {\n      timeout: 2000\n    }).should('exist').should('be.visible').type(PROVINCIA).type('{enter}');\n    cy.get('input[type=\"radio\"][value=\"No\"]') // Selecciona el radio button con el valor \"No\"\n    .check();\n    // Usar los datos del Excel\n    // Unidad Ejecutora\n    cy.get('#executingUnit').scrollIntoView().should('be.visible');\n    const UNIDADE = datosExcel[i][2]; // Primer fila, primera columna (usando índices 0 basados)     \n    cy.get('#executingUnit', {\n      timeout: 2000\n    }).should('exist').should('be.visible').type(UNIDADE).type('{enter}');\n    cy.get('#requiredService') // Selecciona el elemento\n    .scrollIntoView() // Desplázate hacia el elemento para hacerlo visible\n    .should('be.visible') // Asegúrate de que el elemento sea visible\n    .type('Medicina general').type('{enter}');\n    cy.get('#select_Crear_Cita_Formulario_Modelo_Agenda') // Selecciona el elemento\n    .scrollIntoView() // Desplázate hacia el elemento para hacerlo visible\n    .should('be.visible') // Asegúrate de que el elemento sea visible\n    .type('Personalizado').type('{enter}');\n    cy.get('input[type=\"radio\"][value=\"CONTROL\"]') // Selecciona el radio button con el valor \"NUEVO\"\n    .check();\n    cy.xpath('//*[@id=\"dtp_Crear_Cita_Formulario_Fecha_Control\"]').click();\n    cy.contains('a', 'Hoy').click();\n    cy.get('body').tab();\n    cy.wait(100).tab();\n    cy.wait(100).tab();\n    cy.wait(100).tab();\n    cy.wait(100).tab();\n    cy.wait(100).tab();\n    cy.wait(100).tab();\n    cy.wait(100).tab();\n    cy.get('#select_Crear_Cita_Formulario_Personal_Salud').scrollIntoView().should('be.visible').click();\n    cy.get('#select_Crear_Cita_Formulario_Personal_Salud') // Selecciona el campo de búsqueda\n    .click({\n      force: true\n    }); // Forza el clic si es necesario\n    cy.wait(500);\n    cy.get('#select_Crear_Cita_Formulario_Personal_Salud_list .ant-select-item-option') // Selecciona los elementos de la lista\n    .eq(0) // Toma el elemento 10\n    .click(); // Hace clic en el primer elemento\n    cy.get('input[type=\"radio\"][value=\"PM\"]') // Selecciona el radio button con el valor \"PM\"\n    .check();\n    contador++;\n    // Mostrar en la consola el contador y el DNI\n    cy.log(`Contador: ${contador}, DNI: ${DNI}`);\n  }\n});",
+              "err": {
+                "message": "Error: AssertionError: Timed out retrying after 2000ms: expected '<input#validateDNI_dni.ant-input.css-1uweeqc.ant-input-outlined.ant-input-status-success>' to be 'visible'\n\nThis element `<input#validateDNI_dni.ant-input.css-1uweeqc.ant-input-outlined.ant-input-status-success>` is not visible because its content is being clipped by one of its parent elements, which has a CSS property of overflow: `hidden`, `scroll` or `auto`",
+                "estack": "Error: AssertionError: Timed out retrying after 2000ms: expected '<input#validateDNI_dni.ant-input.css-1uweeqc.ant-input-outlined.ant-input-status-success>' to be 'visible'\n\nThis element `<input#validateDNI_dni.ant-input.css-1uweeqc.ant-input-outlined.ant-input-status-success>` is not visible because its content is being clipped by one of its parent elements, which has a CSS property of overflow: `hidden`, `scroll` or `auto`",
+                "diff": null
+              },
+              "uuid": "c3aea387-971a-4353-95fb-82a91d98b55a",
+              "parentUUID": "980683fc-df88-43a5-ab32-e4555f66ab9d",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [],
+          "failures": [
+            "c3aea387-971a-4353-95fb-82a91d98b55a"
+          ],
+          "pending": [],
+          "skipped": [],
+          "duration": 44549,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.0.1"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": false,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.3"
+    },
+    "marge": {
+      "options": {
+        "id": "default",
+        "reportDir": "results",
+        "overwrite": false,
+        "html": false,
+        "json": true
+      },
+      "version": "6.2.0"
+    }
+  }
+}

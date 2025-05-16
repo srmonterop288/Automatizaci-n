@@ -1,0 +1,110 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 1,
+    "passes": 0,
+    "pending": 0,
+    "failures": 1,
+    "start": "2025-05-16T14:32:14.880Z",
+    "end": "2025-05-16T14:32:47.987Z",
+    "duration": 33107,
+    "testsRegistered": 1,
+    "passPercent": 0,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "56b1c944-6168-488c-bbc0-a4013acf554f",
+      "title": "",
+      "fullFile": "cypress\\e2e\\Reprogramar cita en turno AM y validar nueva fecha de cita en ECLI.cy.js",
+      "file": "cypress\\e2e\\Reprogramar cita en turno AM y validar nueva fecha de cita en ECLI.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "48592c2d-7c03-4791-a4c3-bbd39e959dc0",
+          "title": "Reprogramar cita en turno AM y validar nueva fecha de cita en ECLI",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "debería iniciar sesión con éxito",
+              "fullTitle": "Reprogramar cita en turno AM y validar nueva fecha de cita en ECLI debería iniciar sesión con éxito",
+              "timedOut": null,
+              "duration": 19962,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": null,
+              "code": "// Llama a la función login \ncy.login_SDA();\n// Verifica que el login haya sido exitoso\ncy.url().should('not.include', '/login');\ncy.wait(1000);\ncy.get('#div_nombre_usuario', {\n  timeout: 10000\n}).should('be.visible').click();\ncy.get('#div_menu_cambiar_cuenta', {\n  timeout: 10000\n}).should('be.visible').click();\ncy.get('#div_seleccionar_rol_supervisor_de_tramites_y_citas', {\n  timeout: 10000\n}).should('be.visible').click();\ncy.wait(1000);\ncy.get(\"#btn_menu_desplegable\").should('be.visible').click();\ncy.wait(1000);\ncy.get(\"#spn_modulo_unidades_ejecutoras_lista_citas\").should('be.visible').click();\ncy.wait(1000);\ncy.get(\"#btn_menu_desplegable\").should('be.visible').click();\ncy.wait(1000);\ncy.wait(100).tab();\ncy.wait(100).tab();\n//------------------------------------------------\nlet contador = 0;\nconst rutaArchivoExcel = 'cypress/fixtures/agenda.xlsx';\n// Leer los datos del archivo Excel\ncy.leerExcel(rutaArchivoExcel).then(datosExcel => {\n  // Mostrar los datos leídos\n  console.log(datosExcel);\n  // Recorrer los datos del archivo Excel\n  for (let i = 1; i < datosExcel.length; i++) {\n    // Comenzamos desde 1 para saltarnos la fila de encabezados\n    // Tomar el valor de la primera columna (DNI)\n    // Usar los datos del Excel\n    // Ingresar DNI\n    const DNI = datosExcel[i][0]; // Primer fila, primera columna (usando índices 0 basados)\n    if (DNI && DNI.trim() !== '') {\n      // Si el DNI es válido, proceder con la acción\n      cy.window().then(win => {\n        win.alert('El DNI es correcto');\n      });\n    } else {\n      // Si el DNI está vacío o no es válido, lanzar una alerta\n      cy.window().then(win => {\n        win.alert('Prueba exitosa');\n        cy.log('Prueba Finalizada: correctamente');\n        cy.pause();\n      });\n    }\n    cy.get('#txt_Citas_DNI', {\n      timeout: 1000\n    }).should('exist').should('be.visible').type(DNI).type('{enter}');\n    // Ingresar FECHA\n    const FECHA = datosExcel[i][3]; // Primer fila, segunda columna\n    cy.get('#date_picker_Citas_Fecha', {\n      timeout: 2000\n    }) // Espera hasta 2 segundos\n    .should('exist') // Asegura que el campo esté presente en el DOM\n    .should('be.visible') // Asegura que el campo sea visible\n    .scrollIntoView() // Asegura que el campo esté dentro del viewport\n    .type(FECHA); // Escribe el valor de la variable FECHANAC en el campo\n    cy.wait(500).tab();\n    // Usar los datos del Excel\n    // Unidad Ejecutora\n    cy.get('#ddl_Citas_Unidad_Ejecutora').scrollIntoView().should('be.visible');\n    const UNIDADE = datosExcel[i][2]; // Primer fila, primera columna (usando índices 0 basados)     \n    cy.get('#ddl_Citas_Unidad_Ejecutora', {\n      timeout: 1000\n    }).should('exist').should('be.visible').type(UNIDADE).type('{enter}');\n    cy.get('#ddl_Citas_Servicio') // Selecciona el elemento\n    .scrollIntoView() // Desplázate hacia el elemento para hacerlo visible\n    .should('be.visible') // Asegúrate de que el elemento sea visible\n    .type('Medicina general').type('{enter}');\n    cy.wait(500).tab();\n    cy.get('button.ant-btn.ant-btn-icon-only.ant-dropdown-trigger').first().click();\n    cy.contains('Reprogramar') // Busca un botón o elemento con el texto \"Cancelar\"              // Hace clic\n    .type('{enter}');\n    cy.contains('¿Desea reprogramar la cita de').should('be.visible');\n    cy.get('#turn input[type=\"radio\"][value=\"AM\"]').check({\n      force: true\n    });\n    cy.get('#ddl_Modal_Reagendar_Cita_Motivo').click({\n      force: true\n    });\n    // Selecciona una opción (ajusta el texto visible)\n    cy.get('#ddl_Modal_Reagendar_Cita_Motivo').click({\n      force: true\n    });\n    cy.get('.ant-select-dropdown:not(.ant-select-dropdown-hidden) .ant-select-item-option').should('have.length.at.least', 1).first().click();\n    cy.wait(1000).tab();\n    cy.contains('Confirmar') // Encuentra el botón con texto \"Cancelar\"\n    .should('be.visible') // Asegura que sea visible\n    .focus() // Asegura que tenga el foco (necesario para .type())\n    .click();\n    cy.pause();\n    cy.wait(1000).tab();\n    cy.contains('Confirmar') // Encuentra el botón con texto \"Cancelar\"\n    .should('be.visible') // Asegura que sea visible\n    .focus() // Asegura que tenga el foco (necesario para .type())\n    .click();\n    cy.pause();\n    contador++;\n    // Mostrar en la consola el contador y el DNI\n    cy.log(`Contador: ${contador}, DNI: ${DNI}`);\n  }\n});",
+              "err": {
+                "message": "Error: AssertionError: Timed out retrying after 1000ms: Expected to find element: `#txt_Citas_DNI`, but never found it.",
+                "estack": "Error: AssertionError: Timed out retrying after 1000ms: Expected to find element: `#txt_Citas_DNI`, but never found it.",
+                "diff": null
+              },
+              "uuid": "522916fb-69cd-48f5-9ffd-4123b9dd1f27",
+              "parentUUID": "48592c2d-7c03-4791-a4c3-bbd39e959dc0",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [],
+          "failures": [
+            "522916fb-69cd-48f5-9ffd-4123b9dd1f27"
+          ],
+          "pending": [],
+          "skipped": [],
+          "duration": 19962,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.0.1"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": false,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.3"
+    },
+    "marge": {
+      "options": {
+        "id": "default",
+        "reportDir": "results",
+        "overwrite": false,
+        "html": false,
+        "json": true
+      },
+      "version": "6.2.0"
+    }
+  }
+}

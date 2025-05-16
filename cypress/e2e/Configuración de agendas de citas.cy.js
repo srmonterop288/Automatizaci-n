@@ -87,6 +87,7 @@ describe("Configuración de agendas de citas", () => {
       cy.wait(100).tab()
       .type('1:00 PM')
       .type('{enter}');
+      cy.wait(100).tab()
 
 
       cy.get("#btn_Creando_Agenda_Agregar_Cita").should('be.visible').click();
@@ -133,4 +134,3 @@ describe("Configuración de agendas de citas", () => {
       
     })
   })
- 

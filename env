@@ -1,0 +1,39 @@
+# --------------------Usuarios por dominio en ambiente de "QA"--------------------
+
+# URL
+CY_QA_URL=https://spa-container-qa.nuevoexpediente.com/login
+# URL
+CY_STG_URL=https://spa-container-stg.nuevoexpediente.com/login
+
+console.log("CYPRESS_AMBIENTE:", process.env.CYPRESS_AMBIENTE);
+# ECLI
+CY_QA_ECLI_USER_DOCTOR=UB-1712A
+CY_QA_ECLI_PASS_DOCTOR=Password01
+
+# SDA
+CY_QA_SDA_USER_GLOBAL=001_USUARIO_SDA_MASTER
+CY_QA_SDA_PASS_GLOBAL=Password01
+
+# CORE
+CY_QA_CORE_USER_ADMINISTRADOR=UB-1712A
+CY_QA_CORE_PASS_ADMINISTRADOR=Password01
+
+
+
+# --------------------Usuarios por dominio en ambiente de "STG"--------------------
+
+# ECLI
+CY_STG_ECLI_USER_DOCTOR=3-93-997
+CY_STG_ECLI_PASS_DOCTOR=Password01
+
+# SDA
+CY_STG_SDA_USER_GLOBAL=8-874-911
+CY_STG_SDA_PASS_GLOBAL=Password01$
+
+# CORE
+CY_STG_CORE_USER_ADMINISTRADOR=PE-8-2331
+CY_STG_CORE_PASS_ADMINISTRADOR=Password01$
+
+
+# ------ Variable personalizada para que Cypress  pueda leer con "Cypress.env"------
+CYPRESS_AMBIENTE=QA

@@ -3,7 +3,7 @@ describe("Crear unidad ejecutora", () => {
   require('cypress-plugin-tab')
   require('cypress-xpath');
 
-  it('debería iniciar sesión con éxito', () => {
+  it('Inicio de sesión éxitoso', () => {
     // Llama a la función login 
     cy.login_CORE();
 
@@ -139,9 +139,11 @@ cy.get('#ddl_provincia_lista_unidad_ejecutora_list .ant-select-item-option')  //
   console.log('¡Prueba exitosa!'); 
   cy.log('¡Prueba exitosa!');
 
+})
+   it('Prueba exitosa', () => {
   cy.screenshot('clicking-on-nav')
-
-  
+ 
+ 
     })
   })
  
