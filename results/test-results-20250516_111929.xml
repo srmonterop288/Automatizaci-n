@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="Mocha Tests" time="41.914" tests="2" failures="0">
+  <testsuite name="Root Suite" timestamp="2025-05-16T17:19:44" tests="0" file="cypress\e2e\CORE\TC_CP_Unidades ejecutoras_Crear unidad ejecutora.cy.js" time="0.000" failures="0">
+  </testsuite>
+  <testsuite name="Crear unidad ejecutora" timestamp="2025-05-16T17:19:44" tests="2" time="41.595" failures="0">
+    <testcase name="Crear unidad ejecutora Inicio de sesión éxitoso" time="33.987" classname="Inicio de sesión éxitoso">
+    </testcase>
+    <testcase name="Crear unidad ejecutora Prueba exitosa" time="0.788" classname="Prueba exitosa">
+    </testcase>
+  </testsuite>
+</testsuites>

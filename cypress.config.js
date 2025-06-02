@@ -24,6 +24,7 @@ module.exports = defineConfig({
   },
 
   e2e: {
+    experimentalMemoryManagement: true,
     setupNodeEvents(on, config) {
       on('after:run', (results) => {
         console.log('🎯 Evento after:run disparado.');

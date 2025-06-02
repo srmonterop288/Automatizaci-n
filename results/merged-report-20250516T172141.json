@@ -1,22 +1,157 @@
 {
   "stats": {
-    "suites": 1,
-    "tests": 2,
-    "passes": 2,
+    "suites": 3,
+    "tests": 5,
+    "passes": 5,
     "pending": 0,
     "failures": 0,
-    "start": "2025-05-16T17:13:40.340Z",
-    "end": "2025-05-16T17:14:46.597Z",
-    "duration": 66257,
-    "testsRegistered": 2,
+    "testsRegistered": 5,
     "passPercent": 100,
     "pendingPercent": 0,
     "other": 0,
     "hasOther": false,
     "skipped": 0,
-    "hasSkipped": false
+    "hasSkipped": false,
+    "start": "2025-05-16T17:13:40.340Z",
+    "end": "2025-05-16T17:21:29.784Z",
+    "duration": 469444
   },
   "results": [
+    {
+      "uuid": "4eabfe40-c9c2-4c5c-9c77-fe57c195dd34",
+      "title": "",
+      "fullFile": "cypress\\e2e\\CORE\\TC_CP_ Creación de consultorios - Unidad Ejecutora.cy.js",
+      "file": "cypress\\e2e\\CORE\\TC_CP_ Creación de consultorios - Unidad Ejecutora.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "06bed1f5-dcda-4c2f-ab86-be700402e29c",
+          "title": "Crear Consultorio",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "Inicio de sesión exitoso",
+              "fullTitle": "Crear Consultorio Inicio de sesión exitoso",
+              "timedOut": null,
+              "duration": 20171,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "// Llama a la función login \ncy.login_CORE();\n// Verifica que el login haya sido exitoso\ncy.url().should('not.include', '/login');\ncy.wait(1000);\ncy.get(\"#btn_menu_desplegable\").should('be.visible').click();\ncy.wait(1000);\ncy.get(\"#spn_modulo_medical_records_list_executing_units\").should('be.visible').click();\ncy.wait(1000);\ncy.get(\"#btn_menu_desplegable\").should('be.visible').click();\ncy.wait(1000);\ncy.wait(100).tab();\ncy.wait(100).tab();\n//Buscar Unidad Ejecutora------------------\ncy.get('#ddl_provincia_lista_unidad_ejecutora') // Selecciona el campo de búsqueda\n.click({\n  force: true\n}); // Forza el clic si es necesario\ncy.wait(500);\ncy.get('#ddl_provincia_lista_unidad_ejecutora_list .ant-select-item-option') // Selecciona los elementos de la lista\n.eq(1) // Toma el elemento 10\n.click(); // Hace clic en el primer elemento\ncy.wait(100).tab();\ncy.get('#input_unidad_ejecutora', {\n  timeout: 1000\n}).should('exist').should('be.visible').type('POLICLINICA DE GUABITO').click();\ncy.get(\"#btn_buscar\").should('be.visible').click();\ncy.get('[id^=\"btn_mas_opciones_unidad_ejecutora_\"]').first().click();\ncy.get('[id^=\"btn_administrar_unidad\"]').click();\ncy.get('div#div_tab_consultorios').scrollIntoView() // Scroll the element into view if it's clipped\n.should('be.visible').click();\ncy.get('#btn_crear_consultorio').scrollIntoView().should('be.visible').click();\nconst randomNumber = Math.floor(Math.random() * (1000 - 500 + 1)) + 500;\ncy.get('#input_codigo_consultorio').type(randomNumber.toString()); //Escribir información\ncy.wait(100).tab();\ncy.get('#input_ubicacion_consultorio', {\n  timeout: 1000\n}).should('exist').should('be.visible').type('Prueba').click();\ncy.wait(100).tab();\ncy.get('#input_nombre_consultorio', {\n  timeout: 1000\n}).should('exist').should('be.visible').type('Prueba').click();\ncy.get('#btn_habilitar_consultorio').contains('Sí') // Verifica que el texto 'Sí' esté presente en el botón\n.click();\ncy.wait(100).tab();\ncy.wait(100).tab();\ncy.get('div.ant-modal-content') // Selecciona el div con la clase 'ant-modal-content'\n.find('#btn_crear_consultorio') // Busca el elemento con el id 'btn_crear_consultorio' dentro de ese div\n.should('be.visible') // Verifica que el botón sea visible\n.click();\ncy.get('h4.ant-typography.css-1rqnfsa') // Selecciona el elemento\n.parent() // Obtiene el contenedor padre\n.then($parent => {\n  // Cambia temporalmente el estilo overflow para permitir ver el contenido\n  $parent.css('overflow', 'visible');\n}).scrollIntoView() // Desplaza a la vista\n.should('be.visible');\ncy.contains('Administración de recursos de una unidad ejecutora') // Busca el texto exacto en la página\n.should('be.visible');",
+              "err": {},
+              "uuid": "c760f9f8-f2b9-47c0-a354-7d8a095fb4c9",
+              "parentUUID": "06bed1f5-dcda-4c2f-ab86-be700402e29c",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "c760f9f8-f2b9-47c0-a354-7d8a095fb4c9"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 20171,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    },
+    {
+      "uuid": "f63ec5fa-ac6a-4d0d-9a96-3e51ffb322f8",
+      "title": "",
+      "fullFile": "cypress\\e2e\\CORE\\TC_CP_Unidades ejecutoras_Crear unidad ejecutora.cy.js",
+      "file": "cypress\\e2e\\CORE\\TC_CP_Unidades ejecutoras_Crear unidad ejecutora.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "eb3440ec-1a8d-49ba-82b1-f82b681eec2c",
+          "title": "Crear unidad ejecutora",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "Inicio de sesión éxitoso",
+              "fullTitle": "Crear unidad ejecutora Inicio de sesión éxitoso",
+              "timedOut": null,
+              "duration": 33987,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "// Llama a la función login \ncy.login_CORE();\n// Verifica que el login haya sido exitoso, por ejemplo, comprobando que la URL cambió\ncy.url().should('not.include', '/login');\ncy.wait(1000);\ncy.get(\"#btn_menu_desplegable\").should('be.visible').click();\ncy.wait(1000);\ncy.get(\"#spn_modulo_medical_records_list_executing_units\").should('be.visible').click();\ncy.wait(1000);\ncy.get(\"#btn_menu_desplegable\").should('be.visible').click();\ncy.wait(1000);\ncy.get(\"#btn_crear_unidad_ejecutora\").should('be.visible').click();\ncy.wait(100).tab();\ncy.wait(100).tab();\ncy.wait(100).tab();\ncy.wait(100).tab();\n// 1. Provincia\ncy.get('#ddl_seleccionar_provincia_unidad_ejecutora') // Selecciona el campo de búsqueda\n.click({\n  force: true\n}); // Forza el clic si es necesario\n// Espera a que la lista de opciones se cargue (si es necesario)\ncy.wait(500); // Ajusta el tiempo de espera según la velocidad de la aplicación\n// Selecciona el primer elemento de la lista\ncy.get('#ddl_seleccionar_provincia_unidad_ejecutora_list .ant-select-item-option') // Selecciona los elementos de la lista\n.eq(1) // Toma el primer elemento\n.click(); // Hace clic en el primer elemento\ncy.wait(100).tab();\n// 2. Distrito\ncy.get('#ddl_seleccionar_distrito_unidad_ejecutora') // Selecciona el campo de búsqueda\n.click({\n  force: true\n}); // Forza el clic si es necesario\n// Espera a que la lista de opciones se cargue (si es necesario)\ncy.wait(500); // Ajusta el tiempo de espera según la velocidad de la aplicación\n// Selecciona el primer elemento de la lista\ncy.get('#ddl_seleccionar_distrito_unidad_ejecutora_list .ant-select-item-option') // Selecciona los elementos de la lista\n.first() // Toma el primer elemento\n.click(); // Hace clic en el primer elemento\ncy.wait(100).tab();\n// 3. Corregimiento\ncy.get('#ddl_seleccionar_corregimiento_unidad_ejecutora') // Selecciona el campo de búsqueda\n.click({\n  force: true\n}); // Forza el clic si es necesario\n// Espera a que la lista de opciones se cargue (si es necesario)\ncy.wait(500); // Ajusta el tiempo de espera según la velocidad de la aplicación\n// Selecciona el primer elemento de la lista\ncy.get('#ddl_seleccionar_corregimiento_unidad_ejecutora_list .ant-select-item-option') // Selecciona los elementos de la lista\n.first() // Toma el primer elemento\n.click(); // Hace clic en el primer elemento\ncy.wait(100).tab();\n// 4. Nivel de atención\ncy.get('#ddl_seleccionar_nivel_atencion') // Selecciona el campo de búsqueda\n.click({\n  force: true\n}); // Forza el clic si es necesario\n// Espera a que la lista de opciones se cargue (si es necesario)\ncy.wait(500); // Ajusta el tiempo de espera según la velocidad de la aplicación\n// Selecciona el primer elemento de la lista\ncy.get('#ddl_seleccionar_nivel_atencion_list .ant-select-item-option') // Selecciona los elementos de la lista\n.first() // Toma el primer elemento\n.click(); // Hace clic en el primer elemento\ncy.wait(100).tab();\n// 5. Código unidad ejecutora\nconst randomNumber = Math.floor(Math.random() * (1000 - 500 + 1)) + 500;\ncy.get('#input_codigo_unidad_ejecutora').type(randomNumber.toString()); //Escribir información\ncy.wait(100).tab();\n// 6. Unidad ejecutora\ncy.get('#input_nombre_unidad_ejecutora').type(\"Prueba\" + randomNumber); //Escribir información\ncy.wait(100).tab();\n// 7. Habilitar unidad ejecutora\ncy.get('#btn_si_habilitar') // Selecciona el radio button usando el ID\n.check();\ncy.wait(100).tab();\n// 8. Selecciona el servicio\ncy.get('#ddl_seleccionar_servicio') // Selecciona el campo de búsqueda\n.click({\n  force: true\n}); // Forza el clic si es necesario\n// Espera a que la lista de opciones se cargue (si es necesario)\ncy.wait(500); // Ajusta el tiempo de espera según la velocidad de la aplicación\n// Selecciona el primer elemento de la lista\ncy.get('#ddl_seleccionar_servicio_list .ant-select-item-option') // Selecciona los elementos de la lista\n.eq(15) // Toma el elemento 10\n.click(); // Hace clic en el primer elemento\ncy.wait(100).tab();\n//Seleccionamos el botón Asignar servicio\"\ncy.get(\"#btn_asignar_servicio\").should('be.visible').click();\ncy.wait(100).tab();\ncy.get('.ant-alert-message') // Selecciona el div con la clase ant-alert-message\n.should('be.visible') // Asegura que el mensaje esté visible\n.and('contain.text', 'Servicio agregado correctamente.');\ncy.wait(2000).tab();\n//Seleccionamos el botón Crear Unidad Ejecutora\"\ncy.get(\"#btn_crear_unidad_ejecutora\").should('be.visible').click();\ncy.wait(100).tab();\ncy.wait(2000).tab();\n//bucar Unidad Ejecutora\ncy.get('#ddl_provincia_lista_unidad_ejecutora') // Selecciona el campo de búsqueda\n.click({\n  force: true\n}); // Forza el clic si es necesario\n// Espera a que la lista de opciones se cargue (si es necesario)\ncy.wait(500); // Ajusta el tiempo de espera según la velocidad de la aplicación\n// Selecciona el primer elemento de la lista\ncy.get('#ddl_provincia_lista_unidad_ejecutora_list .ant-select-item-option') // Selecciona los elementos de la lista\n.eq(1) // Toma el primer elemento\n.click(); // Hace clic en el primer elemento\ncy.wait(100).tab();\n//Unidad ejecutora\ncy.get('#input_unidad_ejecutora').type(\"Prueba\" + randomNumber); //Escribir información\ncy.wait(100).tab();\ncy.wait(100).tab();\ncy.get(\"#btn_buscar\").should('be.visible').click();\ncy.wait(1000);\ncy.get('[id^=\"btn_ver_detalle_unidad_ejecutora_\"]') // Selecciona el botón cuyo ID empieza con \"btn_ver_detalle_unidad_ejecutora_\"\n.click();\ncy.wait(1000);\nconsole.log('¡Prueba exitosa!');\ncy.log('¡Prueba exitosa!');",
+              "err": {},
+              "uuid": "9055d511-df27-4902-8691-139891bfe649",
+              "parentUUID": "eb3440ec-1a8d-49ba-82b1-f82b681eec2c",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Prueba exitosa",
+              "fullTitle": "Crear unidad ejecutora Prueba exitosa",
+              "timedOut": null,
+              "duration": 788,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.screenshot('clicking-on-nav');",
+              "err": {},
+              "uuid": "40374c61-e4f8-48ba-9680-c910c6c7005e",
+              "parentUUID": "eb3440ec-1a8d-49ba-82b1-f82b681eec2c",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "9055d511-df27-4902-8691-139891bfe649",
+            "40374c61-e4f8-48ba-9680-c910c6c7005e"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 34775,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    },
     {
       "uuid": "3b82ad6d-fb8b-437b-9e8d-fd99928416e1",
       "title": "",

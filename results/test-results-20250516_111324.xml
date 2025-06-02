@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="Mocha Tests" time="66.257" tests="2" failures="0">
+  <testsuite name="Root Suite" timestamp="2025-05-16T17:13:40" tests="1" file="cypress\e2e\CORE\Crear_pacientes.cy.js" time="0.000" failures="0">
+    <testcase name="Prueba exitosa" time="0.874" classname="Prueba exitosa">
+    </testcase>
+  </testsuite>
+  <testsuite name="Crear Pacientes" timestamp="2025-05-16T17:13:41" tests="1" time="65.324" failures="0">
+    <testcase name="Crear Pacientes debería iniciar sesión con éxito" time="58.129" classname="debería iniciar sesión con éxito">
+    </testcase>
+  </testsuite>
+</testsuites>

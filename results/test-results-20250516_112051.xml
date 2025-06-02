@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="Mocha Tests" time="27.033" tests="1" failures="0">
+  <testsuite name="Root Suite" timestamp="2025-05-16T17:21:02" tests="0" file="cypress\e2e\CORE\TC_CP_ Creación de consultorios - Unidad Ejecutora.cy.js" time="0.000" failures="0">
+  </testsuite>
+  <testsuite name="Crear Consultorio" timestamp="2025-05-16T17:21:03" tests="1" time="26.699" failures="0">
+    <testcase name="Crear Consultorio Inicio de sesión exitoso" time="20.171" classname="Inicio de sesión exitoso">
+    </testcase>
+  </testsuite>
+</testsuites>

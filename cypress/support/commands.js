@@ -17,7 +17,7 @@ Cypress.Commands.add('login_ECLI', () => {
 
         //-------------------------------------------------------------------------------------
 
-        Cypress.Commands.add('login_SDA', () => { 
+        Cypress.Commands.add('login_SDA_STG', () => { 
           cy.visit('https://spa-container-stg.nuevoexpediente.com/login')
       
           //Login
@@ -41,6 +41,34 @@ Cypress.Commands.add('login_ECLI', () => {
           .should('include', 'https://spa-container-stg.nuevoexpediente.com/app/medical-records/dashboard')
   
         });
+
+
+         //-------------------------------------------------------------------------------------
+
+        Cypress.Commands.add('login_SDA_QA', () => { 
+          cy.visit('https://spa-container-qa.nuevoexpediente.com/login')
+      
+          //Login
+          cy.get('#input_nombre_usuario_login').type("8-874-911") //Escribir información
+          cy.get('#input_contrasena_login').type("Password01$")
+
+          cy.intercept('POST', '/api/mi-endpoint').as('apiRequest'); 
+          // Realiza el clic en el botón de login (o la acción que desencadena la carga del botón)
+          cy.get('#btn_ingresar_login').click();
+          // Espera que la solicitud se complete  
+          // Ahora espera hasta que el botón se muestre
+          cy.get('#btn_seleccionar_unidad_ejecutora_policlinica_nuevo_san_juan', { timeout: 30000 }).should('be.visible')
+          .should('exist')
+          .click();
+          cy.get('#btn_seleccionar_area_administracion_local')
+          .should('be.visible')
+          .should('exist')
+          .click();
+          // verify tab url
+          cy.url()
+          .should('include', 'https://spa-container-qa.nuevoexpediente.com/app/medical-records/dashboard')
+  
+        });
   
           //-------------------------------------------------------------------------------------
     
@@ -54,7 +82,7 @@ Cypress.Commands.add('login_ECLI', () => {
 });
 
 
-            Cypress.Commands.add('login_CORE', () => { 
+            Cypress.Commands.add('login_CORE_STG', () => { 
               cy.visit('https://spa-container-stg.nuevoexpediente.com/login')
           
               //Login
@@ -75,6 +103,32 @@ Cypress.Commands.add('login_ECLI', () => {
       
               //--
           });
+
+
+
+Cypress.Commands.add('login_CORE_QA', () => { 
+              cy.visit('https://spa-container-qa.nuevoexpediente.com/login')
+          
+              //Login
+              cy.get('#input_nombre_usuario_login').type("9-855-734") //Escribir información
+              cy.get('#input_contrasena_login').type("Password01!")
+              cy.get('#btn_ingresar_login').click();
+             //Unidad Ejecutora
+              cy.get('[id^="btn_seleccionar_unidad_ejecutora_pol"]')
+                .should('be.visible')
+                .click();
+
+              cy.wait(1000); 
+              cy.get('#btn_seleccionar_area_administracion_global').should('be.visible').click();
+              
+              // verify tab url
+              cy.url()
+              .should('include', 'https://spa-container-qa.nuevoexpediente.com/app/medical-records/dashboard')
+      
+              //--
+          });
+
+
 
 
 

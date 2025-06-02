@@ -5,16 +5,16 @@
     "passes": 2,
     "pending": 0,
     "failures": 0,
-    "start": "2025-05-16T17:13:40.340Z",
-    "end": "2025-05-16T17:14:46.597Z",
-    "duration": 66257,
     "testsRegistered": 2,
     "passPercent": 100,
     "pendingPercent": 0,
     "other": 0,
     "hasOther": false,
     "skipped": 0,
-    "hasSkipped": false
+    "hasSkipped": false,
+    "start": "2025-05-16T17:13:40.340Z",
+    "end": "2025-05-16T17:14:46.597Z",
+    "duration": 66257
   },
   "results": [
     {
