@@ -1,6 +1,6 @@
 // Cargar las variables del archivo ".env" al objeto process.env
 require("dotenv").config();
-
+ 
 const { defineConfig } = require("cypress");
 const dayjs = require("dayjs");
 const { execSync } = require("child_process");
@@ -8,7 +8,7 @@ const fs = require("fs");
 const glob = require("glob");
 const XLSX = require("xlsx");
 const path = require("path");
-
+ 
 // Validar que se haya definido el ambiente en .env
 const ambienteRaw = process.env.CYPRESS_AMBIENTE;
 if (!ambienteRaw) {
@@ -16,32 +16,29 @@ if (!ambienteRaw) {
     "No se definió la variable 'CYPRESS_AMBIENTE' en el archivo .env."
   );
 }
-
+ 
 const ambiente = ambienteRaw.toUpperCase();
-
+ 
 if (!["QA", "STG"].includes(ambiente)) {
   throw new Error(`Ambiente '${ambiente}' no es válido. Usa 'QA' o 'STG'.`);
 }
-
+ 
 // Obtener la URL base correspondiente al ambiente
 const baseUrl = process.env[`CY_${ambiente}_URL`];
-
+ 
 if (!baseUrl) {
   throw new Error(
     `No se encontró la URL para el ambiente '${ambiente}' en el archivo .env.`
   );
 }
-
+ 
 const timestamp = dayjs().format("YYYYMMDD_HHmmss"); // Timestamp para nombre único
-
+ 
 module.exports = defineConfig({
   env: { ...process.env }, // Carga todas las variables del archivo .env
   e2e: {
-<<<<<<< HEAD
-    experimentalMemoryManagement: true,
-=======
     baseUrl,
-
+ 
     reporter: "cypress-multi-reporters",
     reporterOptions: {
       reporterEnabled: "mochawesome, mocha-junit-reporter",
@@ -57,7 +54,6 @@ module.exports = defineConfig({
       },
     },
     specPattern: "cypress/e2e/**/*.cy.{js,jsx,ts,tsx}", // Asegúrate de que tu ruta coincida con la de tus archivos de prueba
->>>>>>> 0876d1310b384d733a7a3eb67f42614dd6383c07
     setupNodeEvents(on, config) {
       on("after:run", (results) => {
         console.log("🎯 Evento after:run disparado.");
@@ -67,20 +63,20 @@ module.exports = defineConfig({
           console.log("🔄 Creando carpeta de resultados...");
           fs.mkdirSync(reportDir);
         }
-
+ 
         const jsonGlob = path.join(reportDir, "mochawesome_*.json");
         const mergedReport = path.join(reportDir, `report-${timestamp}.json`);
         const finalHtml = path.join(reportDir, `report-${timestamp}.html`);
-
+ 
         // Verifica si hay archivos JSON generados
         const jsonFiles = glob.sync(jsonGlob);
         console.log("Archivos JSON encontrados:", jsonFiles);
-
+ 
         if (jsonFiles.length === 0) {
           console.error("❌ No se encontraron archivos JSON generados.");
           return;
         }
-
+ 
         try {
           console.log("🔄 Fusionando archivos JSON...");
           // Fusiona los archivos JSON
@@ -89,14 +85,14 @@ module.exports = defineConfig({
             { stdio: "inherit" }
           );
           console.log(`Archivos JSON fusionados en: ${mergedReport}`);
-
+ 
           console.log("🔄 Generando el reporte HTML...");
           // Genera el HTML
           execSync(`npx marge "${mergedReport}" -f report -o "${reportDir}"`, {
             stdio: "inherit",
           });
           console.log(`Reporte HTML generado en: ${finalHtml}`);
-
+ 
           // Abre el reporte en el navegador
           const open = require("open"); // Asegúrate de importar la librería correctamente
           open(finalHtml)
@@ -115,7 +111,7 @@ module.exports = defineConfig({
           console.error("❌ Error generando el reporte HTML:", error.message);
         }
       });
-
+ 
       on("task", {
         leerExcel({ archivo, hoja }) {
           const ruta = path.resolve(__dirname, archivo);

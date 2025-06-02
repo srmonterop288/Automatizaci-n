@@ -16,7 +16,7 @@ describe("SDA - Integración con ECLI", () => {
 
     // Carga los datos desde el archivo Excel
     cy.task("leerExcel", {
-      archivo: "cypress/fixtures/datos_QA_SDA.xlsx",
+      archivo: "cypress/fixtures/datos_STG_SDA.xlsx",
       hoja: "CitasExtras",
     }).then((datos) => {
       testDataList = datos;
@@ -43,12 +43,12 @@ describe("SDA - Integración con ECLI", () => {
           username: Cypress.env(`CY_${ambiente}_ECLI_USER_DOCTOR`),
           password: Cypress.env(`CY_${ambiente}_ECLI_PASS_DOCTOR`),
           unidadEjecutora:
-            "#btn_seleccionar_unidad_ejecutora_hospital_de_almirante",
+            "#btn_seleccionar_unidad_ejecutora_policlinica_nuevo_san_juan",
           unidadArea: "#btn_seleccionar_area_consulta_externa",
         });
 
         // Selecciona el rol "Médico"
-        LoginPage.changeRol("#div_seleccionar_rol_doctor");
+        LoginPage.changeRol("#div_seleccionar_rol_medico");
 
         // Abre el menú desplegable, luego selecciona el módulo y submódulo
         LoginPage.navigate({
@@ -64,12 +64,12 @@ describe("SDA - Integración con ECLI", () => {
         });
 
         // Hace clic en el botón "+ Solicitud de citas extra"
-        cy.get("#btn_Doctor_agenda_solicitud_cita", { timeout: tiempo })
+        cy.get("#btn_Medico_agenda_solicitud_cita", { timeout: tiempo })
           .should("exist")
           .click();
 
         // Hace clic en el botón "+ Agregar citas extra"
-        cy.get("#btn_Doctor_agregar_cita_extra", { timeout: tiempo })
+        cy.get("#btn_Medico_agregar_cita_extra", { timeout: tiempo })
           .should("exist")
           .click();
 
@@ -103,7 +103,7 @@ describe("SDA - Integración con ECLI", () => {
         // Toma un screenshot a la pantalla "Solicitud de cita extra"
         cy.wait(2000);
         cy.screenshot(
-          "Citas_extra_QA/Información de la solicitud de cita extra_" +
+          "Citas_extra_STG/Información de la solicitud de cita extra_" +
             String(contador++).padStart(2, "0")
         );
 
@@ -126,7 +126,7 @@ describe("SDA - Integración con ECLI", () => {
         // Toma un screenshot del resultado
         cy.wait(2000);
         cy.screenshot(
-          "Citas_extra_QA/Solicitud de cita extra generada_" +
+          "Citas_extra_STG/Solicitud de cita extra generada_" +
             String(contador++).padStart(2, "0")
         );
 
@@ -136,7 +136,7 @@ describe("SDA - Integración con ECLI", () => {
           username: Cypress.env(`CY_${ambiente}_SDA_USER_GLOBAL`),
           password: Cypress.env(`CY_${ambiente}_SDA_PASS_GLOBAL`),
           unidadEjecutora:
-            "#btn_seleccionar_unidad_ejecutora_hospital_de_almirante",
+            "#btn_seleccionar_unidad_ejecutora_policlinica_nuevo_san_juan",
           unidadArea: "#btn_seleccionar_area_administracion_local",
         });
 
@@ -193,7 +193,7 @@ describe("SDA - Integración con ECLI", () => {
         // Toma un screenshot al mensaje de éxito
         cy.wait(2000);
         cy.screenshot(
-          "Citas_extra_QA/Cita extra confirmada_" +
+          "Citas_extra_STG/Cita extra confirmada_" +
             String(contador++).padStart(2, "0")
         );
       });

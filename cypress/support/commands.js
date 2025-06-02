@@ -49,15 +49,15 @@ Cypress.Commands.add('login_ECLI', () => {
           cy.visit('https://spa-container-qa.nuevoexpediente.com/login')
       
           //Login
-          cy.get('#input_nombre_usuario_login').type("8-874-911") //Escribir información
-          cy.get('#input_contrasena_login').type("Password01$")
+          cy.get('#input_nombre_usuario_login').type("001_USUARIO_SDA_MASTER") //Escribir información
+          cy.get('#input_contrasena_login').type("Password01")
 
           cy.intercept('POST', '/api/mi-endpoint').as('apiRequest'); 
           // Realiza el clic en el botón de login (o la acción que desencadena la carga del botón)
           cy.get('#btn_ingresar_login').click();
           // Espera que la solicitud se complete  
           // Ahora espera hasta que el botón se muestre
-          cy.get('#btn_seleccionar_unidad_ejecutora_policlinica_nuevo_san_juan', { timeout: 30000 }).should('be.visible')
+          cy.get('#btn_seleccionar_unidad_ejecutora_hospital_mac', { timeout: 30000 }).should('be.visible')
           .should('exist')
           .click();
           cy.get('#btn_seleccionar_area_administracion_local')

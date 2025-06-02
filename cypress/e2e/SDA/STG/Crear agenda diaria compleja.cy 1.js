@@ -9,7 +9,7 @@ describe("SDA - Creación de Agenda Diaria Compleja", () => {
   before(() => {
     // Leer los datos de prueba desde un archivo Excel usando la tarea personalizada
     cy.task("leerExcel", {
-      archivo: "cypress/fixtures/datos_QA_SDA.xlsx",
+      archivo: "cypress/fixtures/datos_STG_SDA.xlsx",
       hoja: "AgendaDiaria",
     }).then((datos) => {
       testData = datos[0]; // Usamos el primer registro del Excel
@@ -24,9 +24,11 @@ describe("SDA - Creación de Agenda Diaria Compleja", () => {
       baseUrl: Cypress.env(`CY_${ambiente}_URL`),
       username: Cypress.env(`CY_${ambiente}_SDA_USER_GLOBAL`),
       password: Cypress.env(`CY_${ambiente}_SDA_PASS_GLOBAL`),
-      unidadEjecutora: "#btn_seleccionar_unidad_ejecutora_hospital_mac",
+      unidadEjecutora:
+        "#btn_seleccionar_unidad_ejecutora_automation_hospital_mac",
       unidadArea: "#btn_seleccionar_area_administracion_local",
     });
+
     navigateToAgendaCreation();
   });
 
@@ -221,7 +223,7 @@ describe("SDA - Creación de Agenda Diaria Compleja", () => {
     // Capturar una captura de pantalla como evidencia de la agenda creada
     let contador = 1;
     cy.screenshot(
-      "Agenda_diaria_QA/Agenda Diaria Compleja_" +
+      "Agenda_diaria_STG/Agenda diaria compleja_" +
         String(contador++).padStart(2, "0")
     );
   });
