@@ -1,31 +1,3 @@
-<<<<<<< HEAD
-import '@applitools/testgenai-cypress/commands'
-describe("Crear agenda diaria completa", () => {
-  require('cypress-plugin-tab')
-  require('cypress-xpath');
-
-  it('debería iniciar sesión con éxito', () => {
-    // Llama a la función login 
-    cy.login_SDA_QA();
-
-    // Verifica que el login haya sido exitoso
-    cy.url().should('not.include', '/login');
-
-cy.wait(1000); 
-    cy.get('#div_nombre_usuario', { timeout: 10000 }).should('be.visible').click();
-    cy.get('#div_menu_cambiar_cuenta', { timeout: 10000 }).should('be.visible').click();
-    cy.get('#div_seleccionar_rol_supervisor_de_tramites_y_citas', { timeout: 10000 }).should('be.visible').click();
-    
-        cy.wait(1000); 
-        cy.get("#btn_menu_desplegable").should('be.visible').click();
-        cy.wait(1000); 
-        cy.get("#spn_modulo_unidades_ejecutoras_agendas").should('be.visible').click();
-        cy.wait(1000); 
-        cy.get("#btn_menu_desplegable").should('be.visible').click();
-        cy.wait(2000);
-        cy.wait(100).tab()
-        cy.wait(100).tab()
-=======
 // Importar el login page
 import LoginPage from "../../../support/login.page";
 
@@ -37,7 +9,7 @@ describe("SDA - Creación de Agenda Diaria Compleja", () => {
   before(() => {
     // Leer los datos de prueba desde un archivo Excel usando la tarea personalizada
     cy.task("leerExcel", {
-      archivo: "cypress/fixtures/datos_QA_SDA.xlsx",
+      archivo: "cypress/fixtures/datos_STG_SDA.xlsx",
       hoja: "AgendaDiaria",
     }).then((datos) => {
       testData = datos[0]; // Usamos el primer registro del Excel
@@ -52,12 +24,13 @@ describe("SDA - Creación de Agenda Diaria Compleja", () => {
       baseUrl: Cypress.env(`CY_${ambiente}_URL`),
       username: Cypress.env(`CY_${ambiente}_SDA_USER_GLOBAL`),
       password: Cypress.env(`CY_${ambiente}_SDA_PASS_GLOBAL`),
-      unidadEjecutora: "#btn_seleccionar_unidad_ejecutora_hospital_mac",
+      unidadEjecutora:
+        "#btn_seleccionar_unidad_ejecutora_automation_hospital_mac",
       unidadArea: "#btn_seleccionar_area_administracion_local",
     });
+
     navigateToAgendaCreation();
   });
->>>>>>> 0876d1310b384d733a7a3eb67f42614dd6383c07
 
   function navigateToAgendaCreation() {
     // Cambiar al rol de supervisor y navegar al módulo de agendas para iniciar la creación
@@ -250,12 +223,8 @@ describe("SDA - Creación de Agenda Diaria Compleja", () => {
     // Capturar una captura de pantalla como evidencia de la agenda creada
     let contador = 1;
     cy.screenshot(
-      "Agenda_diaria_QA/Agenda Diaria Compleja_" +
+      "Agenda_diaria_STG/Agenda diaria compleja_" +
         String(contador++).padStart(2, "0")
     );
   });
 });
-<<<<<<< HEAD
-});
-=======
->>>>>>> 0876d1310b384d733a7a3eb67f42614dd6383c07
