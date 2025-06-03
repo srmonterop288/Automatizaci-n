@@ -131,6 +131,11 @@ describe("Configuración de agendas de citas", () => {
   cy.contains('button', 'Finalizar')  // Busca el botón que contiene el texto 'Finalizar'
   .click();
   
+      cy.log(`Contador: ${contador}, DNI: ${DNI}`);
+            cy.screenshot(
+      "Configuracion de agendas/Agenda de citas_" +
+        String(contador++).padStart(2, "0")
+    );
       
     })
   })

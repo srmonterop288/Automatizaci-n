@@ -154,6 +154,13 @@ cy.get('.ant-select-dropdown .ant-select-item-option')
   // Mostrar en la consola el contador y el DNI
   cy.log(`Contador: ${contador}, DNI: ${DNI}`);
   
+    cy.log(`Contador: ${contador}, DNI: ${DNI}`);
+            cy.screenshot(
+      "Generar cita comun/tipo OTRO_" +
+        String(contador++).padStart(2, "0")
+    );
+
+
                         
         }
       });

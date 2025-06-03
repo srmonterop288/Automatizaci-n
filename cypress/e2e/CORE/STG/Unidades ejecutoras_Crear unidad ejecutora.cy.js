@@ -5,7 +5,7 @@ describe("Crear unidad ejecutora", () => {
 
   it('Inicio de sesión éxitoso', () => {
     // Llama a la función login 
-    cy.login_CORE_QA();
+    cy.login_CORE_STG();
 
     // Verifica que el login haya sido exitoso, por ejemplo, comprobando que la URL cambió
     cy.url().should('not.include', '/login');
@@ -141,7 +141,10 @@ cy.get('#ddl_provincia_lista_unidad_ejecutora_list .ant-select-item-option')  //
 
 })
    it('Prueba exitosa', () => {
-  cy.screenshot('clicking-on-nav')
+            cy.screenshot(
+      "Crear Unidad Ejecutora/Crear Unidad Ejecutora_" +
+        String(contador++).padStart(2, "0")
+    );
  
  
     })

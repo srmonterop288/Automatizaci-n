@@ -419,7 +419,10 @@ cy.log(`Contador: ${contador}, DNI: ${DNI}`);
   console.log('¡Prueba exitosa!'); 
   cy.log('¡Prueba exitosa!');
 
-  
+            cy.screenshot(
+      "Unidades Ejecutoras Crear Profesional/Crear Usuario y Profesional_" +
+        String(contador++).padStart(2, "0")
+    );
   
     })
   })

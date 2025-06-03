@@ -528,6 +528,10 @@ cy.log(`Contador: ${contador}, DNI: ${DNI}`);
   cy.wait(1000);
   console.log('¡Prueba exitosa!'); 
   cy.log('¡Prueba exitosa!');
+      cy.screenshot(
+      "Crear Usuario y Profesioal_QA/Crear Usuario y Profesioal_" +
+        String(contador++).padStart(2, "0")
+    );
 
   
   

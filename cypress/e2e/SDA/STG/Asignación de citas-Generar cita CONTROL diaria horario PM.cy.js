@@ -146,6 +146,12 @@ let contador = 0;
   // Mostrar en la consola el contador y el DNI
   cy.log(`Contador: ${contador}, DNI: ${DNI}`);
   
+
+      cy.log(`Contador: ${contador}, DNI: ${DNI}`);
+            cy.screenshot(
+      "Asignacion de citas/Generar cita diaria tipo CONTROL PM_" +
+        String(contador++).padStart(2, "0")
+    );
                         
         }
       });

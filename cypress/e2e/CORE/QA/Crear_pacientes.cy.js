@@ -381,7 +381,10 @@ cy.log(`Contador: ${contador}, DNI: ${DNI}`);
 
     })
    it('Prueba exitosa', () => {
-  cy.screenshot('clicking-on-nav')
+        cy.screenshot(
+      "Crear Paciente/Crear Paciente_" +
+        String(contador++).padStart(2, "0")
+    );
   
   })
  

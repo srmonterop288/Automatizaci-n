@@ -125,7 +125,10 @@ cy.log(`Contador: ${contador}, DNI: ${DNI}`);
   console.log('¡Prueba exitosa!'); 
   cy.log('¡Prueba exitosa!');
 
-  
+            cy.screenshot(
+      "Administrador de Usuarios/Asignar Rol_" +
+        String(contador++).padStart(2, "0")
+    );
   
     })
   })

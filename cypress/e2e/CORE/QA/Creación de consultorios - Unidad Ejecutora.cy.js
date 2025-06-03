@@ -5,7 +5,7 @@ describe("Crear Consultorio", () => {
 
   it('Inicio de sesión exitoso', () => {
     // Llama a la función login 
-    cy.login_CORE_STG();
+    cy.login_CORE_QA();
 
     // Verifica que el login haya sido exitoso
     cy.url().should('not.include', '/login');
@@ -95,6 +95,12 @@ cy.get('#btn_habilitar_consultorio')
   .should('be.visible');
   cy.contains('Administración de recursos de una unidad ejecutora')  // Busca el texto exacto en la página
   .should('be.visible');
+
+          cy.screenshot(
+      "Crear consultorio/Crear consultorio_" +
+        String(contador++).padStart(2, "0")
+    );
+  
   
     })
   })

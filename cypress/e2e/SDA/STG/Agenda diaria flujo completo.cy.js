@@ -270,7 +270,12 @@ let contador = 0;
 
   // Mostrar en la consola el contador y el DNI
   cy.log(`Contador: ${contador}, DNI: ${DNI}`);
-  
+            cy.screenshot(
+      "Agenda diaria/FLUJO COMMPLETO_" +
+        String(contador++).padStart(2, "0")
+    );
+
+
                         
         }
       });

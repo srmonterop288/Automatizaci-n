@@ -173,7 +173,11 @@ let contador = 0;
 
   // Mostrar en la consola el contador y el DNI
   cy.log(`Contador: ${contador}, DNI: ${DNI}`);
-  
+      cy.log(`Contador: ${contador}, DNI: ${DNI}`);
+            cy.screenshot(
+      "Gestor de modelos de agendas/configuracion de modelos de agendas_" +
+        String(contador++).padStart(2, "0")
+    );
                         
         }
       });

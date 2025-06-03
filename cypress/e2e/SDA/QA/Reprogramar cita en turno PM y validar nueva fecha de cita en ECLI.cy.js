@@ -132,7 +132,13 @@ cy.wait(1000).tab()
   // Mostrar en la consola el contador y el DNI
   cy.log(`Contador: ${contador}, DNI: ${DNI}`);
   
-                        
+        cy.log(`Contador: ${contador}, DNI: ${DNI}`);
+            cy.screenshot(
+      "Reprogramar cita/PM_" +
+        String(contador++).padStart(2, "0")
+    );   
+  
+
         }
       });
       
