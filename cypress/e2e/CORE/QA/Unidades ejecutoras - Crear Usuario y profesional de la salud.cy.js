@@ -137,13 +137,12 @@ describe("Crear Profesioal de la Salud-Unidades ejecutoras", () => {
         // Usar los datos del Excel
         // Ingresar FECHA NACIMIENTO
         const FECHANAC = datosExcel[i][4]; // Primer fila, segunda columna
-        cy.get('#input_fecha_nacimiento', { timeout: 1000 })
-        .should('exist')
-        .should('be.visible')
-        .type(FECHANAC)
-        .click();
+        cy.get('#input_fecha_nacimiento', { timeout: 2000 })  // Espera hasta 2 segundos
+        .should('exist')  // Asegura que el campo esté presente en el DOM
+        .should('be.visible')  // Asegura que el campo sea visible
+        .scrollIntoView()  // Asegura que el campo esté dentro del viewport
+        .type(FECHANAC);  // Escribe el valor de la variable FECHANAC en el campo
         cy.wait(500).tab()
-        cy.wait(500);
 
         
 // Pais
@@ -172,6 +171,22 @@ describe("Crear Profesioal de la Salud-Unidades ejecutoras", () => {
             .eq(1) // Toma el elemento 10
               .click();  // Hace clic en el primer elemento
               cy.wait(100).tab()
+
+
+//Religion
+cy.get('#ddl_religion', { timeout: 2000 }) 
+.should('exist')
+.should('be.visible') // Selecciona el campo de búsqueda
+.click({ force: true });  // Forza el clic si es necesario
+cy.wait(500);
+cy.get('#ddl_religion_list .ant-select-item-option')  // Selecciona los elementos de la lista
+.eq(0) // Toma el elemento 10
+.scrollIntoView()     // asegura que esté en el viewport
+.click(); // Hace clic en el primer elemento
+  cy.wait(100).tab()
+
+
+
 // Estado
               cy.get('#ddl_estado_civil')  // Selecciona el campo de búsqueda
               .click({ force: true });  // Forza el clic si es necesario
@@ -397,6 +412,17 @@ cy.get('#ddl_seleccionar_profesion_list .ant-select-item-option')  // Selecciona
   cy.get("#btn_siguiente").should('be.visible').click();
   cy.wait(1000);
   cy.wait(100).tab()
+  cy.get("#btn_siguiente").should('be.visible').click();
+  cy.wait(5000);
+  cy.wait(100).tab()
+
+ // Verificar que el Paciente fue creado exitosamente
+    let imagen = 1;
+// Verificar que la alerta tenga el mensaje correcto y sea visible
+        cy.screenshot(
+      "Crear Profesional/Crear Paciente_" +
+        String(imagen++).padStart(2, "0")
+    );
 
 
 
@@ -419,10 +445,7 @@ cy.log(`Contador: ${contador}, DNI: ${DNI}`);
   console.log('¡Prueba exitosa!'); 
   cy.log('¡Prueba exitosa!');
 
-            cy.screenshot(
-      "Unidades Ejecutoras Crear Profesional/Crear Usuario y Profesional_" +
-        String(contador++).padStart(2, "0")
-    );
+
   
     })
   })

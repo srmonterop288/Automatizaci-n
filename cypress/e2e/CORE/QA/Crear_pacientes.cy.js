@@ -339,6 +339,20 @@ cy.get('#ddl_grupo_sanguineo_list .ant-select-item-option', { timeout: 2000 })  
                             cy.wait(100).tab()
 
 
+
+   // Verificar que el Paciente fue creado exitosamente
+let imagen = 1;
+    cy.get('.ant-alert-message')
+    .scrollIntoView()
+      .should('contain', 'El usuario se ha creado exitosamente.')
+      .and('be.visible'); // Asegura que el mensaje esté visible
+
+        cy.screenshot(
+      "Crear Paciente/Crear Paciente_" +
+        String(imagen++).padStart(2, "0")
+    );
+
+
                            
                             cy.get('#input_numero_documento').type(DNI);
                             cy.get("#btn_buscar").should('be.visible').click();
@@ -356,6 +370,9 @@ cy.get('#ddl_grupo_sanguineo_list .ant-select-item-option', { timeout: 2000 })  
                             .first() // Toma el primer elemento
                             .click();  // Hace clic en el primer elemento
                             cy.wait(100).tab()
+
+
+
 
 
 // Incrementar el contador
@@ -381,10 +398,7 @@ cy.log(`Contador: ${contador}, DNI: ${DNI}`);
 
     })
    it('Prueba exitosa', () => {
-        cy.screenshot(
-      "Crear Paciente/Crear Paciente_" +
-        String(contador++).padStart(2, "0")
-    );
+
   
   })
  

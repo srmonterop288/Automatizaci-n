@@ -511,6 +511,21 @@ cy.get('#ddl_seleccionar_profesion_list .ant-select-item-option')  // Selecciona
   cy.wait(1000);
   cy.wait(100).tab()
 
+
+     // Verificar que el Paciente fue creado exitosamente
+    let imagen = 1;
+      cy.get('#div_alerta_listar_profesional_salud')
+      .scrollIntoView();
+// Verificar que la alerta tenga el mensaje correcto y sea visible
+    cy.get('#div_alerta_listar_profesional_salud .ant-alert-message')
+      .should('contain', 'Los cambios se han guardado exitosamente')
+      .and('be.visible'); // Asegura que el mensaje esté visible // Asegura que el mensaje esté visible
+
+        cy.screenshot(
+      "Crear Profesional/Crear Paciente_" +
+        String(imagen++).padStart(2, "0")
+    );
+
 // Incrementar el contador
 contador++;
 
@@ -528,10 +543,7 @@ cy.log(`Contador: ${contador}, DNI: ${DNI}`);
   cy.wait(1000);
   console.log('¡Prueba exitosa!'); 
   cy.log('¡Prueba exitosa!');
-      cy.screenshot(
-      "Crear Usuario y Profesioal_QA/Crear Usuario y Profesioal_" +
-        String(contador++).padStart(2, "0")
-    );
+
 
   
   

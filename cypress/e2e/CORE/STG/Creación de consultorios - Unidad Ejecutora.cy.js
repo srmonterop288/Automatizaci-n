@@ -96,9 +96,22 @@ cy.get('#btn_habilitar_consultorio')
   cy.contains('Administración de recursos de una unidad ejecutora')  // Busca el texto exacto en la página
   .should('be.visible');
 
+
+cy.wait(1000)
+
+ let imagen = 1;
+cy.get('#div_alerta', { timeout: 10000 }) // Espera hasta 10s si es necesario
+  .scrollIntoView()
+  .should('exist')
+  .within(() => {
+    cy.get('.ant-alert-message')
+      .should('contain', 'El consultorio se ha creado exitosamente')
+      .and('be.visible');
+  });
+
           cy.screenshot(
       "Crear consultorio/Crear consultorio_" +
-        String(contador++).padStart(2, "0")
+        String(imagen++).padStart(2, "0")
     );
   
   

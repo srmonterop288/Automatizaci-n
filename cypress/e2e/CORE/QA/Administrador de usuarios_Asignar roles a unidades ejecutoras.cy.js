@@ -37,7 +37,7 @@ describe("TC_CP_Administrador de usuarios_Asignar roles a unidades ejecutoras", 
         const DNI = datosExcel[i][0]; // Primer fila, primera columna (usando índices 0 basados)
 
 
-        if (DNI && DNI.trim() !== '') {
+        if (DNI && DNI.trim() !== 'undefined') {
           // Si el DNI es válido, proceder con la acción
           cy.window().then((win) => {
             win.alert('El DNI es correcto');
@@ -47,19 +47,18 @@ describe("TC_CP_Administrador de usuarios_Asignar roles a unidades ejecutoras", 
           cy.window().then((win) => {
             win.alert('Prueba exitosa');
             cy.log('Prueba Finalizada: correctamente');
-            cy.pause();
+            
           });
         }
 
-           cy.get('#searchNamesOrIdentifications', { timeout: 1000 })
-           .should('exist')
-           .should('be.visible')
-           .type(DNI)
-           .click();
 
 
-        cy.get("#btn_buscar_nuevo_usuario").should('be.visible').click();
-        cy.wait(1000);
+cy.get('#searchNamesOrIdentifications', { timeout: 5000 })
+  .scrollIntoView()
+  .should('exist')
+  .should('be.visible')
+  .type(`${DNI}{enter}`);
+
 
 
         cy.get('[id*="btn_ver_detalle_"]')
@@ -72,7 +71,7 @@ describe("TC_CP_Administrador de usuarios_Asignar roles a unidades ejecutoras", 
         // Usar los datos del Excel
         // Ingresar NOMBRE
         const UNIDADE = datosExcel[i][7]; // Primer fila, segunda columna
-        cy.get('#ddl_unidad_ejecutora', { timeout: 1000 })
+        cy.get('#ddl_unidad_ejecutora', { timeout: 5000 })
         .should('exist')
         .should('be.visible')
         .type(UNIDADE)
@@ -103,7 +102,25 @@ describe("TC_CP_Administrador de usuarios_Asignar roles a unidades ejecutoras", 
 
  cy.get("#btn_asignar_rol").should('be.visible').click();
 
+ let imagen = 1;
+    cy.get('.ant-alert-message')
+    .scrollIntoView()
+      .should('contain', 'El rol ha sido asignado correctamente.')
+      .and('be.visible'); // Asegura que el mensaje esté visible
 
+            cy.screenshot(
+      "Administrador de Usuarios/Asignar Rol_" +
+        String(imagen++).padStart(2, "0")
+    );
+  
+
+    cy.wait(1000); 
+    cy.get("#btn_menu_desplegable").should('be.visible').click();
+    cy.wait(1000); 
+    cy.get("#spn_modulo_medical_records_administrar_usuarios").should('be.visible').click();
+    cy.wait(1000); 
+    cy.get("#btn_menu_desplegable").should('be.visible').click();
+    cy.wait(1000);
 
 
 
@@ -125,11 +142,7 @@ cy.log(`Contador: ${contador}, DNI: ${DNI}`);
   console.log('¡Prueba exitosa!'); 
   cy.log('¡Prueba exitosa!');
 
-            cy.screenshot(
-      "Administrador de Usuarios/Asignar Rol_" +
-        String(contador++).padStart(2, "0")
-    );
-  
+
     })
   })
  

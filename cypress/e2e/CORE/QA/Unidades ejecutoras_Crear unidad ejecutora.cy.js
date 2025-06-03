@@ -136,15 +136,20 @@ cy.get('#ddl_provincia_lista_unidad_ejecutora_list .ant-select-item-option')  //
   cy.get('[id^="btn_ver_detalle_unidad_ejecutora_"]')  // Selecciona el botón cuyo ID empieza con "btn_ver_detalle_unidad_ejecutora_"
   .click();
   cy.wait(1000);
+
+
+    let contador = 1;
+            cy.screenshot(
+      "Crear Unidad Ejecutora/Crear Unidad Ejecutora_" +
+        String(contador++).padStart(2, "0")
+    );
+
   console.log('¡Prueba exitosa!'); 
   cy.log('¡Prueba exitosa!');
 
 })
    it('Prueba exitosa', () => {
-            cy.screenshot(
-      "Crear Unidad Ejecutora/Crear Unidad Ejecutora_" +
-        String(contador++).padStart(2, "0")
-    );
+
  
  
     })
