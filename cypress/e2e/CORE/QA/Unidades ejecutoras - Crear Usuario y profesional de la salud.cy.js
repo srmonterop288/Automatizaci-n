@@ -12,6 +12,7 @@ describe("Crear Profesioal de la Salud-Unidades ejecutoras", () => {
   
 
       let contador = 0;
+      let imagen = 1; 
       const rutaArchivoExcel = 'cypress/fixtures/datos2.xlsx';
         // Leer los datos del archivo Excel
       cy.leerExcel(rutaArchivoExcel).then((datosExcel) => {
@@ -417,10 +418,10 @@ cy.get('#ddl_seleccionar_profesion_list .ant-select-item-option')  // Selecciona
   cy.wait(100).tab()
 
  // Verificar que el Paciente fue creado exitosamente
-    let imagen = 1;
+  
 // Verificar que la alerta tenga el mensaje correcto y sea visible
         cy.screenshot(
-      "Crear Profesional/Crear Paciente_" +
+      "Unidades Ejecutoras_QA/Crear Profesional_" +
         String(imagen++).padStart(2, "0")
     );
 

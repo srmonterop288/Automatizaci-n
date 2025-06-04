@@ -90,10 +90,10 @@ describe("Configuración de agendas de citas", () => {
       cy.wait(100).tab()
 
 
-      cy.get("#btn_Creando_Agenda_Agregar_Cita").should('be.visible').click();
+      cy.get("#btn_Creando_Agenda_Agregar_Cita_Lunes").should('be.visible').click();
       cy.wait(1000);
 
-      cy.get('#ddl_Creando_Agenda_Tipo_Cita_0', { timeout: 1000 })
+      cy.get('#ddl_Creando_Agenda_Tipo_Cita_0_Lunes', { timeout: 1000 })
       .should('exist')
       .should('be.visible')
       .type('Nuevo')
@@ -101,7 +101,7 @@ describe("Configuración de agendas de citas", () => {
        cy.wait(100).tab()
 
 
-       cy.get('#ddl_Creando_Agenda_Equivalencia_0', { timeout: 1000 })
+       cy.get('#ddl_Creando_Agenda_Equivalencia_0_Lunes', { timeout: 1000 })
        .should('exist')
        .should('be.visible')
        .type('60 min')
@@ -109,7 +109,7 @@ describe("Configuración de agendas de citas", () => {
         cy.wait(100).tab()
 
 
-        cy.get('#ddl_Creando_Agenda_Numero_Citas_0', { timeout: 1000 })
+        cy.get('#ddl_Creando_Agenda_Numero_Citas_0_Lunes', { timeout: 1000 })
         .should('exist')
         .should('be.visible')
         .type('1 citas')
@@ -131,11 +131,15 @@ describe("Configuración de agendas de citas", () => {
   cy.contains('button', 'Finalizar')  // Busca el botón que contiene el texto 'Finalizar'
   .click();
   
-      cy.log(`Contador: ${contador}, DNI: ${DNI}`);
-            cy.screenshot(
-      "Configuracion de agendas/Agenda de citas_" +
+let contador = 1;
+    cy.screenshot(
+      "Agenda_diaria_QA/Agenda Diaria Compleja_" +
         String(contador++).padStart(2, "0")
     );
+
+
+
+
       
     })
   })

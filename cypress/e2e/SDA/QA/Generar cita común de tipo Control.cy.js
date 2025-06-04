@@ -156,7 +156,7 @@ cy.get('.ant-select-dropdown .ant-select-item-option')
   
     cy.log(`Contador: ${contador}, DNI: ${DNI}`);
             cy.screenshot(
-      "Generar cita comun/tipo CONTROL_" +
+      "Generar cita comun_QA/tipo CONTROL_" +
         String(contador++).padStart(2, "0")
     );
 

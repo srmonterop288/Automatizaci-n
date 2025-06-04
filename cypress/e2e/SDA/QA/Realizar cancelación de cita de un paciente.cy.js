@@ -131,7 +131,7 @@ let contador = 0;
   cy.log(`Contador: ${contador}, DNI: ${DNI}`);
       cy.log(`Contador: ${contador}, DNI: ${DNI}`);
             cy.screenshot(
-      "Cancelar citas/cancelar cita_" +
+      "Cancelar citas_QA/cancelar cita_" +
         String(contador++).padStart(2, "0")
     );
                         

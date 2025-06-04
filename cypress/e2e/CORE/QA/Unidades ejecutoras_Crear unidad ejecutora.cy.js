@@ -140,7 +140,7 @@ cy.get('#ddl_provincia_lista_unidad_ejecutora_list .ant-select-item-option')  //
 
     let contador = 1;
             cy.screenshot(
-      "Crear Unidad Ejecutora/Crear Unidad Ejecutora_" +
+      "Unidades Ejecutoras_QA/Crear Unidad Ejecutora_" +
         String(contador++).padStart(2, "0")
     );
 

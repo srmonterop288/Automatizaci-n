@@ -127,7 +127,9 @@ let contador = 0;
 
 
 
-  
+    cy.get('div.ant-card-body', { timeout: 10000 })   // Espera hasta 10 segundos
+  .should('be.visible')
+  .should('exist');
   contador++;
 
   // Mostrar en la consola el contador y el DNI
@@ -135,7 +137,7 @@ let contador = 0;
   
          cy.log(`Contador: ${contador}, DNI: ${DNI}`);
             cy.screenshot(
-      "Asignacion de citas/Generar cita diaria tipo Nuevo PM_" +
+      "Asignacion de citas_STG/Generar cita diaria tipo Nuevo PM_" +
         String(contador++).padStart(2, "0")
     );                   
         }

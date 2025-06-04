@@ -125,7 +125,14 @@ let contador = 0;
   cy.contains('button', 'Asignar cita', { timeout: 10000 })
   .should('not.be.disabled')
   .click();
-  cy.pause();
+
+
+  cy.get('div.ant-card-body', { timeout: 10000 })   // Espera hasta 10 segundos
+  .should('be.visible')
+  .should('exist');
+  cy.get('span.ant-typography.css-1uweeqc', { timeout: 10000 }) // Timeout de 10 segundos
+  .contains('Fecha de la cita')
+  .should('be.visible');
   contador++;
 
   // Mostrar en la consola el contador y el DNI
@@ -134,7 +141,7 @@ let contador = 0;
 
       cy.log(`Contador: ${contador}, DNI: ${DNI}`);
             cy.screenshot(
-      "Asignacion de citas/Generar cita diaria tipo Nuevo AM_" +
+      "Asignacion de citas_STG/Generar cita diaria tipo Nuevo AM_" +
         String(contador++).padStart(2, "0")
     );
                         

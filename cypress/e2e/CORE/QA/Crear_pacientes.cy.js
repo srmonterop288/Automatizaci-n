@@ -36,6 +36,7 @@ describe("Crear Pacientes", () => {
 
 
       let contador = 0;
+      let imagen = 1; 
       const rutaArchivoExcel = 'cypress/fixtures/datos.xlsx';
         // Leer los datos del archivo Excel
       cy.leerExcel(rutaArchivoExcel).then((datosExcel) => {
@@ -341,14 +342,13 @@ cy.get('#ddl_grupo_sanguineo_list .ant-select-item-option', { timeout: 2000 })  
 
 
    // Verificar que el Paciente fue creado exitosamente
-let imagen = 1;
     cy.get('.ant-alert-message')
     .scrollIntoView()
       .should('contain', 'El usuario se ha creado exitosamente.')
       .and('be.visible'); // Asegura que el mensaje esté visible
 
         cy.screenshot(
-      "Crear Paciente/Crear Paciente_" +
+      "Crear Paciente_QA/Crear Paciente_" +
         String(imagen++).padStart(2, "0")
     );
 

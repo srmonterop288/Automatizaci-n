@@ -175,7 +175,7 @@ let contador = 0;
   cy.log(`Contador: ${contador}, DNI: ${DNI}`);
       cy.log(`Contador: ${contador}, DNI: ${DNI}`);
             cy.screenshot(
-      "Gestor de modelos de agendas/configuracion de modelos de agendas_" +
+      "Gestor de modelos de agendas_STG/configuracion de modelos de agendas_" +
         String(contador++).padStart(2, "0")
     );
                         

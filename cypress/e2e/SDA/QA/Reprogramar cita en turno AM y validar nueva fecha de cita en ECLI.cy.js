@@ -134,7 +134,7 @@ cy.wait(1000).tab()
 
       cy.log(`Contador: ${contador}, DNI: ${DNI}`);
             cy.screenshot(
-      "Reprogramar cita/AM_" +
+      "Reprogramar cita_QA/Nueva fecha AM_" +
         String(contador++).padStart(2, "0")
     );
   

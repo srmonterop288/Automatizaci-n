@@ -12,6 +12,7 @@ describe("Crear Profesioal de la Salud", () => {
   
 
       let contador = 0;
+      let imagen = 1; 
       const rutaArchivoExcel = 'cypress/fixtures/datos2.xlsx';
         // Leer los datos del archivo Excel
       cy.leerExcel(rutaArchivoExcel).then((datosExcel) => {
@@ -513,7 +514,7 @@ cy.get('#ddl_seleccionar_profesion_list .ant-select-item-option')  // Selecciona
 
 
      // Verificar que el Paciente fue creado exitosamente
-    let imagen = 1;
+  
       cy.get('#div_alerta_listar_profesional_salud')
       .scrollIntoView();
 // Verificar que la alerta tenga el mensaje correcto y sea visible
@@ -522,7 +523,7 @@ cy.get('#ddl_seleccionar_profesion_list .ant-select-item-option')  // Selecciona
       .and('be.visible'); // Asegura que el mensaje esté visible // Asegura que el mensaje esté visible
 
         cy.screenshot(
-      "Crear Profesional/Crear Paciente_" +
+      "Profesionales de la Salud_STG/Crear Paciente_" +
         String(imagen++).padStart(2, "0")
     );
 

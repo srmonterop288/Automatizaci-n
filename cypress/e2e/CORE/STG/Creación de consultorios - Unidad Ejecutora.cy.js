@@ -110,7 +110,7 @@ cy.get('#div_alerta', { timeout: 10000 }) // Espera hasta 10s si es necesario
   });
 
           cy.screenshot(
-      "Crear consultorio/Crear consultorio_" +
+      "Crear consultorio_STG/Crear consultorio_" +
         String(imagen++).padStart(2, "0")
     );
   
