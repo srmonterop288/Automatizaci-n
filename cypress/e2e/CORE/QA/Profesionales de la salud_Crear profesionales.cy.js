@@ -509,7 +509,7 @@ describe("Profesioal de la Salud", () => {
           .and("be.visible"); // Asegura que el mensaje esté visible // Asegura que el mensaje esté visible
 
         cy.screenshot(
-          "Profesionales de la Salud_QA/Creación de profesional de la salud_"
+          "Profesionales de la Salud/Creación de profesional de la salud_"
         );
 
         // Incrementar el contador

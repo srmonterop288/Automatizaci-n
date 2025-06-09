@@ -141,7 +141,7 @@ describe("Unidades ejecutoras", () => {
     cy.wait(1000);
 
     let contador = 1;
-    cy.screenshot("Unidades ejecutoras_QA/Creación de unidad ejecutora_");
+    cy.screenshot("Unidades ejecutoras/Creación de unidad ejecutora_");
 
     console.log("¡Prueba exitosa!");
     cy.log("¡Prueba exitosa!");

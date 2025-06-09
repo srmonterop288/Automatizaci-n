@@ -1,13 +1,12 @@
-import LoginPage from "../../../support/login.page";
-import funcionesReutilizables from "../../support/funcionesReutilizables.js";
+import LoginPage from "../../../support/login.page.js";
+import funcionesReutilizables from "../../../funciones/SDA/funcionesReutilizables";
 
 // Declaramos la variable global para almacenar los datos del Excel
 let testDataList = [];
 
 // Suite principal
-describe("SDA - Integración con ECLI", () => {
+describe("Citas extra", () => {
   const tiempo = 50000;
-  let contador = 1;
 
   // Se ejecuta antes de todos los casos
   before(() => {
@@ -102,10 +101,7 @@ describe("SDA - Integración con ECLI", () => {
 
         // Toma un screenshot a la pantalla "Solicitud de cita extra"
         cy.wait(2000);
-        cy.screenshot(
-          "Citas_extra_QA/Información de la solicitud de cita extra_" +
-            String(contador++).padStart(2, "0")
-        );
+        cy.screenshot("Citas extra/Información de la solicitud de cita extra_");
 
         // Hace clic en el botón "Solicitar cita extra"
         cy.get("#btn_solicitud_extra_guardar", { timeout: tiempo })
@@ -125,10 +121,7 @@ describe("SDA - Integración con ECLI", () => {
 
         // Toma un screenshot del resultado
         cy.wait(2000);
-        cy.screenshot(
-          "Citas_extra_QA/Solicitud de cita extra generada_" +
-            String(contador++).padStart(2, "0")
-        );
+        cy.screenshot("Citas extra/Solicitud de cita extra generada_");
 
         // Login en SDA
         LoginPage.performCompleteLogin({
@@ -192,10 +185,7 @@ describe("SDA - Integración con ECLI", () => {
 
         // Toma un screenshot al mensaje de éxito
         cy.wait(2000);
-        cy.screenshot(
-          "Citas_extra_QA/Cita extra confirmada_" +
-            String(contador++).padStart(2, "0")
-        );
+        cy.screenshot("Citas extra/Cita extra confirmada_");
       });
     });
   });

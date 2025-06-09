@@ -367,7 +367,7 @@ describe("Usuarios", () => {
           .should("contain", "El usuario se ha creado exitosamente.")
           .and("be.visible"); // Asegura que el mensaje esté visible
 
-        cy.screenshot("Usuarios_QA/Creación de usuario_");
+        cy.screenshot("Usuarios/Creación de usuario_");
 
         cy.get("#input_numero_documento", { timeout: tiempo }).type(DNI);
         cy.get("#btn_buscar", { timeout: tiempo }).should("be.visible").click();

@@ -1,7 +1,7 @@
 // Importar el login page
 import LoginPage from "../../../support/login.page";
 
-describe("SDA - Creación de Agenda Diaria Compleja", () => {
+describe("Agenda Diaria", () => {
   const tiempo = 50000;
 
   let testData;
@@ -155,7 +155,7 @@ describe("SDA - Creación de Agenda Diaria Compleja", () => {
       .blur();
   }
 
-  it("Crear Agenda diria compleja", () => {
+  it("Crear agenda diria", () => {
     // Llenar información básica de la agenda
     fillBasicAgendaInfo();
     // Configurar día principal con horario y consultorio
@@ -219,10 +219,7 @@ describe("SDA - Creación de Agenda Diaria Compleja", () => {
       .should("be.visible");
 
     // Capturar una captura de pantalla como evidencia de la agenda creada
-    let contador = 1;
-    cy.screenshot(
-      "Agenda_diaria_QA/Agenda Diaria Compleja_" +
-        String(contador++).padStart(2, "0")
-    );
+
+    cy.screenshot("Agenda diaria/Creación de agenda diaria compleja_");
   });
 });

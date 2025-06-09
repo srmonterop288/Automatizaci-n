@@ -119,6 +119,6 @@ describe("Consultorios", () => {
           .and("be.visible");
       });
 
-    cy.screenshot("Consultorios_QA/Creación de consultorio_");
+    cy.screenshot("Consultorios/Creación de consultorio_");
   });
 });

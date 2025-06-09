@@ -102,7 +102,7 @@ describe("Administrador de usuarios", () => {
           .and("be.visible"); // Asegura que el mensaje esté visible
 
         // Tomamos la captura de pantalla
-        cy.screenshot("Administrador de usuarios_QA/Asignación de rol_");
+        cy.screenshot("Administrador de usuarios/Asignación de rol_");
 
         cy.get("#btn_menu_desplegable", { timeout: tiempo })
           .should("be.visible")

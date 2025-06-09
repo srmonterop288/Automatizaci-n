@@ -1,9 +1,8 @@
 import LoginPage from "../../../support/login.page";
-import funcionesReutilizables from "../../../support/funcionesReutilizables";
+import funcionesReutilizables from "../../../funciones/SDA/funcionesReutilizables";
 
-describe("SDA - Agenda Común", () => {
+describe("Agenda Común", () => {
   const tiempo = 50000;
-  let contador = 1;
   let testDataList = [];
 
   // Ignora errores de ResizeObserver para evitar fallas durante las pruebas
@@ -12,7 +11,7 @@ describe("SDA - Agenda Común", () => {
   // Carga los datos del archivo Excel antes de ejecutar las pruebas
   before(() => {
     cy.task("leerExcel", {
-      archivo: "cypress/fixtures/datos_QA_SDA.xlsx",
+      archivo: "cypress/fixtures/datos_STG_SDA.xlsx",
       hoja: "AgendaComun",
     }).then((datos) => {
       testDataList = datos;
@@ -27,13 +26,14 @@ describe("SDA - Agenda Común", () => {
       baseUrl: Cypress.env(`CY_${ambiente}_URL`),
       username: Cypress.env(`CY_${ambiente}_SDA_USER_GLOBAL`),
       password: Cypress.env(`CY_${ambiente}_SDA_PASS_GLOBAL`),
-      unidadEjecutora: "#btn_seleccionar_unidad_ejecutora_hospital_mac",
+      unidadEjecutora:
+        "#btn_seleccionar_unidad_ejecutora_automation_hospital_mac",
       unidadArea: "#btn_seleccionar_area_administracion_local",
     });
   });
 
   // Caso de prueba para crear y configurar una agenda común simple
-  it("Crear y configurar agendas común simple ", () => {
+  it("Creación y configuración de agenda común simple ", () => {
     const data = testDataList[0];
     const {
       dias,
@@ -85,7 +85,7 @@ describe("SDA - Agenda Común", () => {
     // Intercepta la solicitud para filtrar agendas
     cy.intercept(
       "GET",
-      "https://back-executing-units-qa.nuevoexpediente.com/v2/agendas-comunes/filtrar?filtroAgenda=TODOS"
+      "https://back-executing-units-stg.nuevoexpediente.com/v2/agendas-comunes/filtrar?filtroAgenda=TODOS"
     ).as("getUnidadesEjecutoras");
 
     // Confirma la creación de la agenda
@@ -107,10 +107,7 @@ describe("SDA - Agenda Común", () => {
       timeout: tiempo,
     }).scrollTo("topLeft");
     cy.wait(3000);
-    cy.screenshot(
-      "Agenda_común_QA/Creación de agenda común simple_" +
-        String(contador++).padStart(2, "0")
-    );
+    cy.screenshot("Agenda común/Creación de agenda común simple_");
 
     // Cambia al rol de Supervisor de trámites y citas
     LoginPage.changeRol(
@@ -236,13 +233,10 @@ describe("SDA - Agenda Común", () => {
       timeout: tiempo,
     }).scrollTo("topLeft");
     cy.wait(1000);
-    cy.screenshot(
-      "Agenda_común_QA/Configuración de agenda común simple_" +
-        String(contador++).padStart(2, "0")
-    );
+    cy.screenshot("Agenda común/Configuración de agenda común simple_");
   });
 
-  it("Crear y configurar una agenda común compleja", () => {
+  it("Creación y configuración de agenda común compleja", () => {
     const data = testDataList[1];
     const {
       dias,
@@ -294,7 +288,7 @@ describe("SDA - Agenda Común", () => {
     // Intercepta la solicitud para filtrar agendas
     cy.intercept(
       "GET",
-      "https://back-executing-units-qa.nuevoexpediente.com/v2/agendas-comunes/filtrar?filtroAgenda=TODOS"
+      "https://back-executing-units-stg.nuevoexpediente.com/v2/agendas-comunes/filtrar?filtroAgenda=TODOS"
     ).as("getUnidadesEjecutoras");
 
     // Confirma la creación de la agenda
@@ -316,10 +310,7 @@ describe("SDA - Agenda Común", () => {
       timeout: tiempo,
     }).scrollTo("topLeft");
     cy.wait(3000);
-    cy.screenshot(
-      "Agenda_común_QA/Creación de agenda común compleja_" +
-        String(contador++).padStart(2, "0")
-    );
+    cy.screenshot("Agenda común/Creación de agenda común compleja_");
 
     // Cambia al rol de Supervisor de trámites y citas
     LoginPage.changeRol(
@@ -445,9 +436,6 @@ describe("SDA - Agenda Común", () => {
       timeout: tiempo,
     }).scrollTo("topLeft");
     cy.wait(1000);
-    cy.screenshot(
-      "Agenda_común_QA/Configuración de agenda común compleja_" +
-        String(contador++).padStart(2, "0")
-    );
+    cy.screenshot("Agenda común/Configuración de agenda común compleja_");
   });
 });
