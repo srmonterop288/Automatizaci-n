@@ -1,10 +1,12 @@
 {
   "devDependencies": {
     "cypress": "^13.16.0",
+    "cypress-iframe": "^1.0.1",
     "cypress-multi-reporters": "^2.0.5",
     "cypress-plugin-tab": "^1.0.5",
     "dayjs": "^1.11.13",
     "dotenv": "^16.5.0",
+    "import": "^0.0.6",
     "mocha": "^11.2.2",
     "mocha-junit-reporter": "^2.2.1",
     "mochawesome": "^7.1.3",

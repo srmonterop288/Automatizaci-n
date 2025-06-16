@@ -37,6 +37,9 @@ const timestamp = dayjs().format("YYYYMMDD_HHmmss"); // Timestamp para nombre ú
 module.exports = defineConfig({
   env: { ...process.env }, // Carga todas las variables del archivo .env
   e2e: {
+viewportWidth: 1440,
+    viewportHeight: 900,
+
     baseUrl,
  
     reporter: "cypress-multi-reporters",

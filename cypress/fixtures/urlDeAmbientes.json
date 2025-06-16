@@ -1,0 +1,6 @@
+{
+    "urlDEV": "https://spa-container-dev.nuevoexpediente.com/login",
+    "urlQA": "https://spa-container-qa.nuevoexpediente.com/login",
+    "urlSTG": "https://spa-container-stg.nuevoexpediente.com/login",
+    "urlCAP": "https://spa-container-cap.nuevoexpediente.com/login"
+}
