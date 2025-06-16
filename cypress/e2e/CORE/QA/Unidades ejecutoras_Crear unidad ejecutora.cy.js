@@ -4,14 +4,9 @@ describe("Unidades ejecutoras", () => {
   require("cypress-xpath");
 
   it("Creación de unidad ejecutora", () => {
-<<<<<<< HEAD
     // Llama a la función login
-=======
->>>>>>> 2ad3fd9 (cambios MEIN)
     cy.login_CORE_QA();
-    cy.url().should("not.include", "/login");
 
-<<<<<<< HEAD
     // Verifica que el login haya sido exitoso, por ejemplo, comprobando que la URL cambió
     cy.url().should("not.include", "/login");
 
@@ -149,74 +144,6 @@ describe("Unidades ejecutoras", () => {
     cy.screenshot("Unidades ejecutoras/Creación de unidad ejecutora_");
 
     console.log("¡Prueba exitosa!");
-=======
-    cy.get("#btn_menu_desplegable", { timeout: 10000 }).should("be.visible").click();
-    cy.get("#spn_modulo_medical_records_list_executing_units", { timeout: 10000 }).should("be.visible").click();
-    cy.get("#btn_menu_desplegable", { timeout: 10000 }).should("be.visible").click();
-    cy.get("#btn_crear_unidad_ejecutora", { timeout: 10000 }).should("be.visible").click();
-    cy.tab().tab().tab().tab();
-
-    cy.get("#ddl_seleccionar_provincia_unidad_ejecutora", { timeout: 5000 }).click({ force: true });
-    cy.get("#ddl_seleccionar_provincia_unidad_ejecutora_list .ant-select-item-option", { timeout: 5000 }).eq(1).click();
-    cy.tab();
-
-    cy.get("#ddl_seleccionar_distrito_unidad_ejecutora", { timeout: 5000 }).click({ force: true });
-    cy.get("#ddl_seleccionar_distrito_unidad_ejecutora_list .ant-select-item-option", { timeout: 5000 }).first().click();
-    cy.tab();
-
-    cy.get("#ddl_seleccionar_corregimiento_unidad_ejecutora", { timeout: 5000 }).click({ force: true });
-    cy.get("#ddl_seleccionar_corregimiento_unidad_ejecutora_list .ant-select-item-option", { timeout: 5000 }).first().click();
-    cy.tab();
-
-    cy.get("#ddl_seleccionar_nivel_atencion", { timeout: 5000 }).click({ force: true });
-    cy.get("#ddl_seleccionar_nivel_atencion_list .ant-select-item-option", { timeout: 5000 }).first().click();
-    cy.tab();
-
-    const randomNumber = Math.floor(Math.random() * (1000 - 500 + 1)) + 500;
-    cy.get("#input_codigo_unidad_ejecutora", { timeout: 5000 }).type(randomNumber.toString());
-    cy.tab();
-    cy.get("#input_nombre_unidad_ejecutora", { timeout: 5000 }).type("Prueba" + randomNumber);
-    cy.tab();
-    cy.get("#btn_si_habilitar", { timeout: 5000 }).check();
-    cy.tab();
-
-    cy.get("#ddl_seleccionar_servicio", { timeout: 5000 }).click({ force: true });
-    cy.get("#ddl_seleccionar_servicio_list .ant-select-item-option", { timeout: 5000 }).eq(15).click();
-    cy.tab();
-
-    cy.get("#btn_asignar_servicio", { timeout: 10000 }).should("be.visible").click();
-    cy.tab();
-    cy.get(".ant-alert-message", { timeout: 5000 }).should("be.visible").and("contain.text", "Servicio agregado correctamente.");
-    cy.tab();
-
-    cy.get("#btn_crear_unidad_ejecutora", { timeout: 10000 }).should("be.visible").click();
-    cy.wait(1500);
-    // Validación: si aparece el mensaje de unidad ya registrada, cancelar y recargar
-    cy.get('body').then(($body) => {
-      if ($body.find('#div_modal_confirmar_titulo:contains("ya se encuentra registrada")').length > 0) {
-        cy.log('Unidad ya registrada, repitiendo intento.');
-        cy.get('#btn_cancelar', { timeout: 5000 }).click();
-        cy.reload();
-      }
-    });
-
-    cy.tab().tab();
-    cy.get("#ddl_provincia_lista_unidad_ejecutora", { timeout: 5000 }).click({ force: true });
-    cy.get("#ddl_provincia_lista_unidad_ejecutora_list .ant-select-item-option", { timeout: 5000 }).eq(1).click();
-    cy.tab();
-
-    cy.get("#input_unidad_ejecutora", { timeout: 5000 }).type("Prueba" + randomNumber);
-    cy.tab().tab();
-    cy.get("#btn_buscar", { timeout: 10000 }).should("be.visible").click();
-
-    cy.get('[id^="btn_ver_detalle_unidad_ejecutora_"]', { timeout: 10000 })
-      .first()
-      .should("be.visible")
-      .click();
-
-    cy.screenshot("Unidades ejecutoras/Creación de unidad ejecutora_");
-
->>>>>>> 2ad3fd9 (cambios MEIN)
     cy.log("¡Prueba exitosa!");
   });
 });
