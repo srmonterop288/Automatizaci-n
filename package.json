@@ -1,6 +1,6 @@
 {
   "devDependencies": {
-    "cypress": "^13.16.0",
+    "cypress": "^14.4.1",
     "cypress-iframe": "^1.0.1",
     "cypress-multi-reporters": "^2.0.5",
     "cypress-plugin-tab": "^1.0.5",

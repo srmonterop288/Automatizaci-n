@@ -68,7 +68,7 @@ export function agregarOrdenesAgendada(tipoRol)
     
 
 // 1. Hacer clic en el campo del DatePicker (usamos el ID del input)
-cy.get('#dtp_Doctor_ordenes_receta_medicamento_fecha_inicio').click({ force: true });
+cy.get('#dtp_'+tipoRol+'_ordenes_receta_medicamento_fecha_inicio').click({ force: true });
 
 // 2. Esperar a que se muestre el panel del calendario y hacer clic en la celda de hoy
 cy.get('.ant-picker-cell-today')
@@ -78,7 +78,7 @@ cy.get('.ant-picker-cell-today')
     cy.get('#txt_'+tipoRol+'_ordenes_receta_medicamento_duracion', {timeout: 20000}).type('5{enter}')
     cy.get('#txt_'+tipoRol+'_ordenes_receta_medicamento_lunes', {timeout: 20000}).type('5{enter}')
     cy.get('#txt_'+tipoRol+'_ordenes_receta_medicamento_observaciones', {timeout: 20000}).type('Prueba automatizada de órdenes de medicamentos')
-    cy.get('#rb_'+tipoRol+'_ordenes_receta_ventanilla', {timeout: 20000}).click()
+    cy.get('#rb_'+tipoRol+'_ordenes_receta_ventanilla', {timeout: 20000}).click().wait(2000)
     cy.get('#btn_ordenes_receta_medicamento_confirmar', {timeout: 20000}).click().wait(1000)
 
     cy.get('#btn_ordenes_receta_confirmar').click().wait(3000)
