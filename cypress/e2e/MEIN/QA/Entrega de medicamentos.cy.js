@@ -61,7 +61,7 @@ describe('Medicamentos e insumos', () => {
     });
   });
 
-  it('Pruebas', () => {
+  it('Entrega de medicamentos', () => {
     // ✅ Bloquear la descarga del PDF si se hace por red
 
     loginMEIN("QA")

@@ -61,7 +61,7 @@ describe('Medicamentos e insumos', () => {
     });
   });
 
-  it('Pruebas', () => {
+  it('Dispensación de receta', () => {
     // ✅ Bloquear la descarga del PDF si se hace por red
 
     loginMEIN("QA")
@@ -74,7 +74,6 @@ describe('Medicamentos e insumos', () => {
         verificarReceta(idoneaDelPaciente, receta)
         preparacionMedicamento(receta)
         dispensacionMedicamento(receta)
-        entregarMedicamento(receta)
       }
       else{
         cy.log("Idonea médica o Número de Receta VACIOS")

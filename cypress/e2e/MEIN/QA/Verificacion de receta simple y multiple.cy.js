@@ -61,7 +61,7 @@ describe('Medicamentos e insumos', () => {
     });
   });
 
-  it('Pruebas', () => {
+  it('Verificación  de receta simple y multiple', () => {
     // ✅ Bloquear la descarga del PDF si se hace por red
 
     loginMEIN("QA")
@@ -72,9 +72,6 @@ describe('Medicamentos e insumos', () => {
       // Usamos el valor
       if(idoneaDelPaciente != "" && receta != ""){
         verificarReceta(idoneaDelPaciente, receta)
-        preparacionMedicamento(receta)
-        dispensacionMedicamento(receta)
-        entregarMedicamento(receta)
       }
       else{
         cy.log("Idonea médica o Número de Receta VACIOS")
