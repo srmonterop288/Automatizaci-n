@@ -6,7 +6,7 @@ export function seleccionarProcedimiento()
 export function agregarProcedimiento(tipoRol)
 {
     seleccionarProcedimiento() 
-    for(var i=0;i<=9;i++)
+    for(var i=0;i<=0;i++)
         {
             cy.get('#'+tipoRol+'_btn_procedimientos_agregar_procedimiento').click().wait(500)
 

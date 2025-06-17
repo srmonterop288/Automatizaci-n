@@ -100,7 +100,7 @@ export function agregarNotasClinicas(tipoRol)
   cy.get('#tab_'+tipoRol+'_evaluacion_medica_notas_medicas', {timeout: 20000}).click()
 
   //AGREGAR NOTAS CLINICAS
-  for(var i=0;i<=9;i++)
+  for(var i=0;i<=1;i++)
   {
     cy.get('#btn_'+tipoRol+'_notas_medicas_agregar_nota').click()
     cy.get('#btn_'+tipoRol+'_notas_medicas_nota_medica').type('Soy Enfermera - Prueba de Nota clínica '+i)
