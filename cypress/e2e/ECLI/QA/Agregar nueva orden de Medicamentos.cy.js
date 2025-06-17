@@ -54,7 +54,7 @@ describe("template spec", () => {
                 (data) => {
                   const receta = data.valor;
 
-                  // Usamos el valor
+                  //Usamos el valor
                   cy.log("Leemos el campo de receta: " + receta);
                   //return receta;
                 }

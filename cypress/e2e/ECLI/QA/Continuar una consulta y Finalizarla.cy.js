@@ -28,7 +28,7 @@ describe('template spec', () => {
           inciarConsulta(numero, botonMasNuevo, tipoBoton, tipoRol)
           
 
-          //AUÍ AGREGAMOS EL PACIENTE ATENDIDO
+          //AQUÍ AGREGAMOS EL PACIENTE ATENDIDO
           obtenerIdoneaDelPaciente()
 
           //AQUÍ ABAJO AGREGAMOS LO MÓDULOS
@@ -37,7 +37,7 @@ describe('template spec', () => {
           cy.readFile('cypress/fixtures/numeroDeReceta.json').then((data) => {
               const receta = data.valor;
 
-              // Usamos el valor
+              //Usamos el valor
               cy.log('Leemos el campo de receta: '+receta)
               //return receta;
           });
