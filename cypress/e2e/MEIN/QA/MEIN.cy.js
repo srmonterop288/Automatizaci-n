@@ -55,7 +55,7 @@ describe('Medicamentos e insumos', () => {
               cy.log('Leemos el campo de receta: '+receta)
               //return receta;
           });
-          
+          //Prueba de RAMA
         }
       });
     });
