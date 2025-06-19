@@ -1,16 +1,23 @@
 import { bloquearPDF } from "./cerrarPDF";
 
+export function pestañaVerificacionReceta(){
+  cy.get('#spn_modulo_farmacia_verificacion', { timeout: 20000 }).should('be.visible').click().wait(3000);
+}
+
+export function buscarPacienteVerificacionReceta(idoneaDelPaciente){
+  pestañaVerificacionReceta()
+  //Ingresamos el paciente en la Verificación de Receta
+  cy.window().then(win => win.focus());
+  cy.get('#number').clear().type(idoneaDelPaciente);
+  cy.get('.ant-select-item-option', { timeout: 30000 }).first().should('be.visible').click();
+}
 
 export function verificarReceta(idoneaDelPaciente, numeroDeReceta)
 {
     let imagen = 1;
-    cy.get('#spn_modulo_farmacia_verificacion', { timeout: 20000 }).should('be.visible').click().wait(3000);
-
-    //Seleccionamos el INPUT
-    cy.get('#number').clear().type(idoneaDelPaciente);
+    buscarPacienteVerificacionReceta(idoneaDelPaciente)
 
     // Esperar hasta que aparezca la opción en el dropdown y hacer click
-    cy.get('.ant-select-item-option', { timeout: 15000 }).first().should('be.visible').click();
     cy.get('#btn_validar_paciente', { timeout: 15000 }).click() //Damos click n el botón de validar paciente
 
     cy.get('#input_tecnico_preparacion_buscar_numero_receta', { timeout: 15000 }).type(numeroDeReceta)
@@ -145,12 +152,9 @@ export function entregarMedicamento(numeroDeReceta){
 }
 
 export function transcripciónRecetaSimple(idoneaDelPaciente, contrasenaConcatenada, numeroRecetaConcatenada){
-  cy.get('#spn_modulo_farmacia_verificacion', { timeout: 20000 }).should('be.visible').click().wait(3000);
-  //Seleccionamos el INPUT
-  cy.get('#number').clear().type(idoneaDelPaciente);
+  buscarPacienteVerificacionReceta(idoneaDelPaciente)
 
   // Esperar hasta que aparezca la opción en el dropdown y hacer click
-  cy.get('.ant-select-item-option', { timeout: 15000 }).first().should('be.visible').click();
   cy.get('#btn_validar_paciente', { timeout: 15000 }).click() //Damos click n el botón de validar paciente
   cy.get('#btn_transcribir_receta', {timeout:15000}).click()
 
