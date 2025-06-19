@@ -244,5 +244,5 @@ export function concatenarHoraFecha(){
     cy.log('Contraseña concatenada:', contrasenaConcatenada);
     cy.log('Número Receta Concatenada:', numeroRecetaConcatenada);
   });
-
+  //Modificación Santiago
 }
