@@ -144,6 +144,101 @@ export function entregarMedicamento(numeroDeReceta){
 
 }
 
-export function transcripciónRecetaSimple(){
+export function transcripciónRecetaSimple(idoneaDelPaciente, contrasenaConcatenada, numeroRecetaConcatenada){
+  cy.get('#spn_modulo_farmacia_verificacion', { timeout: 20000 }).should('be.visible').click().wait(3000);
+  //Seleccionamos el INPUT
+  cy.get('#number').clear().type(idoneaDelPaciente);
+
+  // Esperar hasta que aparezca la opción en el dropdown y hacer click
+  cy.get('.ant-select-item-option', { timeout: 15000 }).first().should('be.visible').click();
+  cy.get('#btn_validar_paciente', { timeout: 15000 }).click() //Damos click n el botón de validar paciente
+  cy.get('#btn_transcribir_receta', {timeout:15000}).click()
+
+  //EEscribir Contraseña y Número de Receta
+  cy.get('#doctor_form_password',  {timeout:15000}).type(contrasenaConcatenada)
+  cy.get('#doctor_form_external_receta',  {timeout:15000}).type(numeroRecetaConcatenada)
+  cy.get('#btn_continuar_transcribir_receta_medico', {timeout:15000}).click()
+  bloquearPDF()
+
+  //Buscar y sleccionar Receta
+  cy.get('#input_tecnico_preparacion_buscar_numero_receta', {timeout:15000}).type(numeroRecetaConcatenada).wait(3000)
+  cy.get('#btn_mostrar_acciones_trascripcion', {timeout:15000}).click()
+  cy.get('#btn_editar_transcripcion', {timeout:15000}).click()
+
+  //Recrear la receta
+  cy.xpath('//*[@id="issueDate"]', {timeout:15000}).click().wait(1000)
+  cy.xpath('/html/body/div[4]/div/div/div/div/div[2]/ul/li/a', {timeout:15000}).click()
+  cy.get('#institution', {timeout:15000}).click()
+  cy.contains('.ant-select-item-option', 'Gubernamental', { timeout: 10000 }).click();
+  cy.get('#nombreMedico',  {timeout:15000}).type('Anna')
+  //cy.get('#especialidadId', {timeout:15000}).click()
+  //cy.contains('.ant-select-item-option', 'Urología', { timeout: 10000 }).click();
+  cy.xpath('//*[@id="single-spa-application:@thv/core"]/div/div/main/section/section/div/div[5]/div[2]/div/div[2]/div/div/div[1]/div/div/div/div/div[1]/div/table/tbody/tr[1]/td[1]/label/span/span', {timeout:15000}).click()
+  cy.get('#btn_continuar_transcribir_receta_paciente', {timeout:15000}).click()
+
+  //Escribir la Receta Nueva
+  cy.get('#grupo', {timeout:15000}).click()
+  cy.contains('.ant-select-item-option', 'Inyectables', { timeout: 10000 }).click();
+  cy.get('#input_receta_nombre_medicamento', {timeout:15000}).type('OMEPRAZOL 40mg, polvo liofilizado, I.V.{enter}').wait(1000)
+  cy.xpath('/html/body/div[2]/div/div/main/section/section/div/div[5]/div[2]/div/div[2]/form/div[1]/form/div[3]/div[1]/div/div[1]/div/div/div[2]/div/div/div/div/input', {timeout:15000}).type('5')
+  cy.xpath('/html/body/div[2]/div/div/main/section/section/div/div[5]/div[2]/div/div[2]/form/div[1]/form/div[3]/div[2]/div/div[2]/div/div/div[2]/div/div/div/div/span/span[1]/input', {timeout:15000}).click().type('Cada 24 Horas{enter}')
+  cy.get('#input_receta_duracion_medicamento', {timeout:15000}).type('1')
+  cy.get('#btn_agregar_medicamento', {timeout:15000}).click()
+  cy.get('#btn_continuar_transcribir_receta_enviar', {timeout:15000}).click().wait(1000)
+  cy.get('#btn_confirmar_envio_recetas', {timeout:15000}).click().wait(3000)
   
+  cy.readFile('cypress/fixtures/numeroDeReceta.json').then((data) => {
+    data.valor = numeroRecetaConcatenada; // Actualiza el valor
+
+    cy.writeFile('cypress/fixtures/numeroDeReceta.json', data); // Guarda en archivo
+
+    cy.log('Guardado número de receta:', numeroRecetaConcatenada);
+  });
+
+  
+
+  
+}
+
+// Devuelve: segundos + minutos + hora (ssmmhh)
+export function obtenerHoraComoCadena() {
+  const ahora = new Date();
+  const segundos = String(ahora.getSeconds()).padStart(2, '0');
+  const minutos = String(ahora.getMinutes()).padStart(2, '0');
+  const horas = String(ahora.getHours()).padStart(2, '0');
+  return `${segundos}${minutos}${horas}`;
+}
+
+// Devuelve: día + mes + año (ddMMyyyy)
+export function obtenerFechaComoCadena() {
+  const ahora = new Date();
+  const dia = String(ahora.getDate()).padStart(2, '0');
+  //const mes = String(ahora.getMonth() + 1).padStart(2, '0'); // Mes inicia en 0
+  //const anio = String(ahora.getFullYear());
+  //return `${dia}${mes}${anio}`;
+  return `${dia}`;
+}
+
+// Devuelve: ssmmhhddMMyyyy
+export function generarCadenaTiempoCompleta() {
+  const hora = obtenerHoraComoCadena();
+  const fecha = obtenerFechaComoCadena();
+  return `${hora}${fecha}`;
+}
+
+export function concatenarHoraFecha(){
+  const concatenacion = generarCadenaTiempoCompleta()
+  const contrasenaConcatenada = 'C'+concatenacion;
+  const numeroRecetaConcatenada = 'NR'+concatenacion;
+  cy.readFile('cypress/fixtures/numeroDeReceta.json').then((data) => {
+    // Actualiza el valor
+    data.contrasenaConcatenada = contrasenaConcatenada; 
+    data.numeroRecetaConcatenada = numeroRecetaConcatenada; 
+
+    cy.writeFile('cypress/fixtures/numeroDeReceta.json', data); // Guarda en archivo
+
+    cy.log('Contraseña concatenada:', contrasenaConcatenada);
+    cy.log('Número Receta Concatenada:', numeroRecetaConcatenada);
+  });
+
 }
