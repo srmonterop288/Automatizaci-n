@@ -63,39 +63,42 @@ export function verificarReceta(idoneaDelPaciente, numeroDeReceta) {
 export function preparacionMedicamento(numeroDeReceta) {
   cy.get("#spn_modulo_farmacia_preparacion", { timeout: 15000 }).click();
 
-  //Buscamos el tipo de RECETARIO donde se encuentra
+  // Buscar recetario donde está la receta
   recetarioMedicamento(numeroDeReceta);
 
-  //Mandamos a preparar la receta
+  // Clic en el botón de acción de la receta
   cy.xpath(
     '//*[@id="single-spa-application:@thv/core"]/div/div/main/section/section/div/div[4]/div/div[2]/div/div/div/div/div/div/div/div/div/div/table/tbody/tr[2]/td[7]/button',
     { timeout: 15000 }
   ).click();
-  cy.xpath("/html/body/div[4]/div/ul/li", { timeout: 15000 })
-    .click()
-    .wait(2000);
 
-  //Seleccionamos el medicamento
-  cy.xpath(
-    '//*[@id="single-spa-application:@thv/core"]/div/div/main/section/section/div/div[3]/div[2]/div/div[3]/div/div[2]/div/div/div/div/div/table/tbody/tr/td[1]/p',
-    { timeout: 15000 }
-  )
-    .click()
-    .wait(3000);
-  cy.get(
-    "#btn_recetario_preparacion_de_medicamentos_guardar_seleccion_medicamentos",
-    { timeout: 15000 }
-  ).click();
+  // Seleccionar la opción del dropdown de acciones
+  cy.xpath("/html/body/div[4]/div/ul/li", { timeout: 15000 }).click().wait(2000);
 
-  //Guardamos la preparación del medicamento
-  cy.get("#btn_recetario_terminar_preparacion", { timeout: 15000 }).click();
-  cy.get(
-    "#btn_recetario_preparacion_de_medicamentos_confimar_modal_confirmar",
-    { timeout: 15000 }
-  )
-    .click()
-    .wait(3000);
+  // Cargar el JSON de medicamentos
+  cy.fixture('medicamentos.json').then((listaMedicamentos) => {
+    cy.wrap(listaMedicamentos).each((medicamento) => {
+      // Buscar cada medicamento por nombre en la tabla de preparación
+      cy.contains('td', medicamento.nombre, { timeout: 10000 })
+        .parents('tr') // Nos subimos a toda la fila del medicamento
+        .within(() => {
+          // Clic en el botón de seleccionar ese medicamento (si es un <p>, ajusta aquí)
+          cy.get('td').first().click().wait(3000); // El botón está en la primera columna
+        });
+        // Luego de seleccionar todos, clic en guardar selección
+        cy.get("#btn_recetario_preparacion_de_medicamentos_guardar_seleccion_medicamentos", { timeout: 15000 }).click();
+    });
+
+    
+
+    // Guardar la preparación del medicamento
+    cy.get("#btn_recetario_terminar_preparacion", { timeout: 15000 }).click();
+
+    // Confirmar
+    cy.get("#btn_recetario_preparacion_de_medicamentos_confimar_modal_confirmar", { timeout: 15000 }).click().wait(3000);
+  });
 }
+
 
 function recetarioMedicamento(numeroDeReceta) {
   // Abre el dropdown para obtener todas las opciones de recetarios
@@ -249,25 +252,8 @@ export function transcripciónRecetaSimple(
   }).click();
 
   //Escribir la Receta Nueva
-  cy.get("#grupo", { timeout: 15000 }).click();
-  cy.contains(".ant-select-item-option", "Inyectables", {
-    timeout: 10000,
-  }).click();
-  cy.get("#input_receta_nombre_medicamento", { timeout: 15000 })
-    .type("OMEPRAZOL 40mg, polvo liofilizado, I.V.{enter}")
-    .wait(1000);
-  cy.xpath(
-    "/html/body/div[2]/div/div/main/section/section/div/div[5]/div[2]/div/div[2]/form/div[1]/form/div[3]/div[1]/div/div[1]/div/div/div[2]/div/div/div/div/input",
-    { timeout: 15000 }
-  ).type("5");
-  cy.xpath(
-    "/html/body/div[2]/div/div/main/section/section/div/div[5]/div[2]/div/div[2]/form/div[1]/form/div[3]/div[2]/div/div[2]/div/div/div[2]/div/div/div/div/span/span[1]/input",
-    { timeout: 15000 }
-  )
-    .click()
-    .type("Cada 24 Horas{enter}");
-  cy.get("#input_receta_duracion_medicamento", { timeout: 15000 }).type("1");
-  cy.get("#btn_agregar_medicamento", { timeout: 15000 }).click();
+  recrearRecetaMEIN()
+
   cy.get("#btn_continuar_transcribir_receta_enviar", { timeout: 15000 })
     .click()
     .wait(1000);
@@ -280,6 +266,53 @@ export function transcripciónRecetaSimple(
 
     cy.log("Guardado número de receta:", numeroRecetaConcatenada);
   });
+}
+
+function recrearRecetaMEIN(){
+  
+  
+
+  cy.fixture('medicamentos.json').then((listaMedicamentos) => {
+    cy.wrap(listaMedicamentos).each((medicamento) => {
+      //cy.log('💊 Medicamento:', medicamento.nombre);
+      //cy.log('📦 Tipo:', medicamento.tipo);
+
+      // Aquí haces lo que quieras con cada medicamento
+      cy.get("#grupo", { timeout: 15000 }).click();
+      cy.contains(".ant-select-item-option", medicamento.tipo, {
+        timeout: 10000,
+      }).click();
+      cy.get("#input_receta_nombre_medicamento", { timeout: 15000 })
+        .type(medicamento.nombre+'{enter}')
+        .wait(1000);
+      if(medicamento.tipo === "Tabletas"){
+        cy.xpath(
+          "/html/body/div[2]/div/div/main/section/section/div/div[5]/div[2]/div/div[2]/form/div[1]/form/div[3]/div[1]/div/div[3]/div/div/div[2]/div[1]/div/div/div/input",
+          { timeout: 15000 }
+        ).click().type("2");
+
+      }else if(medicamento.tipo === "Inyectables"){
+        cy.xpath(
+          "/html/body/div[2]/div/div/main/section/section/div/div[5]/div[2]/div/div[2]/form/div[1]/form/div[3]/div[1]/div/div[1]/div/div/div[2]/div/div/div/div/input",
+          { timeout: 15000 }
+        ).type("5");
+
+      }else{cy.log('No encontramos ese medicamento')}
+        
+      cy.xpath(
+        "/html/body/div[2]/div/div/main/section/section/div/div[5]/div[2]/div/div[2]/form/div[1]/form/div[3]/div[2]/div/div[2]/div/div/div[2]/div/div/div/div/span/span[1]/input",
+        { timeout: 15000 }
+      )
+        .click()
+        .type("Cada 24 Horas{enter}");
+      cy.get("#input_receta_duracion_medicamento", { timeout: 15000 }).type("1");
+      cy.get("#btn_agregar_medicamento", { timeout: 15000 }).click();
+
+      // Espera o click que necesites
+      cy.wait(1000);
+    });
+  });
+
 }
 
 // Devuelve: segundos + minutos + hora (ssmmhh)
