@@ -269,9 +269,6 @@ export function transcripciónRecetaSimple(
 }
 
 function recrearRecetaMEIN(){
-  
-  
-
   cy.fixture('medicamentos.json').then((listaMedicamentos) => {
     cy.wrap(listaMedicamentos).each((medicamento) => {
       //cy.log('💊 Medicamento:', medicamento.nombre);
@@ -325,19 +322,25 @@ export function obtenerHoraComoCadena() {
 }
 
 // Devuelve: día + mes + año (ddMMyyyy)
-export function obtenerFechaComoCadena() {
+export function obtenerFechaComoCadena(requiero) {
   const ahora = new Date();
   const dia = String(ahora.getDate()).padStart(2, "0");
-  //const mes = String(ahora.getMonth() + 1).padStart(2, '0'); // Mes inicia en 0
-  //const anio = String(ahora.getFullYear());
+  const mes = String(ahora.getMonth() + 1).padStart(2, '0'); // Mes inicia en 0
+  const anio = String(ahora.getFullYear());
   //return `${dia}${mes}${anio}`;
-  return `${dia}`;
+  if(requiero === "fechaCalendario"){
+    return `${dia}-${mes}-${anio}`
+  }else if(requiero==="concatenacion"){return `${dia}`;}
+  else{
+    return null;
+  }
+  
 }
 
 // Devuelve: ssmmhhddMMyyyy
 export function generarCadenaTiempoCompleta() {
   const hora = obtenerHoraComoCadena();
-  const fecha = obtenerFechaComoCadena();
+  const fecha = obtenerFechaComoCadena("concatenacion");
   return `${hora}${fecha}`;
 }
 
