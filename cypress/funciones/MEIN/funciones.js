@@ -73,32 +73,39 @@ export function preparacionMedicamento(numeroDeReceta) {
   ).click();
 
   // Seleccionar la opción del dropdown de acciones
-  cy.xpath("/html/body/div[4]/div/ul/li", { timeout: 15000 }).click().wait(2000);
+  cy.xpath("/html/body/div[4]/div/ul/li", { timeout: 15000 })
+    .click()
+    .wait(2000);
 
   // Cargar el JSON de medicamentos
-  cy.fixture('medicamentos.json').then((listaMedicamentos) => {
+  cy.fixture("medicamentos.json").then((listaMedicamentos) => {
     cy.wrap(listaMedicamentos).each((medicamento) => {
       // Buscar cada medicamento por nombre en la tabla de preparación
-      cy.contains('td', medicamento.nombre, { timeout: 10000 })
-        .parents('tr') // Nos subimos a toda la fila del medicamento
+      cy.contains("td", medicamento.nombre, { timeout: 10000 })
+        .parents("tr") // Nos subimos a toda la fila del medicamento
         .within(() => {
           // Clic en el botón de seleccionar ese medicamento (si es un <p>, ajusta aquí)
-          cy.get('td').first().click().wait(3000); // El botón está en la primera columna
+          cy.get("td").first().click().wait(3000); // El botón está en la primera columna
         });
-        // Luego de seleccionar todos, clic en guardar selección
-        cy.get("#btn_recetario_preparacion_de_medicamentos_guardar_seleccion_medicamentos", { timeout: 15000 }).click();
+      // Luego de seleccionar todos, clic en guardar selección
+      cy.get(
+        "#btn_recetario_preparacion_de_medicamentos_guardar_seleccion_medicamentos",
+        { timeout: 15000 }
+      ).click();
     });
-
-    
 
     // Guardar la preparación del medicamento
     cy.get("#btn_recetario_terminar_preparacion", { timeout: 15000 }).click();
 
     // Confirmar
-    cy.get("#btn_recetario_preparacion_de_medicamentos_confimar_modal_confirmar", { timeout: 15000 }).click().wait(3000);
+    cy.get(
+      "#btn_recetario_preparacion_de_medicamentos_confimar_modal_confirmar",
+      { timeout: 15000 }
+    )
+      .click()
+      .wait(3000);
   });
 }
-
 
 function recetarioMedicamento(numeroDeReceta) {
   // Abre el dropdown para obtener todas las opciones de recetarios
@@ -252,7 +259,7 @@ export function transcripciónRecetaSimple(
   }).click();
 
   //Escribir la Receta Nueva
-  recrearRecetaMEIN()
+  recrearRecetaMEIN();
 
   cy.get("#btn_continuar_transcribir_receta_enviar", { timeout: 15000 })
     .click()
@@ -268,8 +275,8 @@ export function transcripciónRecetaSimple(
   });
 }
 
-function recrearRecetaMEIN(){
-  cy.fixture('medicamentos.json').then((listaMedicamentos) => {
+function recrearRecetaMEIN() {
+  cy.fixture("medicamentos.json").then((listaMedicamentos) => {
     cy.wrap(listaMedicamentos).each((medicamento) => {
       //cy.log('💊 Medicamento:', medicamento.nombre);
       //cy.log('📦 Tipo:', medicamento.tipo);
@@ -280,36 +287,39 @@ function recrearRecetaMEIN(){
         timeout: 10000,
       }).click();
       cy.get("#input_receta_nombre_medicamento", { timeout: 15000 })
-        .type(medicamento.nombre+'{enter}')
+        .type(medicamento.nombre + "{enter}")
         .wait(1000);
-      if(medicamento.tipo === "Tabletas"){
+      if (medicamento.tipo === "Tabletas") {
         cy.xpath(
           "/html/body/div[2]/div/div/main/section/section/div/div[5]/div[2]/div/div[2]/form/div[1]/form/div[3]/div[1]/div/div[3]/div/div/div[2]/div[1]/div/div/div/input",
           { timeout: 15000 }
-        ).click().type("2");
-
-      }else if(medicamento.tipo === "Inyectables"){
+        )
+          .click()
+          .type("2");
+      } else if (medicamento.tipo === "Inyectables") {
         cy.xpath(
           "/html/body/div[2]/div/div/main/section/section/div/div[5]/div[2]/div/div[2]/form/div[1]/form/div[3]/div[1]/div/div[1]/div/div/div[2]/div/div/div/div/input",
           { timeout: 15000 }
         ).type("5");
+      } else {
+        cy.log("No encontramos ese medicamento");
+      }
 
-      }else{cy.log('No encontramos ese medicamento')}
-        
       cy.xpath(
         "/html/body/div[2]/div/div/main/section/section/div/div[5]/div[2]/div/div[2]/form/div[1]/form/div[3]/div[2]/div/div[2]/div/div/div[2]/div/div/div/div/span/span[1]/input",
         { timeout: 15000 }
       )
         .click()
         .type("Cada 24 Horas{enter}");
-      cy.get("#input_receta_duracion_medicamento", { timeout: 15000 }).type("1");
+      cy.get("#input_receta_duracion_medicamento", { timeout: 15000 }).type(
+        "1"
+      );
       cy.get("#btn_agregar_medicamento", { timeout: 15000 }).click();
 
       // Espera o click que necesites
       cy.wait(1000);
     });
   });
-
 }
 
 // Devuelve: segundos + minutos + hora (ssmmhh)
@@ -325,16 +335,16 @@ export function obtenerHoraComoCadena() {
 export function obtenerFechaComoCadena(requiero) {
   const ahora = new Date();
   const dia = String(ahora.getDate()).padStart(2, "0");
-  const mes = String(ahora.getMonth() + 1).padStart(2, '0'); // Mes inicia en 0
+  const mes = String(ahora.getMonth() + 1).padStart(2, "0"); // Mes inicia en 0
   const anio = String(ahora.getFullYear());
   //return `${dia}${mes}${anio}`;
-  if(requiero === "fechaCalendario"){
-    return `${dia}-${mes}-${anio}`
-  }else if(requiero==="concatenacion"){return `${dia}`;}
-  else{
+  if (requiero === "fechaCalendario") {
+    return `${dia}-${mes}-${anio}`;
+  } else if (requiero === "concatenacion") {
+    return `${dia}`;
+  } else {
     return null;
   }
-  
 }
 
 // Devuelve: ssmmhhddMMyyyy

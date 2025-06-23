@@ -1,10 +1,18 @@
 [
   {
+    "tipo": "Inyectables",
     "nombre": "OMEPRAZOL 40mg, polvo liofilizado, I.V.",
-    "tipo": "Inyectables"
+    "nombreConocido": "Omeprazol",
+    "cantidad": 15,
+    "cantidadEnvase": 250,
+    "vencimiento": "31-10-2026"
   },
   {
+    "tipo": "Tabletas",
     "nombre": "PARACETAMOL (ACETAMINOFÉN) 500mg, tableta, V.O.",
-    "tipo": "Tabletas"
+    "nombreConocido": "Paracetamol 500mg",
+    "cantidad": 10,
+    "cantidadEnvase": 250,
+    "vencimiento": "15-11-2026"
   }
 ]
