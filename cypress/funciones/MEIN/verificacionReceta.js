@@ -174,3 +174,326 @@ function recrearRecetaMEIN() {
     });
   });
 }
+
+//---------------
+export function transcripciónRecetaProlongada(
+  idoneaDelPaciente,
+  contrasenaConcatenada,
+  numeroRecetaConcatenada
+) {
+  buscarPacienteVerificacionReceta(idoneaDelPaciente);
+ 
+  // Esperar hasta que aparezca la opción en el dropdown y hacer click
+  cy.get("#btn_validar_paciente", { timeout: 15000 }).click(); //Damos click n el botón de validar paciente
+  cy.get("#btn_transcribir_receta", { timeout: 15000 }).click();
+ 
+  //EEscribir Contraseña y Número de Receta
+  cy.get("#doctor_form_password", { timeout: 15000 }).type(
+    contrasenaConcatenada
+  );
+  cy.get("#doctor_form_external_receta", { timeout: 15000 }).type(
+    numeroRecetaConcatenada
+  );
+  cy.get("#btn_continuar_transcribir_receta_medico", {
+    timeout: 15000,
+  }).click();
+  bloquearPDF();
+ 
+  //Buscar y sleccionar Receta
+  cy.get("#input_tecnico_preparacion_buscar_numero_receta", { timeout: 15000 })
+    .type(numeroRecetaConcatenada)
+    .wait(3000);
+  cy.get("#btn_mostrar_acciones_trascripcion", { timeout: 15000 }).click();
+  cy.get("#btn_editar_transcripcion", { timeout: 15000 }).click();
+ 
+  //Recrear la receta
+  cy.get('#switch_activar_receta_prolongada', { timeout: 15000 })
+  .should('be.visible')
+  .click();
+  cy.get('#switch_activar_receta_prolongada')
+  .should('have.attr', 'aria-checked', 'true');
+  cy.xpath('//*[@id="issueDate"]', { timeout: 15000 }).click().wait(1000);
+  cy.xpath("/html/body/div[4]/div/div/div/div/div[2]/ul/li/a", {
+    timeout: 15000,
+  }).click();
+  cy.get("#institution", { timeout: 15000 }).click();
+  cy.contains(".ant-select-item-option", "Gubernamental", {
+    timeout: 10000,
+  }).click();
+  cy.get("#nombreMedico", { timeout: 15000 }).type("Anna");
+  //cy.get('#especialidadId', {timeout:15000}).click()
+  //cy.contains('.ant-select-item-option', 'Urología', { timeout: 10000 }).click();
+  cy.xpath(
+    '//*[@id="single-spa-application:@thv/core"]/div/div/main/section/section/div/div[5]/div[2]/div/div[2]/div/div/div[1]/div/div/div/div/div[1]/div/table/tbody/tr[1]/td[1]/label/span/span',
+    { timeout: 15000 }
+  ).click();
+  cy.get("#btn_continuar_transcribir_receta_paciente", {
+    timeout: 15000,
+  }).click();
+ 
+  //Escribir la Receta Nueva
+  cy.get("#grupo", { timeout: 15000 }).click();
+  cy.contains(".ant-select-item-option", "Inyectables", {
+    timeout: 10000,
+  }).click();
+  cy.get("#input_receta_nombre_medicamento", { timeout: 15000 })
+    .type("OMEPRAZOL 40mg, polvo liofilizado, I.V.{enter}")
+    .wait(1000);
+  cy.xpath(
+    "/html/body/div[2]/div/div/main/section/section/div/div[5]/div[2]/div/div[2]/form/div[1]/form/div[3]/div[1]/div/div[1]/div/div/div[2]/div/div/div/div/input",
+    { timeout: 15000 }
+  ).type("5");
+  cy.xpath(
+    "/html/body/div[2]/div/div/main/section/section/div/div[5]/div[2]/div/div[2]/form/div[1]/form/div[3]/div[2]/div/div[2]/div/div/div[2]/div/div/div/div/span/span[1]/input",
+    { timeout: 15000 }
+  )
+    .click()
+    .type("Cada 24 Horas{enter}");
+  cy.get("#input_receta_duracion_medicamento", { timeout: 15000 }).type("1");
+  cy.get("#btn_agregar_medicamento", { timeout: 15000 }).click();
+  cy.get("#btn_continuar_transcribir_receta_enviar", { timeout: 15000 })
+    .click()
+    .wait(1000);
+  cy.get("#btn_confirmar_envio_recetas", { timeout: 15000 }).click().wait(3000);
+ 
+  cy.readFile("cypress/fixtures/numeroDeReceta.json").then((data) => {
+    data.valor = numeroRecetaConcatenada; // Actualiza el valor
+ 
+    cy.writeFile("cypress/fixtures/numeroDeReceta.json", data); // Guarda en archivo
+ 
+    cy.log("Guardado número de receta:", numeroRecetaConcatenada);
+  });
+}
+ 
+ 
+//---------------
+export function transcripciónRecetaAgendada(
+  idoneaDelPaciente,
+  contrasenaConcatenada,
+  numeroRecetaConcatenada
+) {
+  buscarPacienteVerificacionReceta(idoneaDelPaciente);
+ 
+  // Esperar hasta que aparezca la opción en el dropdown y hacer click
+  cy.get("#btn_validar_paciente", { timeout: 15000 }).click(); //Damos click n el botón de validar paciente
+ 
+ 
+  cy.get("#btn_transcribir_receta", { timeout: 15000 }).click();
+ 
+  //EEscribir Contraseña y Número de Receta
+  cy.get("#doctor_form_password", { timeout: 15000 }).type(
+    contrasenaConcatenada
+  );
+  cy.get("#doctor_form_external_receta", { timeout: 15000 }).type(
+    numeroRecetaConcatenada
+  );
+  cy.get("#btn_continuar_transcribir_receta_medico", {
+    timeout: 15000,
+  }).click();
+  bloquearPDF();
+ 
+  //Buscar y sleccionar Receta
+  cy.get("#input_tecnico_preparacion_buscar_numero_receta", { timeout: 15000 })
+    .type(numeroRecetaConcatenada)
+    .wait(3000);
+  cy.get("#btn_mostrar_acciones_trascripcion", { timeout: 15000 }).click();
+  cy.get("#btn_editar_transcripcion", { timeout: 15000 }).click();
+ 
+  //Recrear la receta
+  cy.xpath('//*[@id="issueDate"]', { timeout: 15000 }).click().wait(1000);
+  cy.xpath("/html/body/div[4]/div/div/div/div/div[2]/ul/li/a", {
+    timeout: 15000,
+  }).click();
+  cy.get("#institution", { timeout: 15000 }).click();
+  cy.contains(".ant-select-item-option", "Gubernamental", {
+    timeout: 10000,
+  }).click();
+  cy.get("#nombreMedico", { timeout: 15000 }).type("Anna");
+  //cy.get('#especialidadId', {timeout:15000}).click()
+  //cy.contains('.ant-select-item-option', 'Urología', { timeout: 10000 }).click();
+  cy.xpath(
+    '//*[@id="single-spa-application:@thv/core"]/div/div/main/section/section/div/div[5]/div[2]/div/div[2]/div/div/div[1]/div/div/div/div/div[1]/div/table/tbody/tr[1]/td[1]/label/span/span',
+    { timeout: 15000 }
+  ).click();
+  cy.get("#btn_continuar_transcribir_receta_paciente", {
+    timeout: 15000,
+  }).click();
+ 
+  //Escribir la Receta Nueva
+  cy.get("#grupo", { timeout: 15000 }).click();
+  cy.contains(".ant-select-item-option", "Inyectables", {
+    timeout: 10000,
+  }).click();
+  cy.get("#input_receta_nombre_medicamento", { timeout: 15000 })
+    .type("OMEPRAZOL 40mg, polvo liofilizado, I.V.{enter}")
+    .wait(1000);
+  cy.xpath(
+    "/html/body/div[2]/div/div/main/section/section/div/div[5]/div[2]/div/div[2]/form/div[1]/form/div[3]/div[1]/div/div[1]/div/div/div[2]/div/div/div/div/input",
+    { timeout: 15000 }
+  ).type("5");
+  cy.xpath(
+    "/html/body/div[2]/div/div/main/section/section/div/div[5]/div[2]/div/div[2]/form/div[1]/form/div[3]/div[2]/div/div[2]/div/div/div[2]/div/div/div/div/span/span[1]/input",
+    { timeout: 15000 }
+  )
+    .click()
+    .type("Cada 24 Horas{enter}");
+  cy.get("#input_receta_duracion_medicamento", { timeout: 15000 }).type("1");
+  cy.get("#btn_agregar_medicamento_agendado", { timeout: 15000 }).click();
+ 
+//Agendada
+// Esperar a que el modal aparezca
+cy.get('.ant-modal', { timeout: 10000 }).should('be.visible');
+ 
+// Llenar los campos tipo input habilitados del modal (ejemplo: días de la semana)
+cy.get('#lunes').clear().type('1');
+cy.get('#martes').clear().type('1');
+cy.get('#miercoles').clear().type('1');
+cy.get('#jueves').clear().type('1');
+cy.get('#viernes').clear().type('1');
+cy.get('#sabado').clear().type('1');
+cy.get('#domingo').clear().type('1');
+ 
+// Llenar campo de fecha
+// Abrir el calendario
+cy.get('#input_admin_entrega_de_medicamentos_fecha_recibo').click();
+ 
+// Esperar a que se abra el panel del calendario
+cy.get('.ant-picker-dropdown', { timeout: 5000 }).should('be.visible');
+ 
+// Hacer clic en el botón "Hoy"
+cy.get('.ant-picker-now-btn').should('not.have.attr', 'aria-disabled', 'true').click();
+ 
+// Duración del tratamiento
+cy.get('#duracion').clear().type('5');
+ 
+ 
+ 
+ 
+ 
+  cy.get("#btn_continuar_transcribir_receta_enviar", { timeout: 15000 })
+    .click()
+    .wait(1000);
+  cy.get("#btn_confirmar_envio_recetas", { timeout: 15000 }).click().wait(3000);
+ 
+  cy.readFile("cypress/fixtures/numeroDeReceta.json").then((data) => {
+    data.valor = numeroRecetaConcatenada; // Actualiza el valor
+ 
+    cy.writeFile("cypress/fixtures/numeroDeReceta.json", data); // Guarda en archivo
+ 
+    cy.log("Guardado número de receta:", numeroRecetaConcatenada);
+  });
+}
+ 
+ 
+//---------------
+export function transcripciónRecetaTitulada(
+  idoneaDelPaciente,
+  contrasenaConcatenada,
+  numeroRecetaConcatenada
+) {
+  buscarPacienteVerificacionReceta(idoneaDelPaciente);
+ 
+  // Esperar hasta que aparezca la opción en el dropdown y hacer click
+  cy.get("#btn_validar_paciente", { timeout: 15000 }).click(); //Damos click n el botón de validar paciente
+ 
+ 
+  cy.get("#btn_transcribir_receta", { timeout: 15000 }).click();
+ 
+  //EEscribir Contraseña y Número de Receta
+  cy.get("#doctor_form_password", { timeout: 15000 }).type(
+    contrasenaConcatenada
+  );
+  cy.get("#doctor_form_external_receta", { timeout: 15000 }).type(
+    numeroRecetaConcatenada
+  );
+  cy.get("#btn_continuar_transcribir_receta_medico", {
+    timeout: 15000,
+  }).click();
+  bloquearPDF();
+ 
+  //Buscar y sleccionar Receta
+  cy.get("#input_tecnico_preparacion_buscar_numero_receta", { timeout: 15000 })
+    .type(numeroRecetaConcatenada)
+    .wait(3000);
+  cy.get("#btn_mostrar_acciones_trascripcion", { timeout: 15000 }).click();
+  cy.get("#btn_editar_transcripcion", { timeout: 15000 }).click();
+ 
+  //Recrear la receta
+  cy.xpath('//*[@id="issueDate"]', { timeout: 15000 }).click().wait(1000);
+  cy.xpath("/html/body/div[4]/div/div/div/div/div[2]/ul/li/a", {
+    timeout: 15000,
+  }).click();
+  cy.get("#institution", { timeout: 15000 }).click();
+  cy.contains(".ant-select-item-option", "Gubernamental", {
+    timeout: 10000,
+  }).click();
+  cy.get("#nombreMedico", { timeout: 15000 }).type("Anna");
+  //cy.get('#especialidadId', {timeout:15000}).click()
+  //cy.contains('.ant-select-item-option', 'Urología', { timeout: 10000 }).click();
+  cy.xpath(
+    '//*[@id="single-spa-application:@thv/core"]/div/div/main/section/section/div/div[5]/div[2]/div/div[2]/div/div/div[1]/div/div/div/div/div[1]/div/table/tbody/tr[1]/td[1]/label/span/span',
+    { timeout: 15000 }
+  ).click();
+  cy.get("#btn_continuar_transcribir_receta_paciente", {
+    timeout: 15000,
+  }).click();
+ 
+  //Escribir la Receta Nueva
+  cy.get("#grupo", { timeout: 15000 }).click();
+  cy.contains(".ant-select-item-option", "Inyectables", {
+    timeout: 10000,
+  }).click();
+  cy.get("#input_receta_nombre_medicamento", { timeout: 15000 })
+    .type("OMEPRAZOL 40mg, polvo liofilizado, I.V.{enter}")
+    .wait(1000);
+  cy.xpath(
+    "/html/body/div[2]/div/div/main/section/section/div/div[5]/div[2]/div/div[2]/form/div[1]/form/div[3]/div[1]/div/div[1]/div/div/div[2]/div/div/div/div/input",
+    { timeout: 15000 }
+  ).type("5");
+  cy.xpath(
+    "/html/body/div[2]/div/div/main/section/section/div/div[5]/div[2]/div/div[2]/form/div[1]/form/div[3]/div[2]/div/div[2]/div/div/div[2]/div/div/div/div/span/span[1]/input",
+    { timeout: 15000 }
+  )
+    .click()
+    .type("Cada 24 Horas{enter}");
+  cy.get("#input_receta_duracion_medicamento", { timeout: 15000 }).type("1");
+  cy.get("#btn_agregar_medicamento", { timeout: 15000 }).click();
+ 
+//titulada
+//Escribir la Receta Nueva
+  cy.get("#grupo", { timeout: 15000 }).click();
+  cy.contains(".ant-select-item-option", "Inyectables", {
+    timeout: 10000,
+  }).click();
+  cy.get("#input_receta_nombre_medicamento", { timeout: 15000 })
+    .type("OMEPRAZOL 40mg, polvo liofilizado, I.V.{enter}")
+    .wait(1000);
+  cy.xpath(
+    "/html/body/div[2]/div/div/main/section/section/div/div[5]/div[2]/div/div[2]/form/div[1]/form/div[3]/div[1]/div/div[1]/div/div/div[2]/div/div/div/div/input",
+    { timeout: 15000 }
+  ).type("3");
+  cy.xpath(
+    "/html/body/div[2]/div/div/main/section/section/div/div[5]/div[2]/div/div[2]/form/div[1]/form/div[3]/div[2]/div/div[2]/div/div/div[2]/div/div/div/div/span/span[1]/input",
+    { timeout: 15000 }
+  )
+    .click()
+    .type("Cada 8 Horas{enter}");
+  cy.get("#input_receta_duracion_medicamento", { timeout: 15000 }).type("1");
+  cy.get("#btn_agregar_medicamento", { timeout: 15000 }).click();
+ 
+ 
+ 
+ 
+  cy.get("#btn_continuar_transcribir_receta_enviar", { timeout: 15000 })
+    .click()
+    .wait(1000);
+  cy.get("#btn_confirmar_envio_recetas", { timeout: 15000 }).click().wait(3000);
+ 
+  cy.readFile("cypress/fixtures/numeroDeReceta.json").then((data) => {
+    data.valor = numeroRecetaConcatenada; // Actualiza el valor
+ 
+    cy.writeFile("cypress/fixtures/numeroDeReceta.json", data); // Guarda en archivo
+ 
+    cy.log("Guardado número de receta:", numeroRecetaConcatenada);
+  });
+}
