@@ -79,7 +79,7 @@ describe("Entrada de medicamentos", () => {
       cy.readFile("cypress/fixtures/entradaMedicamentoTransaccion.json").then(
         (medicamentos) => {
           const numeroReferencia = medicamentos[0].numeroReferencia;
-
+          // Verificar que el número de referencia esté presente en la tabla
           cy.get(".ant-table-tbody", { timeout: tiempoEspera }).should(
             "contain",
             numeroReferencia
