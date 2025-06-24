@@ -257,6 +257,7 @@ export function entradaMedicamentoDetalle() {
           .scrollIntoView()
           .should("be.visible")
           .click();
+          //NAda
       }
     });
   }); // ← Cierra each
