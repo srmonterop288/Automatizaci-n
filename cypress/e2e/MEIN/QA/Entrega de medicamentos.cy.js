@@ -11,7 +11,10 @@ import { inciarConsulta, seleccionarAgenda, servicio } from '../../../funciones/
 import { agregarOrdenesDeMedicamentos, obtenerValorReceta, seleccionarOrdenes } from '../../../funciones/ECLI/ordenes';
 import { loginMEIN, loginMEINQA } from '../../../funciones/MEIN/loginMEIN';
 import { bloquearPDF } from '../../../funciones/MEIN/cerrarPDF';
-import { dispensacionMedicamento, dispensacionMedicamentos, entregarMedicamento, preparacionMedicamento, verificarReceta, verificarRecetaSimple } from '../../../funciones/MEIN/funciones';
+import { dispensacionMedicamento } from '../../../funciones/MEIN/dispensacionMedicamentos';
+import { preparacionMedicamento } from '../../../funciones/MEIN/preparacionMedicamentos';
+import { verificarReceta } from '../../../funciones/MEIN/verificacionReceta';
+import { entregarMedicamento } from '../../../funciones/MEIN/entregaMedicamentos';
 
 describe('Medicamentos e insumos', () => {
    // Ignora errores específicos del ResizeObserver

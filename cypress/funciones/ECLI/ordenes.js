@@ -3,23 +3,69 @@ export function seleccionarOrdenes()
     cy.get('#spn_submodulo_estaciones_clinicas_ordenes', {timeout: 20000}).click().wait(500)
 }
 
-export function agregarOrdenesDeMedicamentos(tipoRol)
-{
-    seleccionarOrdenes()
-    cy.get('#btn_'+tipoRol+'_ordenes_receta_agregar', {timeout: 20000}).click()
+export function agregarOrdenesDeMedicamentos(tipoRol) {
+  seleccionarOrdenes();
+  cy.get('#btn_' + tipoRol + '_ordenes_receta_agregar', { timeout: 20000 }).click();
 
-    //AGREGAR UNA ORDENES DE MEDICAMENTOS
-    cy.get('#ddl_'+tipoRol+'_ordenes_receta_medicamento_catalogo', {timeout: 20000}).click().type('PARACETAMOL (ACETAMINOFÉN) 500mg, tableta, V.O.').wait(2000).type('{enter}')
-    cy.get('#txt_'+tipoRol+'_ordenes_receta_medicamento_dosis', {timeout: 20000}).type('50{enter}')
-    cy.get('#ddl_'+tipoRol+'_ordenes_receta_medicamento_frecuencia', {timeout: 20000}).click().type('Cada 12 Horas{enter}')
-    cy.get('#txt_'+tipoRol+'_ordenes_receta_medicamento_duracion', {timeout: 20000}).type('10')
-    cy.get('#txt_'+tipoRol+'_ordenes_receta_medicamento_observaciones', {timeout: 20000}).type('Prueba automatizada de órdenes de medicamentos')
-    cy.get('#rb_'+tipoRol+'_ordenes_receta_ventanilla', {timeout: 20000}).click()
-    cy.get('#btn_ordenes_receta_medicamento_confirmar', {timeout: 20000}).click().wait(1000)
-    cy.get('#btn_ordenes_receta_confirmar').click().wait(3000)
+  cy.fixture("medicamentos.json").then((listaMedicamentos) => {
+    cy.wrap(listaMedicamentos).each((medicamentos, index, lista) => {
+      const medicamento = medicamentos.nombre;
+      const cantidadMedicamento = medicamentos.cantidad;
+      const horas = "Cada 24 Horas";
+      const dias = "10";
 
-    tomarValorDeLaReceta()
-    cy.wait(2000)
+      // AGREGAR UNA ORDEN DE MEDICAMENTOS
+      cy.get('#ddl_' + tipoRol + '_ordenes_receta_medicamento_catalogo', { timeout: 20000 })
+        .click()
+        .type(medicamento)
+        .wait(2000)
+        .type('{enter}');
+
+      cy.get('#txt_' + tipoRol + '_ordenes_receta_medicamento_dosis', { timeout: 20000 })
+        .type(cantidadMedicamento + '{enter}');
+
+      cy.get('#ddl_' + tipoRol + '_ordenes_receta_medicamento_frecuencia', { timeout: 20000 })
+        .click()
+        .type(horas + '{enter}');
+
+      cy.get('#txt_' + tipoRol + '_ordenes_receta_medicamento_duracion', { timeout: 20000 })
+        .type(dias);
+
+      cy.get('#txt_' + tipoRol + '_ordenes_receta_medicamento_observaciones', { timeout: 20000 })
+        .type('Tomar ' + medicamento + ' cada: ' + horas + ', por ' + dias);
+
+      cy.get('#rb_' + tipoRol + '_ordenes_receta_ventanilla', { timeout: 20000 }).click();
+
+      cy.get('#btn_ordenes_receta_medicamento_confirmar', { timeout: 20000 }).click().wait(1000);
+
+      // 👉 Si hay otro medicamento después de este, da clic al botón para agregar nuevo medicamento
+      if (index < lista.length - 1) {
+        cy.get('#btn_Doctor_ordenes_receta_productos_agregar', { timeout: 15000 }).click();
+      }
+    });
+  });
+
+  cy.get('#btn_ordenes_receta_confirmar').click().wait(3000);
+  tomarValorDeLaReceta();
+  cy.wait(2000);
+}
+
+export function tomarValorDeLaReceta() {
+    // Apunta al primer <span> dentro de una celda de tabla
+    return cy.get('td.ant-table-cell span.ant-typography').first().invoke('text').then((texto) => {
+        const numeroDeReceta = texto.trim();
+        cy.log('Valor capturado antes de mandar:', numeroDeReceta);
+        //cy.writeFile('cypress/fixtures/numeroDeReceta.json', { numeroDeReceta });
+        cy.readFile('cypress/fixtures/numeroDeReceta.json').then((data) => {
+            data.valor = numeroDeReceta; // Solo actualizamos esta propiedad
+
+            // Escribir de nuevo el archivo completo con el nuevo valor
+            cy.writeFile('cypress/fixtures/numeroDeReceta.json', data);
+
+            cy.log('Guardado idónea del paciente:', numeroDeReceta);
+            //cy.wait(20000)
+        });     
+    });
 }
 
 
@@ -113,25 +159,6 @@ export function agregarOrdenesProlongada(tipoRol)
 
     tomarValorDeLaRecetaProl()
     cy.wait(2000)
-}
-
-
-export function tomarValorDeLaReceta() {
-    // Apunta al primer <span> dentro de una celda de tabla
-    return cy.get('td.ant-table-cell span.ant-typography').first().invoke('text').then((texto) => {
-        const numeroDeReceta = texto.trim();
-        cy.log('Valor capturado antes de mandar:', numeroDeReceta);
-        //cy.writeFile('cypress/fixtures/numeroDeReceta.json', { numeroDeReceta });
-        cy.readFile('cypress/fixtures/numeroDeReceta.json').then((data) => {
-            data.valor = numeroDeReceta; // Solo actualizamos esta propiedad
-
-            // Escribir de nuevo el archivo completo con el nuevo valor
-            cy.writeFile('cypress/fixtures/numeroDeReceta.json', data);
-
-            cy.log('Guardado idónea del paciente:', numeroDeReceta);
-            //cy.wait(20000)
-        });     
-    });
 }
 
 export function tomarValorDeLaRecetaProl() {

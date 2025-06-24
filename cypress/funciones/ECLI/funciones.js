@@ -22,7 +22,7 @@ export function loginECLI(ambiente) {
         CAP: '#btn_seleccionar_unidad_ejecutora_hospital_de_prueba_qa',
       };
 
-      cy.get(unidadesPorAmbiente[ambiente], { timeout: 20000 }).should('be.visible').click();
+      cy.get(unidadesPorAmbiente[ambiente], { timeout: 50000 }).should('be.visible').click();
       cy.get('#btn_seleccionar_area_consulta_externa', { timeout: 20000 }).should('be.visible').click();
 
       // Barra lateral

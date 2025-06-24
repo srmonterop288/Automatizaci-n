@@ -1,39 +1,11 @@
 require("cypress-xpath");
 import "cypress-iframe";
 
-import {
-  loginECLI,
-  iniciarUnaConsulta,
-  opcionesNuevaConsulta,
-  personaNoAsistio,
-  pacienteNoAtendido,
-  loginECLISTG,
-  loginECLIQA,
-  loginECLICAP,
-  obtenerIdoneaDelPaciente,
-} from "../../../funciones/ECLI/funciones";
-import {
-  inciarConsulta,
-  seleccionarAgenda,
-  servicio,
-} from "../../../funciones/ECLI/agenda";
-import {
-  agregarOrdenesDeMedicamentos,
-  obtenerValorReceta,
-  seleccionarOrdenes,
-} from "../../../funciones/ECLI/ordenes";
 import { loginMEIN, loginMEINQA } from "../../../funciones/MEIN/loginMEIN";
-import { bloquearPDF } from "../../../funciones/MEIN/cerrarPDF";
-import {
-  concatenarHoraFecha,
-  dispensacionMedicamento,
-  dispensacionMedicamentos,
-  entregarMedicamento,
-  preparacionMedicamento,
-  transcripciónRecetaSimple,
-  verificarReceta,
-  verificarRecetaSimple,
-} from "../../../funciones/MEIN/funciones";
+import { dispensacionMedicamento } from '../../../funciones/MEIN/dispensacionMedicamentos';
+import { preparacionMedicamento } from '../../../funciones/MEIN/preparacionMedicamentos';
+import { verificarReceta } from '../../../funciones/MEIN/verificacionReceta';
+import { entregarMedicamento } from '../../../funciones/MEIN/entregaMedicamentos';
 
 describe("Medicamentos e insumos", () => {
   // Ignora errores específicos del ResizeObserver
@@ -46,58 +18,6 @@ describe("Medicamentos e insumos", () => {
       return false;
     }
   });
-
-  /*it("Realizar nueva orden de medicamento", () => {
-    let numero = 0;
-    let botonMasNuevo = 0;
-
-    loginECLI("QA");
-
-    cy.xpath('//*[@id="div_nombre_usuario"]/div/span[2]')
-      .invoke("text")
-      .then((text) => {
-        const tipoRol = text.trim();
-        seleccionarAgenda(tipoRol);
-
-        iniciarUnaConsulta(tipoRol).then(
-          ({
-            numero: num,
-            botonMasNuevo: boton,
-            tipoBoton: cadena,
-            tipoRol,
-          }) => {
-            numero = num;
-            botonMasNuevo = boton;
-            const tipoBoton = cadena;
-
-            if (!numero && !botonMasNuevo && !tipoBoton) {
-              cy.log(
-                "NO SE ENCONTRARON CONSULTAS DISPONIBLES EN LA AGENDA SELECCIONADA"
-              );
-            } else if (!botonMasNuevo) {
-              cy.log("No se encontró ningún botón para la agenda.");
-            } else {
-              inciarConsulta(numero, botonMasNuevo, tipoBoton, tipoRol);
-
-              //AQUÍ AGREGAMOS EL PACIENTE ATENDIDO
-              obtenerIdoneaDelPaciente();
-
-              //AQUÍ ABAJO AGREGAMOS LO MÓDULOS
-              //agregarOrdenesDeMedicamentos(tipoRol);
-              cy.readFile("cypress/fixtures/numeroDeReceta.json").then(
-                (data) => {
-                  const receta = data.valor;
-
-                  //Usamos el valor
-                  cy.log("Leemos el campo de receta: " + receta);
-                  //return receta;
-                }
-              );
-            }
-          }
-        );
-      });
-  });*/
 
   it("Pruebas", () => {
     // ✅ Bloquear la descarga del PDF si se hace por red

@@ -1,39 +1,11 @@
 require("cypress-xpath");
 import "cypress-iframe";
 
-import {
-  loginECLI,
-  iniciarUnaConsulta,
-  opcionesNuevaConsulta,
-  personaNoAsistio,
-  pacienteNoAtendido,
-  loginECLISTG,
-  loginECLIQA,
-  loginECLICAP,
-  obtenerIdoneaDelPaciente,
-} from "../../../funciones/ECLI/funciones";
-import {
-  inciarConsulta,
-  seleccionarAgenda,
-  servicio,
-} from "../../../funciones/ECLI/agenda";
-import {
-  agregarOrdenesDeMedicamentos,
-  obtenerValorReceta,
-  seleccionarOrdenes,
-} from "../../../funciones/ECLI/ordenes";
 import { loginMEIN, loginMEINQA } from "../../../funciones/MEIN/loginMEIN";
-import { bloquearPDF } from "../../../funciones/MEIN/cerrarPDF";
-import {
-  concatenarHoraFecha,
-  dispensacionMedicamento,
-  dispensacionMedicamentos,
-  entregarMedicamento,
-  preparacionMedicamento,
-  transcripciónRecetaSimple,
-  verificarReceta,
-  verificarRecetaSimple,
-} from "../../../funciones/MEIN/funciones";
+import { dispensacionMedicamento } from '../../../funciones/MEIN/dispensacionMedicamentos';
+import { preparacionMedicamento } from '../../../funciones/MEIN/preparacionMedicamentos';
+import { transcripciónRecetaSimple } from '../../../funciones/MEIN/verificacionReceta';
+import { entregarMedicamento } from '../../../funciones/MEIN/entregaMedicamentos';
 
 describe("Medicamentos e insumos", () => {
   // Ignora errores específicos del ResizeObserver
