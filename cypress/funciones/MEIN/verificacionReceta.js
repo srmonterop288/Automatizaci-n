@@ -385,7 +385,7 @@ cy.get('#duracion').clear().type('5');
 }
  
  
-//---------------
+//----------------
 export function transcripciónRecetaTitulada(
   idoneaDelPaciente,
   contrasenaConcatenada,

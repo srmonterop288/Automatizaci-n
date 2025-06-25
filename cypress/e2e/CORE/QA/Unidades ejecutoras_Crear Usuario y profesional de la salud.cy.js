@@ -1,304 +1,284 @@
 import "@applitools/testgenai-cypress/commands";
-describe("Crear Profesioal de la Salud-Unidades ejecutoras", () => {
+describe("Usuarios", () => {
   require("cypress-plugin-tab");
   require("cypress-xpath");
 
-  it("debería iniciar sesión con éxito", () => {
-    // Llama a la función login
+  it("Creación de Usuario y Profesional de la Salud desde Unidades Ejecutoras", () => {
+    const tiempo = 50000;
     cy.login_CORE_QA();
-
-    // Verifica que el login haya sido exitoso
     cy.url().should("not.include", "/login");
 
-    let contador = 0;
-    let imagen = 1;
+    cy.get("#btn_menu_desplegable", { timeout: tiempo }).should("be.visible").click();
+    cy.get("#spn_modulo_medical_records_list_executing_units", { timeout: tiempo }).should("be.visible").click();
+    cy.get("#btn_menu_desplegable", { timeout: tiempo }).should("be.visible").click();
+    cy.wait(1000);
+
     const rutaArchivoExcel = "cypress/fixtures/datos2.xlsx";
-    // Leer los datos del archivo Excel
+
     cy.leerExcel(rutaArchivoExcel).then((datosExcel) => {
-      // Mostrar los datos leídos
-      console.log(datosExcel);
+      const filas = datosExcel.slice(1);
+      let filaIndex = 0;
 
-      // Recorrer los datos del archivo Excel
-      for (let i = 1; i < datosExcel.length; i++) {
-        // Comenzamos desde 1 para saltarnos la fila de encabezados
-        // Tomar el valor de la primera columna (DNI)
+      const procesarFila = () => {
+        const fila = filas[filaIndex];
+        if (!fila || !fila[0]) {
+          cy.log("No hay más registros válidos en el Excel.");
+          cy.window().then((win) => win.alert("Proceso finalizado. No hay más registros válidos."));
+          return;
+        }
 
-        cy.wait(1000);
-        cy.get("#btn_menu_desplegable").should("be.visible").click();
-        cy.wait(1000);
-        cy.get("#spn_modulo_medical_records_list_executing_units")
-          .should("be.visible")
-          .click();
-        cy.wait(1000);
-        cy.get("#btn_menu_desplegable").should("be.visible").click();
-        cy.wait(1000);
-        cy.wait(100).tab();
-        cy.wait(100).tab();
+       
+        const PROVINCIA = fila[6];
+        const UNIDADE = fila[7];
 
-        //Buscar Unidad Ejecutora------------------
+        cy.get("#ddl_provincia_lista_unidad_ejecutora", { timeout: tiempo }).scrollIntoView().should("be.visible").wait(1000).type(PROVINCIA, { delay: 100 }).wait(500).type("{enter}", { delay: 150 });
+        cy.get("#input_unidad_ejecutora").scrollIntoView().should("be.visible").wait(1000).type(UNIDADE, { delay: 100 }).wait(1000).click();
+        cy.get("#btn_buscar").scrollIntoView().should("be.visible").wait(500).click();
+        cy.get('[id^="btn_mas_opciones_unidad_ejecutora_"]').first().scrollIntoView().should("be.visible").wait(500).click();
+        cy.get('[id^="btn_administrar_unidad"]').scrollIntoView().should("be.visible").wait(500).click();
+        cy.get("#btn_crear_profesional_salud").scrollIntoView().should("be.visible").wait(500).click();
 
-        // Usar los datos del Excel
-        // Provincia
-        cy.get("#ddl_provincia_lista_unidad_ejecutora")
+
+        ingresarIdentificacion(filaIndex);
+      };
+
+      const ingresarIdentificacion = (filaIndex) => {
+        const fila = filas[filaIndex];
+        if (!fila || !fila[0]) {
+          cy.log("No hay más registros válidos en el Excel.");
+          cy.window().then((win) => win.alert("Proceso finalizado. No hay más registros válidos."));
+          return;
+        }
+
+        const DNI = fila[0];
+
+        cy.get("#ddl_tipo_identificacion", { timeout: tiempo }).click({ force: true });
+        cy.get("#ddl_tipo_identificacion_list .ant-select-item-option", { timeout: tiempo }).first().click();
+
+        cy.get("#txt_tipo_identificacion", { timeout: tiempo })
+          .should("exist")
           .scrollIntoView()
-          .should("be.visible");
-        const PROVINCIA = datosExcel[i][6]; // Primer fila, primera columna (usando índices 0 basados)
-        cy.get("#ddl_provincia_lista_unidad_ejecutora", { timeout: 1000 })
-          .should("exist")
           .should("be.visible")
-          .type(PROVINCIA)
-          .type("{enter}");
-
-        // Usar los datos del Excel
-        // Unidad Ejecutora
-        cy.get("#input_unidad_ejecutora").scrollIntoView().should("be.visible");
-        const UNIDADE = datosExcel[i][7]; // Primer fila, primera columna (usando índices 0 basados)
-        cy.get("#input_unidad_ejecutora", { timeout: 1000 })
-          .should("exist")
-          .should("be.visible")
-          .type(UNIDADE)
-          .click();
-        cy.wait(10).tab();
-
-        cy.get("#btn_buscar").should("be.visible").click();
-
-        cy.get('[id^="btn_mas_opciones_unidad_ejecutora_"]').first().click();
-        cy.get('[id^="btn_administrar_unidad"]').click();
-        cy.wait(10).tab();
-        cy.wait(10).tab();
-        cy.wait(10).tab();
-        cy.wait(10).tab();
-        cy.wait(10).tab();
-        cy.wait(10).tab();
-        cy.wait(10).tab();
-        cy.wait(10).tab();
-        cy.wait(10).tab();
-        cy.wait(10).tab();
-        cy.wait(10).tab();
-        cy.wait(10).tab();
-        cy.wait(10).tab();
-        cy.wait(10).tab();
-        cy.get("#btn_crear_profesional_salud").should("be.visible").click();
-
-        cy.get("#ddl_tipo_identificacion") // Selecciona el campo de búsqueda
-          .click({ force: true }); // Forza el clic si es necesario
-        cy.wait(500);
-        cy.get("#ddl_tipo_identificacion_list .ant-select-item-option") // Selecciona los elementos de la lista
-          .eq(1) // Toma el primer elemento
-          .click(); // Hace clic en el primer elemento
-        cy.wait(100).tab();
-
-        // Usar los datos del Excel
-        // Ingresar DNI
-        cy.get("#txt_tipo_identificacion")
-          .scrollIntoView()
-          .should("be.visible");
-        const DNI = datosExcel[i][0]; // Primer fila, primera columna (usando índices 0 basados)
-        cy.get("#txt_tipo_identificacion", { timeout: 1000 })
-          .should("exist")
-          .should("be.visible")
-          .type(DNI)
-          .click();
+          .clear()
+          .type(DNI, { force: true });
 
         cy.get("#btn_validar").should("be.visible").click();
         cy.wait(1000);
+
+        cy.get("body", { timeout: 10000 }).then(($body) => {
+          if ($body.find("#hdr_alerta_profesional_salud_existente").length > 0) {
+            cy.get("#btn_cancelar", { timeout: 5000 }).click();
+            cy.log(`Profesional ya registrado - saltando al siguiente: ${DNI}`);
+            filaIndex++;
+            cy.get("#btn_crear_profesional_salud").click();
+            ingresarIdentificacion(filaIndex);
+            return;
+          }
+
+          if ($body.find("#hdr_alerta_usuario_no_encontrado").length > 0) {
+            cy.log("Usuario no encontrado. Se continuará con el proceso.");
+          }
+
+          // Aquí continúa el flujo normal de creación...
+          cy.log(`Procesando creación con DNI: ${DNI}`);
         cy.get("#btn_crear_usuario").should("be.visible").click();
-        cy.wait(1000);
+        cy.wait(1500);
 
-        // Usar los datos del Excel
-        // Ingresar NOMBRE
-        const NOMBRE = datosExcel[i][1]; // Primer fila, segunda columna
-        cy.get("#input_primer_nombre", { timeout: 1000 })
-          .should("exist")
-          .should("be.visible")
-          .type(NOMBRE)
-          .click();
+const [NOMBRE, APELLIDO1, APELLIDO2, FECHANAC] = [fila[1], fila[2], fila[3], fila[4]];
 
-        // Usar los datos del Excel
-        // Ingresar APELLIDO
-        const APELLIDO1 = datosExcel[i][2]; // Primer fila, segunda columna
-        cy.get("#input_primer_apellido", { timeout: 1000 })
-          .should("exist")
-          .should("be.visible")
-          .type(APELLIDO1)
-          .click();
+          cy.get("#input_primer_nombre", { timeout: tiempo }).should("exist").scrollIntoView().type(NOMBRE);
+          cy.get("#input_primer_apellido", { timeout: tiempo }).should("exist").scrollIntoView().type(APELLIDO1);
+          cy.get("#input_segundo_apellido", { timeout: tiempo }).should("exist").scrollIntoView().type(APELLIDO2);
+          cy.get("#input_fecha_nacimiento", { timeout: tiempo }).should("exist").scrollIntoView().type(FECHANAC);
+          cy.get("#input_fecha_nacimiento").tab();
 
-        // Usar los datos del Excel
-        // Ingresar APELLIDO MATERNO
-        const APELLIDO2 = datosExcel[i][3]; // Primer fila, segunda columna
-        cy.get("#input_segundo_apellido", { timeout: 1000 })
-          .should("exist")
-          .should("be.visible")
-          .type(APELLIDO2)
-          .click();
+          
+          
+// Pais
+cy.get('#ddl_pais_nacimiento', { timeout: 2000 })  // Espera hasta 2 segundos
+  .should('exist')  // Asegura que el campo esté presente en el DOM
+  .should('be.visible')  // Asegura que el campo sea visible
+  .click({ force: true });  // Forza el clic si el campo no es interactuable
 
-        // Usar los datos del Excel
-        // Ingresar FECHA NACIMIENTO
-        const FECHANAC = datosExcel[i][4]; // Primer fila, segunda columna
-        cy.get("#input_fecha_nacimiento", { timeout: 2000 }) // Espera hasta 2 segundos
-          .should("exist") // Asegura que el campo esté presente en el DOM
-          .should("be.visible") // Asegura que el campo sea visible
-          .scrollIntoView() // Asegura que el campo esté dentro del viewport
-          .type(FECHANAC); // Escribe el valor de la variable FECHANAC en el campo
-        cy.wait(500).tab();
+cy.get('#ddl_pais_nacimiento_list .ant-select-item-option', { timeout: 2000 })  // Asegura que los elementos de la lista existan
+  .should('be.visible')  // Asegura que los elementos sean visibles
+  .eq(163)  // Selecciona el elemento en la posición 163
+  .scrollIntoView()  // Asegura que esté en el viewport
+  .click();  // Hace clic en el elemento
+          cy.wait(100).tab()
 
-        // Pais
-        cy.get("#ddl_pais_nacimiento") // Selecciona el campo de búsqueda
-          .click({ force: true }); // Forza el clic si es necesario
-        cy.wait(500);
-        cy.get("#ddl_pais_nacimiento_list .ant-select-item-option") // Selecciona los elementos de la lista
-          .eq(163) // Toma el elemento 10
-          .click(); // Hace clic en el primer elemento
-        cy.wait(100).tab();
+// Nacionalidad
+cy.get('#ddl_nacionalidad', { timeout: 2000 })  // Espera hasta 2 segundos
+  .should('exist')  // Asegura que el campo esté presente en el DOM
+  .should('be.visible')  // Asegura que el campo sea visible
+  .click();  // Realiza el clic si el campo es visible e interactuable
 
-        // Nacionalidad
-        cy.get("#ddl_nacionalidad") // Selecciona el campo de búsqueda
-          .click({ force: true }); // Forza el clic si es necesario
-        cy.wait(500);
-        cy.get("#ddl_nacionalidad_list .ant-select-item-option") // Selecciona los elementos de la lista
-          .eq(37) // Toma el elemento 10
-          .click(); // Hace clic en el primer elemento
-        cy.wait(100).tab();
+cy.get('#ddl_nacionalidad_list .ant-select-item-option', { timeout: 2000 })  // Espera hasta que los elementos de la lista estén presentes
+  .should('be.visible')  // Asegura que los elementos sean visibles
+  .eq(37)  // Selecciona el elemento en la posición 37
+  .scrollIntoView()  // Asegura que el elemento esté en el viewport
+  .click();  // Hace clic en el elemento seleccionado
+            cy.wait(100).tab()
 
-        // Etnia
-        cy.get("#ddl_etnia") // Selecciona el campo de búsqueda
-          .click({ force: true }); // Forza el clic si es necesario
-        cy.wait(500);
-        cy.get("#ddl_etnia_list .ant-select-item-option") // Selecciona los elementos de la lista
-          .eq(1) // Toma el elemento 10
-          .click(); // Hace clic en el primer elemento
-        cy.wait(100).tab();
+// Etnia
+cy.get('#ddl_etnia', { timeout: 2000 })  // Espera hasta 2 segundos
+  .should('exist')  // Asegura que el campo esté presente en el DOM
+  .should('be.visible')  // Asegura que el campo sea visible
+  .click();  // Realiza el clic si el campo es visible e interactuable
 
-        //Religion
-        cy.get("#ddl_religion", { timeout: 2000 })
-          .should("exist")
-          .should("be.visible") // Selecciona el campo de búsqueda
-          .click({ force: true }); // Forza el clic si es necesario
-        cy.wait(500);
-        cy.get("#ddl_religion_list .ant-select-item-option") // Selecciona los elementos de la lista
-          .eq(0) // Toma el elemento 10
-          .scrollIntoView() // asegura que esté en el viewport
-          .click(); // Hace clic en el primer elemento
-        cy.wait(100).tab();
+cy.get('#ddl_etnia_list .ant-select-item-option', { timeout: 2000 })  // Espera hasta que los elementos de la lista estén disponibles
+  .should('be.visible')  // Asegura que los elementos sean visibles
+  .eq(1)  // Selecciona el elemento en la posición 1
+  .scrollIntoView()  // Asegura que el elemento esté dentro del viewport
+  .click();  // Hace clic en el elemento seleccionado
+              cy.wait(100).tab()
 
-        // Estado
-        cy.get("#ddl_estado_civil") // Selecciona el campo de búsqueda
-          .click({ force: true }); // Forza el clic si es necesario
-        cy.wait(500);
-        cy.get("#ddl_estado_civil_list .ant-select-item-option") // Selecciona los elementos de la lista
-          .eq(0) // Toma el elemento 10
-          .click(); // Hace clic en el primer elemento
-        cy.wait(100).tab();
+//Religion
+cy.get('#ddl_religion', { timeout: 2000 }) 
+.should('exist')
+.should('be.visible') // Selecciona el campo de búsqueda
+.click({ force: true });  // Forza el clic si es necesario
+cy.wait(500);
+cy.get('#ddl_religion_list .ant-select-item-option')  // Selecciona los elementos de la lista
+.eq(0) // Toma el elemento 10
+.scrollIntoView()     // asegura que esté en el viewport
+.click(); // Hace clic en el primer elemento
+  cy.wait(100).tab()
 
-        cy.get("#btn_paciente_asegurado_false").click().should("be.checked");
-        cy.wait(100).tab();
 
-        cy.get("#ddl_tipo_paciente") // Selecciona el campo de búsqueda
-          .click({ force: true }); // Forza el clic si es necesario
-        cy.wait(500);
-        cy.get("#ddl_tipo_paciente_list .ant-select-item-option") // Selecciona los elementos de la lista
-          .eq(0) // Toma el elemento 10
-          .click(); // Hace clic en el primer elemento
-        cy.wait(100).tab();
+// Estado
+cy.get('#ddl_estado_civil', { timeout: 2000 })  // Espera hasta 2 segundos
+  .should('exist')  // Asegura que el campo esté presente en el DOM
+  .should('be.visible')  // Asegura que el campo sea visible
+  .click();  // Realiza el clic si el campo es visible e interactuable
 
-        cy.get("#ddl_tipo_beneficiario") // Selecciona el campo de búsqueda
-          .click({ force: true }); // Forza el clic si es necesario
-        cy.wait(500);
-        cy.get("#ddl_tipo_beneficiario_list .ant-select-item-option") // Selecciona los elementos de la lista
-          .eq(7) // Toma el elemento 10
-          .click(); // Hace clic en el primer elemento
-        cy.wait(100).tab();
-        cy.wait(100).tab();
+cy.get('#ddl_estado_civil_list .ant-select-item-option', { timeout: 2000 })  // Espera hasta que los elementos de la lista estén disponibles
+  .should('be.visible')  // Asegura que los elementos sean visibles
+  .eq(0)  // Selecciona el primer elemento (índice 0)
+  .scrollIntoView()  // Asegura que el elemento esté en el viewport
+  .click();  // Hace clic en el primer elemento
+                cy.wait(100).tab()
 
-        cy.get("#ddl_ocupacion") // Selecciona el campo de búsqueda
-          .click({ force: true }); // Forza el clic si es necesario
-        cy.wait(500);
-        cy.get("#ddl_ocupacion_list .ant-select-item-option") // Selecciona los elementos de la lista
-          .eq(8) // Toma el elemento 10
-          .click(); // Hace clic en el primer elemento
-        cy.wait(100).tab();
+// Tipo beneficiario
+cy.get('#ddl_tipo_beneficiario', { timeout: 2000 })  // Espera hasta 2 segundos
+  .should('exist')  // Asegura que el campo esté presente en el DOM
+  .should('be.visible')  // Asegura que el campo sea visible
+  .click();  // Realiza el clic si el campo es visible e interactuable
 
-        cy.get("#ddl_estudios") // Selecciona el campo de búsqueda
-          .click({ force: true }); // Forza el clic si es necesario
-        cy.wait(500);
-        cy.get("#ddl_estudios_list .ant-select-item-option") // Selecciona los elementos de la lista
-          .eq(7) // Toma el elemento 10
-          .click(); // Hace clic en el primer elemento
-        cy.wait(100).tab();
+cy.get('#ddl_tipo_beneficiario_list .ant-select-item-option', { timeout: 2000 })  // Espera hasta que los elementos de la lista estén disponibles
+  .should('be.visible')  // Asegura que los elementos sean visibles
+  .eq(7)  // Selecciona el elemento en la posición 7 (índice 7 es el octavo elemento)
+  .scrollIntoView()  // Asegura que el elemento esté dentro del viewport
+  .click();  // Hace clic en el elemento seleccionado
+  cy.wait(100).tab()
+cy.wait(100).tab()
 
-        cy.get("#ddl_sexo") // Selecciona el campo de búsqueda
-          .click({ force: true }); // Forza el clic si es necesario
-        cy.wait(500);
-        cy.get("#ddl_sexo_list .ant-select-item-option") // Selecciona los elementos de la lista
-          .eq(0) // Toma el elemento 10
-          .click(); // Hace clic en el primer elemento
-        cy.wait(100).tab();
+// Ocupacion
+cy.get('#ddl_ocupacion', { timeout: 2000 })  // Espera hasta 2 segundos
+  .should('exist')  // Asegura que el campo esté presente en el DOM
+  .should('be.visible')  // Asegura que el campo sea visible
+  .click();  // Realiza el clic si el campo es visible e interactuable
 
-        cy.get("#ddl_idioma") // Selecciona el campo de búsqueda
-          .click({ force: true }); // Forza el clic si es necesario
-        cy.wait(500);
-        cy.get("#ddl_idioma_list .ant-select-item-option") // Selecciona los elementos de la lista
-          .eq(0) // Toma el elemento 10
-          .click(); // Hace clic en el primer elemento
-        cy.wait(100).tab();
+cy.get('#ddl_ocupacion_list .ant-select-item-option', { timeout: 2000 })  // Espera hasta que los elementos de la lista estén disponibles
+  .should('be.visible')  // Asegura que los elementos sean visibles
+  .eq(8)  // Selecciona el noveno elemento (índice 8)
+  .scrollIntoView()  // Asegura que el elemento esté dentro del viewport
+  .click();  // Hace clic en el elemento seleccionado
+cy.wait(100).tab();  // Espera 100ms antes de pasar a la siguiente acción (tabulación)
 
-        cy.get("#ddl_grupo_sanguineo") // Selecciona el campo de búsqueda
-          .click({ force: true }); // Forza el clic si es necesario
-        cy.wait(500);
-        cy.get("#ddl_grupo_sanguineo_list .ant-select-item-option") // Selecciona los elementos de la lista
-          .eq(6) // Toma el elemento 10
-          .click(); // Hace clic en el primer elemento
-        cy.wait(100).tab();
-        cy.wait(100).tab();
+// Estudios
+cy.get('#ddl_estudios', { timeout: 2000 })  // Espera hasta 2 segundos
+  .should('exist')  // Asegura que el campo esté presente en el DOM
+  .should('be.visible')  // Asegura que el campo sea visible
+  .click();  // Realiza el clic si el campo es visible e interactuable
 
-        cy.get("#btn_siguiente").should("be.visible").click();
-        cy.wait(100).tab();
+cy.get('#ddl_estudios_list .ant-select-item-option', { timeout: 2000 })  // Espera hasta que los elementos de la lista estén disponibles
+  .should('be.visible')  // Asegura que los elementos sean visibles
+  .eq(7)  // Selecciona el octavo elemento (índice 7)
+  .scrollIntoView()  // Asegura que el elemento esté dentro del viewport
+  .click();  // Hace clic en el elemento seleccionado
+cy.wait(100).tab();  // Espera 100ms antes de pasar a la siguiente acción (tabulación)
 
-        cy.get("#input_provincia") // Selecciona el campo de búsqueda
-          .click({ force: true }); // Forza el clic si es necesario
-        cy.wait(500);
-        cy.get("#input_provincia_list .ant-select-item-option") // Selecciona los elementos de la lista
-          .eq(1) // Toma el elemento 10
-          .click(); // Hace clic en el primer elemento
-        cy.wait(100).tab();
+// Sexo
+cy.get('#ddl_sexo', { timeout: 2000 })  // Espera hasta 2 segundos para que el campo esté disponible
+  .should('exist')  // Asegura que el campo esté presente en el DOM
+  .should('be.visible')  // Asegura que el campo sea visible
+  .click();  // Realiza el clic si el campo es visible e interactuable
 
-        cy.get("#input_distrito") // Selecciona el campo de búsqueda
-          .click({ force: true }); // Forza el clic si es necesario
-        cy.wait(500);
-        cy.get("#input_distrito_list .ant-select-item-option") // Selecciona los elementos de la lista
-          .eq(0) // Toma el elemento 10
-          .click(); // Hace clic en el primer elemento
-        cy.wait(100).tab();
+cy.get('#ddl_sexo_list .ant-select-item-option', { timeout: 2000 })  // Espera hasta que los elementos de la lista estén disponibles
+  .should('be.visible')  // Asegura que los elementos sean visibles
+  .eq(0)  // Selecciona el primer elemento (índice 0)
+  .scrollIntoView()  // Asegura que el elemento esté en el viewport
+  .click();  // Hace clic en el elemento seleccionado
+cy.wait(100).tab();  // Espera 100ms antes de pasar a la siguiente acción (tabulación)
 
-        cy.get("#input_corregimiento") // Selecciona el campo de búsqueda
-          .click({ force: true }); // Forza el clic si es necesario
-        cy.wait(500);
-        cy.get("#input_corregimiento_list .ant-select-item-option") // Selecciona los elementos de la lista
-          .eq(0) // Toma el elemento 10
-          .click(); // Hace clic en el primer elemento
-        cy.wait(100).tab();
 
-        cy.get("#input_barrio") // Selecciona el campo de búsqueda
-          .click({ force: true }); // Forza el clic si es necesario
-        cy.wait(500);
-        cy.get("#input_barrio_list .ant-select-item-option") // Selecciona los elementos de la lista
-          .eq(0) // Toma el elemento 10
-          .click(); // Hace clic en el primer elemento
-        cy.wait(100).tab();
+    // Idioma                      
+    cy.get('#ddl_idioma', { timeout: 2000 })  // Espera hasta 2 segundos para que el campo esté disponible
+    .should('exist')  // Asegura que el campo esté presente en el DOM
+    .should('be.visible')  // Asegura que el campo sea visible
+    .click();  // Realiza el clic si el campo es visible e interactuable
+  
+  cy.get('#ddl_idioma_list .ant-select-item-option', { timeout: 2000 })  // Espera hasta que los elementos de la lista estén disponibles
+    .should('be.visible')  // Asegura que los elementos sean visibles
+    .eq(0)  // Selecciona el primer elemento (índice 0)
+    .scrollIntoView()  // Asegura que el elemento esté dentro del viewport
+    .click();  // Hace clic en el primer elemento
+  cy.wait(100).tab()
 
-        cy.get("#btn_siguiente").should("be.visible").click();
-        cy.wait(2000).tab();
-        cy.get("#btn_siguiente").should("be.visible").click();
-        cy.wait(1000).tab();
-        cy.wait(100).tab();
-        cy.wait(100).tab();
-        cy.wait(2000).tab();
+// Sangre
+cy.get('#ddl_grupo_sanguineo', { timeout: 2000 })  // Espera hasta 2 segundos para que el campo esté disponible
+  .should('exist')  // Asegura que el campo esté presente en el DOM
+  .should('be.visible')  // Asegura que el campo sea visible
+  .click();  // Realiza el clic si el campo es visible e interactuable
 
-        //Crear Profesional de la Salud-------------------------------------------------------------------------------------------------
+cy.get('#ddl_grupo_sanguineo_list .ant-select-item-option', { timeout: 2000 })  // Espera hasta que los elementos de la lista estén disponibles
+  .should('be.visible')  // Asegura que los elementos sean visibles
+  .eq(6)  // Selecciona el séptimo elemento (índice 6)
+  .scrollIntoView()  // Asegura que el elemento esté dentro del viewport
+  .click();  // Hace clic en el elemento seleccionado
+  cy.wait(100).tab()
+  cy.wait(100).tab()
 
-        cy.wait(100).tab();
-        cy.get("#input_numero_empleado").scrollIntoView().should("be.visible");
-        cy.get("#input_numero_empleado", { timeout: 1000 })
+
+
+                            cy.get('#ddl_tipo_paciente', { timeout: 2000 })  // Selecciona el campo de búsqueda
+                            .click({ force: true });  // Forza el clic si es necesario
+                            cy.wait(500);
+                            cy.get('#ddl_tipo_paciente_list .ant-select-item-option')  // Selecciona los elementos de la lista
+                            .eq(0) // Toma el elemento 10
+                              .click();  // Hace clic en el primer elemento
+                              cy.wait(100).tab()
+
+                              cy.get('#btn_paciente_asegurado_false', { timeout: 2000 })
+                              .click()
+                              .should('be.checked');
+                              cy.wait(100).tab()
+
+
+          cy.get("#btn_siguiente", { timeout: tiempo }).should("exist").scrollIntoView().should("be.visible").click();
+
+          const ubicaciones = [
+            { id: 'provincia', idx: 1 },
+            { id: 'distrito', idx: 0 },
+            { id: 'corregimiento', idx: 0 },
+            { id: 'barrio', idx: 0 }
+          ];
+
+          ubicaciones.forEach(({ id, idx }) => {
+            cy.get(`#input_${id}`, { timeout: tiempo }).click({ force: true });
+            cy.get(`#input_${id}_list .ant-select-item-option`, { timeout: tiempo }).eq(idx).click();
+            cy.get(`#input_${id}`).tab();
+          });
+
+          cy.get("#btn_siguiente", { timeout: tiempo }).should("be.visible").click();
+          cy.get("#btn_siguiente", { timeout: tiempo }).should("be.visible").click();
+          cy.wait(1500);
+
+
+//------------Crear Profesional de la Salud------------------------
+
+cy.get("#input_numero_empleado", { timeout: 1000 })
           .should("exist")
           .should("be.visible")
           .type(DNI)
@@ -318,7 +298,7 @@ describe("Crear Profesioal de la Salud-Unidades ejecutoras", () => {
         cy.wait(100).tab();
 
         //correo
-        const CORREO = datosExcel[i][5]; // Primer fila, segunda columna
+        const CORREO = fila[5]; // Primer fila, segunda columna
         cy.get("#input_correo_electronico_institucional", { timeout: 1000 })
           .should("exist")
           .should("be.visible")
@@ -380,30 +360,38 @@ describe("Crear Profesioal de la Salud-Unidades ejecutoras", () => {
         cy.wait(100).tab();
         cy.wait(100).tab();
         cy.get("#btn_siguiente").should("be.visible").click();
-        cy.wait(1000);
-        cy.wait(100).tab();
+        cy.wait(2000);
         cy.get("#btn_siguiente").should("be.visible").click();
-        cy.wait(5000);
-        cy.wait(100).tab();
+        cy.wait(3000);
 
-        // Verificar que el Paciente fue creado exitosamente
+//Buscar nuevo profesional
 
-        // Verificar que la alerta tenga el mensaje correcto y sea visible
+
+        cy.get("#input_numero_documento_administración", { timeout: 2000 })
+          .should("exist")
+          .should("be.visible")
+          .type(DNI)
+          .click();
+
+cy.intercept('GET', '**/personal-salud/listar?**').as('buscarProfesional');
+cy.get("#btn_buscar_profesional_salud").should("be.visible").click();
+cy.wait('@buscarProfesional');
+
+
         cy.screenshot(
-          "Unidades ejecutoras_/Creación de profesional_" +
-            String(imagen++).padStart(2, "0")
+          "Profesionales de la Salud/Creación de profesional de la salud_"
         );
 
-        // Incrementar el contador
-        contador++;
+    cy.get("#btn_menu_desplegable", { timeout: tiempo }).should("be.visible").click();
+    cy.get("#spn_modulo_medical_records_list_executing_units", { timeout: tiempo }).should("be.visible").click();
+    cy.get("#btn_menu_desplegable", { timeout: tiempo }).should("be.visible").click();
+          
+filaIndex++;
+          procesarFila(); // continúa con el siguiente registro
+        });
+      };
 
-        // Mostrar en la consola el contador y el DNI
-        cy.log(`Contador: ${contador}, DNI: ${DNI}`);
-      }
+      procesarFila();
     });
-
-    cy.wait(1000);
-    console.log("¡Prueba exitosa!");
-    cy.log("¡Prueba exitosa!");
   });
 });

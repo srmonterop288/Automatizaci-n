@@ -4,7 +4,7 @@ import "cypress-iframe";
 import { loginMEIN } from "../../../funciones/MEIN/loginMEIN";
 import { dispensacionMedicamento } from '../../../funciones/MEIN/dispensacionMedicamentos';
 import { preparacionMedicamento } from '../../../funciones/MEIN/preparacionMedicamentos';
-import { transcripciónRecetaProlongada } from '../../../funciones/MEIN/verificacionReceta';
+import { transcripciónRecetaAgendada } from '../../../funciones/MEIN/verificacionReceta';
 import { entregarMedicamento } from '../../../funciones/MEIN/entregaMedicamentos';
 import { concatenarHoraFecha } from '../../../funciones/MEIN/funciones';
 
@@ -34,7 +34,7 @@ describe("Medicamentos e insumos", () => {
 
       //Usamos el valor
       if (idoneaDelPaciente != "" && receta != "") {
-        transcripciónRecetaProlongada(idoneaDelPaciente, contrasenaConcatenada, numeroRecetaConcatenada)
+        transcripciónRecetaAgendada(idoneaDelPaciente, contrasenaConcatenada, numeroRecetaConcatenada)
         preparacionMedicamento(numeroRecetaConcatenada)
         dispensacionMedicamento(numeroRecetaConcatenada)
         entregarMedicamento(numeroRecetaConcatenada)

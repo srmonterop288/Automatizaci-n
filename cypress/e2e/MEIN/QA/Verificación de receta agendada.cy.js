@@ -11,7 +11,7 @@ import { inciarConsulta, seleccionarAgenda, servicio } from '../../../funciones/
 import { agregarOrdenesAgendada, obtenerValorReceta, seleccionarOrdenes } from '../../../funciones/ECLI/ordenes';
 import { loginMEIN, loginMEINQA } from '../../../funciones/MEIN/loginMEIN';
 import { bloquearPDF } from '../../../funciones/MEIN/cerrarPDF';
-import { verificarReceta } from '../../../funciones/MEIN/funciones';
+import { verificarReceta } from '../../../funciones/MEIN/verificacionReceta';
 
 describe('Medicamentos e insumos', () => {
    // Ignora errores específicos del ResizeObserver

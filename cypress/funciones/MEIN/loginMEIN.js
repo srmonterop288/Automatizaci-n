@@ -13,7 +13,12 @@ export function loginMEIN(ambiente) {
       cy.get('#input_nombre_usuario_login').should('be.visible').type(jefeFarmacia);
       cy.get('#input_contrasena_login').should('be.visible').type(password);
       cy.get('#spn_ver_contrasena').click();
+      cy.intercept('POST', '**/autenticacion/v2/iniciar-sesion').as('login');
       cy.get('#btn_ingresar_login', { timeout: 20000 }).click();
+      // Esperar y validar que la respuesta fue 200 OK
+cy.wait('@login')
+  .its('response.statusCode')
+  .should('eq', 200);
 
       // Unidades Ejecutoras por ambiente
       const unidadesPorAmbiente = {
@@ -23,10 +28,17 @@ export function loginMEIN(ambiente) {
       };
 
       cy.get(unidadesPorAmbiente[ambiente], { timeout: 50000 }).should('be.visible').click();
+
+      cy.intercept('GET', '**/servicios?pagina=1&limite=4').as('cargarServicios');
       cy.get('#btn_seleccionar_area_consulta_externa', { timeout: 20000 }).should('be.visible').click();
+      cy.wait('@cargarServicios')
+  .its('response.statusCode')
+  .should('eq', 200);
+
+
 
       // Barra lateral
-      cy.get('#btn_menu_desplegable', { timeout: 20000 }).should('be.visible').click();
+      cy.get('#btn_menu_desplegable', { timeout: 50000 }).should('be.visible').click();
       cy.get('#menu_lateral', { timeout: 20000 }).click();
     });
   });
