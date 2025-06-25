@@ -126,6 +126,8 @@ export function entradaMedicamentoDetalle() {
       const fechaVencimiento = d.vencimiento;
 
       // Ingresar la información del medicamento
+      cy.get(".ant-card-body", { timeout: tiempoEspera }).should("exist");
+
       cy.get("#grupo", { timeout: tiempoEspera })
         .scrollIntoView()
         .should("be.visible")
@@ -139,11 +141,17 @@ export function entradaMedicamentoDetalle() {
       cy.get("#medicamentoId", { timeout: tiempoEspera })
         .scrollIntoView()
         .should("be.visible")
-
+        .clear()
         .click()
-        .type(nombreMedicamento, { delay: 100 })
-        .type("{downarrow}")
-        .type("{enter}");
+        .type(nombreMedicamento, { delay: 100 });
+
+      // Espera que se renderice al menos una opción filtrada
+      cy.get(`#medicamentoId_list [aria-label="${nombreMedicamento}"]`, {
+        timeout: tiempoEspera,
+      }).should("exist");
+
+      // Selecciona la opción
+      cy.get("#medicamentoId").type("{downarrow}").type("{enter}").blur();
 
       // Nombre comercial
       cy.get(".ant-input.ant-input-outlined", { timeout: tiempoEspera })
@@ -257,6 +265,7 @@ export function entradaMedicamentoDetalle() {
           .scrollIntoView()
           .should("be.visible")
           .click();
+        //NAda
       }
     });
   }); // ← Cierra each

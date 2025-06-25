@@ -1,10 +1,9 @@
 [
   {
-    "__comentario": "El ALMACEN, TRANSACCION, PROVEEDOR Y DESTINOTRASPASO  son datos hardpeados, ademas, estos valores deben existir para crear la entrada de medicamentos",
-    "almacen": "Prueba",
+    "almacen": "Prueba Automation",
     "subAlmacen": "Recetario Automation",
     "transaccion": "Recepcion compra local",
     "proveedor": "DELTA S.A.",
-    "numeroReferencia": "515020"
+    "numeroReferencia": "782574"
   }
 ]
